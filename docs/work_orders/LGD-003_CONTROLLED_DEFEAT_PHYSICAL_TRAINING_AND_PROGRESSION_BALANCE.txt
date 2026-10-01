@@ -1,0 +1,736 @@
+WORK ORDER LGD-003 — CONTROLLED DEFEAT, PHYSICAL TRAINING, AND PROGRESSION BALANCE
+
+Project:
+Legend of the Glass Dragon
+
+Purpose:
+Complete the remaining LGD-003 work by implementing, exercising, and tuning:
+
+1. controlled player defeat;
+2. post-defeat recovery and same-day restrictions;
+3. Physical Training / level-up progression;
+4. short-, medium-, and full-campaign pacing;
+5. deterministic balance qualification sufficient to show that the core daily adventure loop remains enjoyable whether the player plays one realm day, twelve consecutive realm days, or an entire campaign in one sitting.
+
+This is primarily a balance-and-feel work order.
+
+Do not use it as an excuse to enlarge the game, redesign major systems, or introduce unnecessary development ceremony.
+
+======================================================================
+1. PRODUCT INTENT
+======================================================================
+
+Legend of the Glass Dragon deliberately removes the original BBS game's real-world daily waiting period.
+
+The player may:
+
+- play one realm day and stop;
+- play several realm days consecutively;
+- play a dozen days in one sitting;
+- continue through most or all of a campaign without waiting for tomorrow in real life.
+
+Therefore, the realm-day loop itself must provide the pacing that the original real-world clock once supplied.
+
+The intended experience is:
+
+FOREST
+-> fights and risk
+-> rewards and XP
+-> possible defeat or voluntary stopping
+-> Physical Training when qualified
+-> End Day
+-> world advances
+-> recovery / new opportunities
+-> another tempting realm day
+
+Each individual realm day should feel worthwhile and reasonably complete.
+
+Several consecutive days should feel like meaningful character development rather than repetition.
+
+A long continuous session must not exhaust the progression system prematurely.
+
+======================================================================
+2. GOVERNING BALANCE PRINCIPLES
+======================================================================
+
+The Builder may tune exact constants as evidence requires, but preserve these principles.
+
+A. FRONT-LOADED PROGRESSION
+
+Early advancement should arrive relatively quickly.
+
+Level 1 -> Level 2 is especially important because it teaches the player the complete progression loop.
+
+Later levels should gradually require more effort.
+
+Do not use a progression curve where every rank takes essentially the same number of fights.
+
+Do not use a curve that becomes an abrupt late-game grind.
+
+B. DEFEAT COSTS TODAY MORE THAN TOMORROW
+
+A defeat should sting.
+
+It should not destroy the character's long-term progression.
+
+Defeat should primarily mean:
+
+- the current adventure has gone badly;
+- some carried wealth is lost;
+- further Forest adventuring ends for that realm day;
+- the player must recover by ending the day.
+
+Avoid:
+
+- XP loss;
+- level loss;
+- permanent stat degradation;
+- permadeath;
+- cascading defeat loops;
+- mechanics that leave the character significantly less capable on the following day.
+
+C. LEVEL-UPS MUST FEEL REAL
+
+A completed Physical Training promotion must produce an immediately perceptible improvement.
+
+Enemies that were threatening before the promotion should generally become easier afterward.
+
+However, character growth must not compound so aggressively that ordinary combat becomes permanently trivial after only a few levels.
+
+D. END DAY IS PART OF THE GAME LOOP
+
+End Day must not feel like a debugging control or administrative reset.
+
+It is the natural transition from one adventure day to the next.
+
+A defeated player should clearly understand that ending the day is the path to recovery.
+
+A successful player should often feel tempted to advance the world and begin another day.
+
+======================================================================
+3. CONTROLLED DEFEAT
+======================================================================
+
+Complete and qualify the controlled-defeat path.
+
+At minimum:
+
+- reaching 0 HP ends the current combat;
+- the player survives;
+- defeat is clearly communicated;
+- a meaningful portion of carried gold is lost;
+- gold must never become negative;
+- XP is retained;
+- level is retained;
+- completed progression is retained;
+- the player enters the intended defeated/recovery state;
+- no further ordinary Forest fighting is allowed during that realm day;
+- End Day remains available;
+- beginning the next realm day restores the character according to the established recovery rules;
+- save/reload cannot erase or duplicate defeat consequences;
+- defeat cannot corrupt combat, progression, or daily-action state.
+
+Use approximately 25% carried-gold loss as the initial tuning point unless the existing implementation already has a nearby established value.
+
+The exact percentage may be adjusted if play evidence shows another value produces a better experience.
+
+Do not make defeat primarily an economic catastrophe.
+
+The more important loss is the premature end of that day's adventuring.
+
+======================================================================
+4. DEFEAT-RISK TARGET
+======================================================================
+
+Tune ordinary same-level Forest combat so that:
+
+- a healthy character is favored in an appropriate fight;
+- several victories in one day are normal;
+- defeat remains genuinely possible;
+- pushing onward while wounded creates meaningful additional danger.
+
+Use the following as an initial experience target rather than an immutable probability contract:
+
+For an ordinarily played fresh character, a complete realm day's Forest activity should result in eventual defeat in roughly 10%-20% of representative runs.
+
+An aggressive player who repeatedly continues at poor HP should be able to produce substantially higher defeat risk.
+
+A cautious player should be able to reduce that risk.
+
+Do not achieve this by making individual ordinary encounters wildly random.
+
+The preferable experience is accumulated danger across the day's sequence of fights.
+
+======================================================================
+5. POST-DEFEAT RECOVERY
+======================================================================
+
+Explicitly test the next-day consequences of defeat.
+
+A defeat on Day N must not produce a practical death spiral on Day N+1.
+
+After normal recovery, the player should once again be capable of defeating appropriate opponents.
+
+Qualification must include repeated-day scenarios where:
+
+- the player loses early in a day;
+- the player loses late in a day;
+- the player loses with very little carried gold;
+- the player loses with substantial carried gold;
+- the player loses shortly before reaching a training threshold;
+- the player experiences more than one defeat across several realm days.
+
+If a reasonable character can become trapped in recurring defeats because the first defeat permanently undermines the next day, repair the balance.
+
+======================================================================
+6. PHYSICAL TRAINING / LEVEL-UP LOOP
+======================================================================
+
+Preserve the established Physical Training concept.
+
+Do not invent a substantially different advancement system during LGD-003.
+
+Tune:
+
+- XP thresholds;
+- XP earned from ordinary encounters;
+- training eligibility timing;
+- any training encounter/difficulty already established;
+- resulting character stat growth;
+- progression feedback.
+
+The player should understand:
+
+1. I fought enemies.
+2. I became experienced enough to train.
+3. I completed Physical Training.
+4. I gained a level.
+5. I am now noticeably stronger.
+
+Physical Training must remain a meaningful event rather than silently incrementing a number.
+
+======================================================================
+7. FIRST LEVEL-UP TARGET
+======================================================================
+
+The first promotion deserves deliberate tuning.
+
+Target:
+
+- a good/normal first realm day can reach Level 2;
+- otherwise Level 2 should commonly arrive early on Day 2;
+- the large majority of reasonable runs should not remain Level 1 beyond Day 2;
+- exceptional bad luck or an early defeat may delay advancement without indicating a defect.
+
+Do not require an extraordinary sequence of lucky encounters to reach Level 2.
+
+Do not make Level 2 automatic without participating meaningfully in the Forest/progression loop.
+
+The first day must still produce visible advancement even when the character does not quite level.
+
+======================================================================
+8. PROGRESSION-PACING TARGETS
+======================================================================
+
+Treat the following as initial experience targets.
+
+They are deliberately expressed as approximate cumulative realm days rather than hardcoded XP requirements.
+
+Level reached       Approximate cumulative realm day
+-----------------------------------------------------
+Level 2             Day 1-2
+Level 3             Day 3
+Level 4             Day 5
+Level 5             Day 8
+Level 6             Day 11-13
+Level 7             Day 16-18
+Level 8             Day 21-23
+Level 9             Day 26-29
+Level 10            Exceptional / late-campaign achievement
+
+The Builder should derive and tune concrete XP/reward/stat values around the desired experience.
+
+These targets may move if deterministic evidence and human play show that a different curve is materially more enjoyable.
+
+Do not optimize merely to make the table mathematically exact.
+
+======================================================================
+9. THREE REQUIRED PLAY HORIZONS
+======================================================================
+
+Balance must explicitly support three player behaviors.
+
+----------------------------------------------------------------------
+A. ONE-REALM-DAY SESSION
+----------------------------------------------------------------------
+
+A player who plays only one day should normally experience:
+
+- several meaningful actions/fights;
+- some tension;
+- character progress;
+- worthwhile gold/XP gain;
+- either a level-up or visible approach toward one;
+- a natural stopping point.
+
+The experience should not feel as though "nothing happened because I only played one day."
+
+----------------------------------------------------------------------
+B. TWELVE-REALM-DAY SESSION
+----------------------------------------------------------------------
+
+A player who consumes roughly twelve consecutive days should feel that a substantial adventure has occurred.
+
+Initial target:
+
+- ordinary successful character around Level 5-6;
+- multiple promotions experienced;
+- meaningful increases in capability;
+- combat still relevant;
+- occasional defeats or close calls possible;
+- upper progression not yet exhausted;
+- no extended stretch of repetitive days where little changes.
+
+A normal character still around Level 2-3 after twelve days indicates excessive grind.
+
+A normal character already at or near maximum level indicates excessive progression speed.
+
+----------------------------------------------------------------------
+C. FULL-CAMPAIGN / MARATHON SESSION
+----------------------------------------------------------------------
+
+Run an extended campaign of approximately 30 realm days, or the established campaign length if LGD already defines one.
+
+Initial target:
+
+- ordinary successful characters approach approximately Level 8-9 by the late campaign;
+- Level 10 remains a noteworthy late-campaign or unusually strong achievement;
+- useful progression continues into the second half of the campaign;
+- combat does not become universally trivial;
+- wealth does not explode uncontrollably;
+- XP requirements do not suddenly become an enormous repetitive grind.
+
+A player who chooses to play the campaign in one sitting must still encounter a satisfying beginning, middle, and late progression arc.
+
+======================================================================
+10. DETERMINISTIC BALANCE HARNESS
+======================================================================
+
+Add or extend a lightweight JVM-side deterministic balance probe/test harness.
+
+Do not build a general analytics platform.
+
+The harness exists to make balance changes measurable and repeatable.
+
+Exercise multiple deterministic seeds and representative play policies.
+
+At minimum record or make readily reportable:
+
+- realm day;
+- current level;
+- XP;
+- carried gold;
+- fights attempted;
+- fights won;
+- defeats;
+- fight number at defeat;
+- HP state;
+- training eligibility;
+- Physical Training attempts;
+- successful promotions;
+- day each level was reached;
+- consecutive defeated days, if any.
+
+Where practical, report:
+
+- median day-to-level;
+- slower-tail day-to-level, preferably approximately the 90th percentile;
+- defeat rate per realm day;
+- average/median fights completed before defeat;
+- representative gold trajectory.
+
+Do not rely solely on averages.
+
+Averages can conceal a small but unacceptable group of seeds that become trapped or grind for many days.
+
+======================================================================
+11. REPRESENTATIVE PLAY POLICIES
+======================================================================
+
+The balance probe should use simple policies rather than elaborate AI players.
+
+At minimum exercise:
+
+CAUTIOUS
+- avoids obviously poor-health continuation where the current interface allows such judgment;
+- represents a risk-aware player.
+
+ORDINARY
+- generally consumes the expected daily adventuring opportunities;
+- does not deliberately exploit or self-sabotage;
+- primary tuning baseline.
+
+AGGRESSIVE
+- continues fighting at significantly lower HP;
+- tests whether risk/reward and defeat consequences behave sensibly.
+
+Do not over-engineer these policies.
+
+They are test fixtures, not game features.
+
+======================================================================
+12. REQUIRED CONTROLLED-DEFEAT SCENARIOS
+======================================================================
+
+Explicit deterministic qualification must cover at least:
+
+- defeat on the first meaningful fight of a day;
+- defeat in the middle of a day's fights;
+- defeat on or near the final available fight;
+- defeat with 0 or negligible gold;
+- defeat with substantial carried gold;
+- defeat just before training eligibility;
+- defeat after training eligibility but before successful promotion, if reachable under current rules;
+- defeat after one or more prior level-ups;
+- End Day following defeat;
+- next-day recovery;
+- saving after defeat;
+- loading after defeat;
+- saving/loading around End Day;
+- repeated defeat across separate days;
+- attempted Forest re-entry after defeat;
+- gold-loss floor behavior.
+
+All consequences must remain coherent and deterministic.
+
+======================================================================
+13. REQUIRED TRAINING SCENARIOS
+======================================================================
+
+Explicitly exercise:
+
+- not yet eligible for Physical Training;
+- becoming eligible through ordinary play;
+- training at the earliest lawful opportunity;
+- successful promotion;
+- persistence of the new level;
+- stat increase after promotion;
+- combat before and after the promotion;
+- repeated promotions across a longer run;
+- thresholds at later levels;
+- save/load around training eligibility;
+- save/load after promotion;
+- End Day while eligible but untrained, if lawful;
+- defeat near an advancement threshold.
+
+Do not allow XP/progression state to become duplicated, lost, or inconsistently reapplied through persistence.
+
+======================================================================
+14. LEVEL-UP POWER FEEL
+======================================================================
+
+Qualification must compare combat performance immediately before and after a promotion.
+
+A newly promoted character should noticeably outperform their prior self against the same or equivalent opponent.
+
+The improvement should be visible through ordinary play, not merely detectable in raw stats.
+
+However:
+
+- do not make one promotion erase all danger;
+- do not allow character power to accelerate exponentially;
+- do not require every enemy to scale directly with the player merely to preserve difficulty.
+
+Prefer a progression ladder where:
+
+- older enemies become easier;
+- current enemies remain interesting;
+- stronger enemies gradually replace the lost tension.
+
+Keep the antique LORD-style feeling of becoming powerful.
+
+Do not flatten progression into perfectly level-scaled modern RPG combat.
+
+======================================================================
+15. ECONOMY OBSERVATION
+======================================================================
+
+This is not a full economy work order, but progression testing must watch gold because defeat affects carried wealth.
+
+Across 12-day and campaign-length simulations, detect obvious failures such as:
+
+- gold becoming negative;
+- ordinary expenses becoming impossible after a few defeats;
+- gold becoming meaningless because wealth grows explosively;
+- defeat removing so much accumulated value that players rationally stop taking risks;
+- gold-loss calculations producing exploits or strange rounding behavior.
+
+Repair only what is necessary to support the intended LGD-003 progression/defeat experience.
+
+Defer unrelated economy expansion.
+
+======================================================================
+16. HUMAN PLAY QUALIFICATION
+======================================================================
+
+Deterministic tests are necessary but not sufficient.
+
+After automated tuning produces a credible candidate, perform three deliberate human-facing play passes:
+
+PLAY PASS A — ONE DAY
+
+Start from a fresh character.
+
+Play one ordinary realm day without attempting to game the system.
+
+Judge:
+
+- Does the character accomplish enough?
+- Is combat understandable?
+- Is risk present?
+- Is progress visible?
+- Does Physical Training feel relevant?
+- Does End Day feel like a natural stopping point?
+
+PLAY PASS B — TWELVE DAYS
+
+Play approximately twelve realm days consecutively.
+
+Judge:
+
+- Are promotions arriving often enough to create momentum?
+- Do individual days remain distinct enough to be enjoyable?
+- Is the Forest becoming monotonous?
+- Are fights becoming trivial too quickly?
+- Does a defeat create a useful change of rhythm?
+- Does "one more day" remain appealing?
+
+PLAY PASS C — CAMPAIGN
+
+Run an accelerated but genuine extended playthrough of approximately 30 realm days or the established campaign length.
+
+Judge:
+
+- Does progression have a beginning, middle, and late phase?
+- Is significant advancement still occurring in the latter half?
+- Is top-level progression reached too early?
+- Does combat remain meaningful?
+- Are repeated daily loops still tolerable/enjoyable?
+- Does defeat remain consequential without becoming annoying?
+- Does the character feel dramatically more capable than at the beginning?
+
+Use human judgment to complement the statistics.
+
+Do not distort obviously enjoyable play merely to satisfy an arbitrary target percentage.
+
+======================================================================
+17. PLAYER-FACING PRESENTATION
+======================================================================
+
+Keep the established ANSI/BBS presentation.
+
+When defeat occurs, clearly communicate:
+
+- that the player was defeated;
+- what immediate consequence occurred;
+- how much gold was lost, where appropriate;
+- that the day's Forest adventure is over;
+- that End Day will allow recovery.
+
+When Physical Training becomes available, make that availability legible.
+
+When a level is gained, the promotion should feel celebratory within the intentionally antique presentation.
+
+Do not turn these events into modern dashboard UI.
+
+Touch may provide the convenient input while the visible game remains convincingly retro.
+
+======================================================================
+18. MOBILE REQUIREMENTS
+======================================================================
+
+All affected flows must remain comfortable on the target Android/mobile-first presentation.
+
+Verify at minimum:
+
+- defeat text fits and remains readable;
+- recovery/End Day action is easy to reach by touch;
+- Physical Training is reachable intuitively;
+- promotion/result text does not overflow;
+- no balance/probe work introduces desktop-only assumptions;
+- no mandatory physical keyboard interaction is introduced.
+
+======================================================================
+19. IMPLEMENTATION DISCIPLINE
+======================================================================
+
+Prefer explicit, centralized balance constants/configuration over scattered magic numbers.
+
+Where practical centralize values such as:
+
+- XP thresholds;
+- encounter XP rewards;
+- defeat gold-loss percentage;
+- level stat gains;
+- related combat-scaling constants.
+
+Do not build an elaborate data-driven balance framework merely for future flexibility.
+
+The goal is to make current tuning comprehensible and inexpensive to change.
+
+Preserve deterministic behavior wherever the existing game uses seeded/randomized simulation.
+
+Do not perform unrelated architectural refactors unless a concrete defect makes them necessary.
+
+======================================================================
+20. REGRESSION BOUNDARY
+======================================================================
+
+LGD-003 completion must not regress already working game behavior.
+
+Recheck relevant existing functionality, including at minimum:
+
+- character creation;
+- Forest entry;
+- combat;
+- HP handling;
+- XP gain;
+- gold gain;
+- End Day;
+- realm-day advancement;
+- persistence/save-load;
+- touch interaction;
+- current ANSI presentation.
+
+Use proportionate regression coverage.
+
+Do not create ceremonial gates unrelated to the changed behavior.
+
+======================================================================
+21. REQUIRED EVIDENCE
+======================================================================
+
+At completion, report concisely:
+
+1. exact balance constants finally selected;
+2. any progression thresholds changed;
+3. final defeat consequence behavior;
+4. deterministic cohort size / seed count used;
+5. ordinary-policy result for Day 1;
+6. median and slower-tail Day-to-Level-2;
+7. representative level distribution around Day 12;
+8. representative level distribution around the late/full campaign;
+9. defeat frequency under cautious / ordinary / aggressive policies;
+10. whether any repeated-defeat/death-spiral cases were observed;
+11. whether any progression saturation or late grind was observed;
+12. human play impressions from:
+    - one-day play;
+    - twelve-day play;
+    - full/extended campaign play;
+13. tests/builds run and results;
+14. files materially changed;
+15. any remaining known balance concern.
+
+Keep this evidence practical and readable.
+
+Raw exhaustive logs need not be pasted unless they expose a defect.
+
+======================================================================
+22. ACCEPTANCE CRITERIA
+======================================================================
+
+LGD-003 may be considered complete when all of the following are true:
+
+CONTROLLED DEFEAT
+
+- 0 HP resolves coherently as non-permanent defeat.
+- A meaningful but non-catastrophic carried-gold penalty occurs.
+- Gold never becomes negative.
+- XP and level are retained.
+- Further Forest fighting is prevented for that realm day.
+- End Day remains available.
+- Next-day recovery works.
+- Save/load preserves the result.
+- No defeat-driven downward spiral is present under reasonable play.
+
+FIRST-DAY EXPERIENCE
+
+- A fresh character normally wins several appropriate encounters.
+- Defeat is possible but not dominant.
+- The first day creates visible advancement.
+- Level 2 is commonly reachable Day 1 or early Day 2.
+- Ordinary play does not require extraordinary luck to leave Level 1.
+
+TRAINING
+
+- Eligibility is understandable and deterministic.
+- Physical Training completes correctly.
+- Promotion persists.
+- The character is visibly stronger afterward.
+- Repeated promotions remain coherent.
+
+TWELVE-DAY EXPERIENCE
+
+- Normal successful play reaches approximately the middle progression range.
+- Progress continues regularly.
+- Maximum progression is not already exhausted.
+- Combat has not become universally trivial.
+- Defeat remains possible.
+- Repetition has not overwhelmed the basic appeal of continuing.
+
+CAMPAIGN EXPERIENCE
+
+- Progression remains meaningful into the late campaign.
+- Normal successful characters approach upper levels late rather than early.
+- Maximum level remains an achievement.
+- No abrupt late-game grind appears.
+- No uncontrolled gold or stat inflation appears.
+- A campaign played without real-world waiting remains structurally enjoyable.
+
+PLAYER EXPERIENCE
+
+Most importantly:
+
+After completing a realm day, the game should usually make beginning one more realm day sound appealing.
+
+One day should feel worthwhile.
+
+Twelve days should feel like an adventure.
+
+A whole campaign should feel like a character journey.
+
+======================================================================
+23. NON-GOALS
+======================================================================
+
+Do not use LGD-003 to add:
+
+- new towns;
+- new major quest systems;
+- new social-simulation systems;
+- new campaign metagames;
+- large enemy-content expansions unless minimally necessary for balance;
+- online/network features;
+- elaborate telemetry;
+- real-money systems;
+- major visual redesign;
+- unrelated architectural cleanup.
+
+If extended play reveals a missing-content problem that belongs to a later work order, document it rather than absorbing the whole feature into LGD-003.
+
+======================================================================
+24. TERMINAL STATE
+======================================================================
+
+Successful completion should leave the project in a state equivalent to:
+
+LGD003_CONTROLLED_DEFEAT_COMPLETE
+LGD003_RECOVERY_LOOP_QUALIFIED
+LGD003_PHYSICAL_TRAINING_QUALIFIED
+LGD003_FIRST_PROMOTION_PACING_QUALIFIED
+LGD003_12_DAY_PROGRESSION_QUALIFIED
+LGD003_CAMPAIGN_PROGRESSION_QUALIFIED
+LGD003_MOBILE_PLAY_FEEL_QUALIFIED
+LGD003_COMPLETE
+
+If a material experience problem remains, stop with the specific defect documented rather than declaring nominal completion.

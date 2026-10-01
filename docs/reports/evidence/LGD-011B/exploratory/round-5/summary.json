@@ -1,0 +1,29 @@
+{
+  "round": "round-5",
+  "seasons": 500,
+  "game_days": 10033,
+  "seconds": 2.13,
+  "ordinary": {
+    "count": 400,
+    "median_days": 20,
+    "p10_days": 19,
+    "p90_days": 21,
+    "player_victory_percent": 65.50,
+    "npc_victory_percent": 34.50,
+    "player_rank_one_percent": 71.00,
+    "player_top_three_percent": 99.00,
+    "median_candidates": 2,
+    "first_attempt_win_percent": 64.39,
+    "all_player_attempt_win_percent": 65.01,
+    "mean_player_attempts": 1.01,
+    "training_first_attempt_percent": 83.35,
+    "combat_defeat_percent": 0.44,
+    "chronicle_mean": 5.34,
+    "chronicle_median": 5,
+    "callbacks_per_season": 4.53,
+    "final_level_frequency": {"6":42, "7":358},
+    "final_rank_frequency": {"1":284, "2":88, "3":24, "4":4}
+  },
+  "player_attempts": {"count":403,"mean_level":7.00,"median_level":7,"mean_attack":27.07,"mean_defense":17.20,"mean_hp":50.00,"mean_power":150.05,"median_first_attempt_day":20,"first_success_percent":64.39,"all_success_percent":65.01,"tiers":{"WELL_PREPARED":403},"weapons":{"battle_axe":278, "steel_longsword":125},"armor":{"knight_plate":376, "mithril_mail":27}},
+  "npc_attempts": {"count":232,"mean_level":6.28,"median_level":6,"mean_attack":21.77,"mean_defense":14.12,"mean_hp":46.59,"mean_power":123.50,"median_first_attempt_day":20,"first_success_percent":58.74,"all_success_percent":59.48,"tiers":{"DANGEROUS":45, "READY":57, "WELL_PREPARED":130},"weapons":{"broad_sword":150, "knights_sword":41, "steel_blade":8, "steel_longsword":33},"armor":{"chain_mail":11, "knight_plate":28, "plate_armor":65, "scale_armor":128}}
+}

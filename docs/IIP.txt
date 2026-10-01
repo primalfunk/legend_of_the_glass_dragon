@@ -1,0 +1,607 @@
+```text
+LEGEND OF THE GLASS DRAGON
+NATIVE ANDROID INITIAL IMPLEMENTATION PLAN
+Version 0.1 — Clean-Slate Rebuild
+
+PURPOSE
+
+Rebuild Legend of the Glass Dragon from zero code as a native, mobile-first Android game intended first for the TCL NXTPAPER tablet.
+
+The game should feel unmistakably like an ANSI-era Legend of the Red Dragon BBS door game while taking advantage of modern touch interaction wherever doing so does not damage that illusion.
+
+This is not a web application wrapped for Android. The default implementation target is:
+
+- Kotlin
+- Android Studio
+- Jetpack Compose
+- Local/offline persistence
+- Portrait-first tablet/mobile interface
+- No server dependency for ordinary play
+
+The old web implementation may be consulted as design/reference material, but the new application begins with no inherited code architecture.
+
+
+CORE PRODUCT IDEA
+
+Legend of the Glass Dragon is a single-player simulation of a multiplayer BBS RPG.
+
+The player should feel as though they have connected to a small, active fantasy BBS community populated by other adventurers.
+
+Those adventurers are simulated locally.
+
+The player can:
+
+- create a character;
+- enter town;
+- fight monsters;
+- train and improve;
+- visit familiar BBS-style locations;
+- interact with simulated adventurers;
+- hear gossip and observe rankings;
+- eventually confront the Glass Dragon;
+- end a game day;
+- immediately begin another game day whenever desired.
+
+There is no real-world daily lockout.
+
+Instead, ending the day advances the simulated world.
+
+
+DESIGN NORTH STAR
+
+Presentation:
+
+ANSI TRUE IN SPIRIT.
+
+The application should look like an unusually polished color ANSI BBS rather than a modern fantasy RPG wearing a retro skin.
+
+Use:
+
+- monospaced typography;
+- ANSI-inspired color palette;
+- black/dark terminal backgrounds;
+- box-drawing characters;
+- text banners;
+- ASCII/ANSI decorative art;
+- restrained blinking/highlighting where useful;
+- terminal-like scrolling and screen transitions;
+- terse BBS-era menu language.
+
+Avoid:
+
+- glossy cards;
+- gradients;
+- modern RPG inventory grids;
+- floating material-design surfaces;
+- icon-heavy fantasy HUDs;
+- elaborate illustrated backgrounds;
+- anything that makes the game resemble a conventional contemporary mobile RPG.
+
+Modern conveniences should exist UNDER the antique presentation.
+
+Examples:
+
+- menu choices are touch targets even when displayed as numbered BBS options;
+- character names summon the Android keyboard;
+- lists may scroll naturally with touch;
+- long text may be tapped to advance;
+- confirmation prompts can use large invisible/ANSI-styled touch regions;
+- back navigation should behave sensibly;
+- accessibility and touch sizing matter even when the visual element looks like one line of terminal text.
+
+
+INTERACTION MODEL
+
+Normal gameplay should require no hardware keyboard.
+
+Touch is the primary control method.
+
+Example:
+
+  [1] Forest
+  [2] Inn
+  [3] Training
+  [4] Rankings
+
+Each line behaves as a generous touch target.
+
+The displayed number exists because that is what a BBS would show, not because the player must type it.
+
+Text entry is exceptional.
+
+Use the Android software keyboard only where genuine free-form input is needed, initially:
+
+- character name.
+
+Most later choices should use touch menus, selectors, or constrained prompts styled as terminal interactions.
+
+
+ARCHITECTURAL PRINCIPLE
+
+Keep the simulation independent from the UI.
+
+At minimum separate:
+
+1. GAME MODEL
+   Characters, statistics, equipment, locations, encounters, relationships, world state.
+
+2. GAME RULES
+   Combat, progression, daily limits, economy, encounters, death/recovery, Dragon progression.
+
+3. COMMUNITY SIMULATION
+   Simulated adventurers, their daily actions, advancement, deaths, relationships, rankings, gossip and world changes.
+
+4. PERSISTENCE
+   Save data and world history stored locally on the Android device.
+
+5. PRESENTATION
+   Compose screens implementing the ANSI/BBS interface.
+
+This separation is important because the simulated community will become substantially richer than the first UI.
+
+
+TIME MODEL
+
+A GAME DAY is the fundamental simulation interval.
+
+During a day the player receives a bounded set of opportunities such as:
+
+- forest fights;
+- special encounters;
+- training;
+- social interactions;
+- town activities.
+
+The exact balance can evolve during development.
+
+When the player chooses:
+
+  End the Day
+
+the application should:
+
+1. resolve the player's end-of-day state;
+2. advance simulated NPC adventurers;
+3. resolve relevant community/world events;
+4. update rankings, gossip and persistent state;
+5. increment the game calendar;
+6. begin the next playable day.
+
+The player may repeat this indefinitely in one real-world session.
+
+There is no requirement to wait until tomorrow.
+
+
+SIMULATED COMMUNITY
+
+The simulated population is a core feature, not decorative filler.
+
+The initial version should support a modest roster of persistent adventurers.
+
+Each simulated adventurer should eventually have:
+
+- identity/name;
+- level and combat ability;
+- equipment/wealth;
+- alive/dead/recovering state as appropriate;
+- progression history;
+- basic personality tendencies;
+- relationship with the player;
+- relationships or rivalries relevant to the simulation;
+- daily activity.
+
+The player should regularly see evidence that these people are doing things without them.
+
+Examples:
+
+- someone gained a level;
+- someone was defeated;
+- someone bought a better weapon;
+- someone challenged another adventurer;
+- someone has passed the player in the rankings;
+- someone has been absent;
+- someone spread gossip;
+- someone is approaching Dragon-level strength.
+
+The illusion should be:
+
+"I logged back into the BBS and things happened while my character was finishing the day."
+
+Not:
+
+"The game randomly changed some numbers."
+
+
+INITIAL GAME LOOP
+
+For the first playable build:
+
+START APPLICATION
+    |
+    v
+ANSI TITLE / CONNECTION INTRO
+    |
+    v
+CREATE CHARACTER
+    |
+    v
+TOWN
+    |
+    +--> FOREST
+    |      |
+    |      +--> choose/search for fight
+    |      +--> combat
+    |      +--> rewards / damage / death handling
+    |
+    +--> TRAINING
+    |
+    +--> INN / COMMUNITY
+    |
+    +--> RANKINGS
+    |
+    +--> CHARACTER STATUS
+    |
+    +--> END DAY
+             |
+             v
+       WORLD SIMULATION
+             |
+             v
+         NEXT DAY
+
+
+PHASE 0 — NATIVE FOUNDATION
+
+Goal:
+
+Create the clean Android project and establish the technical skeleton.
+
+Deliver:
+
+- Kotlin Android application;
+- Jetpack Compose UI;
+- minimum sensible Android target configuration;
+- portrait-first layout with tablet compatibility;
+- local application state;
+- navigation framework;
+- persistence foundation;
+- basic automated tests;
+- debug build deployable to the NXTPAPER tablet.
+
+Do not build elaborate architecture merely because Android permits it.
+
+Use the simplest architecture that cleanly separates game state, simulation and presentation.
+
+
+PHASE 1 — ANSI TERMINAL SHELL
+
+Goal:
+
+Establish the visual identity before building large amounts of gameplay.
+
+Deliver:
+
+- ANSI-inspired color system;
+- selected monospaced font strategy;
+- terminal screen component;
+- reusable BBS menu component;
+- tappable numbered menu rows;
+- box drawing/borders;
+- scrolling text region;
+- ANSI title treatment;
+- simple screen transition behavior;
+- touch-friendly sizing disguised within terminal presentation.
+
+Prototype screens:
+
+- startup;
+- title;
+- main menu;
+- placeholder town.
+
+This phase establishes the visual contract for everything that follows.
+
+
+PHASE 2 — CHARACTER CREATION AND SAVE
+
+Goal:
+
+Create the first persistent player character.
+
+Deliver:
+
+- New Game;
+- character name entry using Android keyboard;
+- minimal starting statistics;
+- persistent save;
+- Continue Game;
+- basic character/status screen;
+- reset/delete save available through an appropriate settings path.
+
+Keep character creation short.
+
+The game should reach Town quickly.
+
+
+PHASE 3 — FIRST PLAYABLE DAY
+
+Goal:
+
+Produce the smallest real LOTGD-style gameplay loop.
+
+Deliver:
+
+- Town hub;
+- Forest;
+- finite fights per day;
+- simple monster roster;
+- turn-based combat;
+- HP;
+- attack/defense;
+- gold;
+- experience;
+- leveling;
+- basic weapon/armor progression;
+- death/recovery rule;
+- Training area;
+- End Day.
+
+At completion, a player must be able to play several consecutive days without restarting the application.
+
+
+PHASE 4 — COMMUNITY SIMULATION V1
+
+Goal:
+
+Make the fake BBS population become visible and persistent.
+
+Deliver:
+
+- initial NPC adventurer roster;
+- persistent NPC statistics;
+- daily NPC simulation;
+- NPC advancement;
+- wins/losses;
+- wealth/equipment changes;
+- player/NPC ranking table;
+- daily news/gossip feed;
+- NPC events generated when the day advances.
+
+Simulation should be deterministic enough to test and variable enough to feel alive.
+
+
+PHASE 5 — CLASSIC WORLD STRUCTURE
+
+Goal:
+
+Expand the stripped-down prototype into the recognizable core structure of a LORD-style game.
+
+Candidate systems:
+
+- Inn;
+- bartender/gossip;
+- healer;
+- equipment shops;
+- bank;
+- PvP-style encounters against simulated adventurers;
+- social/reputation interactions;
+- special forest events;
+- expanded training;
+- progression gates;
+- richer town navigation.
+
+Each system should reinforce the BBS-community illusion.
+
+
+PHASE 6 — GLASS DRAGON GAME ARC
+
+Goal:
+
+Give the game its principal long-term objective.
+
+Deliver:
+
+- Dragon readiness/progression requirements;
+- Glass Dragon encounter;
+- victory;
+- post-victory progression/reset structure;
+- persistent acknowledgement of major accomplishments;
+- NPC progression toward the same objective where appropriate.
+
+Exact mechanics do not need to reproduce LORD verbatim.
+
+The experience should be recognizable without becoming a mechanical photocopy.
+
+
+PHASE 7 — COMMUNITY DEPTH
+
+Goal:
+
+Turn the simulated adventurers into characters the player notices.
+
+Potential additions:
+
+- personality archetypes;
+- friendships;
+- rivalries;
+- grudges;
+- romance/flirtation where tonally appropriate;
+- challenges;
+- recurring gossip;
+- remembered combat;
+- NPC comments about the player's accomplishments;
+- evolving population;
+- notable community incidents;
+- NPC Dragon attempts;
+- memorial/history records.
+
+Prioritize visible consequences over hidden simulation complexity.
+
+
+PHASE 8 — MOBILE POLISH
+
+Goal:
+
+Make the antique interface genuinely pleasant on a modern tablet.
+
+Deliver:
+
+- NXTPAPER-specific playtesting;
+- portrait and reasonable alternate-size handling;
+- large reliable touch zones;
+- scrolling refinement;
+- keyboard handling;
+- Android back behavior;
+- save/resume reliability;
+- launch/resume speed;
+- text readability controls if necessary;
+- sound/vibration only where compatible with the aesthetic;
+- accessibility review.
+
+Modern convenience is encouraged here provided the BBS illusion remains intact.
+
+
+DATA MODEL — INITIAL MINIMUM
+
+GameState
+- current day
+- player
+- NPC adventurers
+- rankings
+- world flags
+- news/event history
+- random/simulation state
+
+Character
+- id
+- name
+- level
+- experience
+- hp/max hp
+- attack
+- defense
+- gold
+- weapon
+- armor
+- status
+
+PlayerState
+- character
+- fights remaining
+- daily action state
+- progression flags
+
+NpcAdventurer
+- character
+- personality/archetype
+- current activity/state
+- relationship values
+- progression flags
+
+WorldEvent
+- day
+- type
+- participants
+- short BBS-display text
+- persistent consequences where applicable
+
+
+CONTENT PRINCIPLE
+
+Content should be data-driven wherever practical.
+
+Monsters, equipment, NPC names, encounter text and progression values should not be scattered throughout Compose screen code.
+
+The UI displays the game.
+
+It should not define the game.
+
+
+TESTING PRIORITIES
+
+Automated testing should concentrate on rules that can silently corrupt a long-running offline world.
+
+Highest priority:
+
+- save/load consistency;
+- deterministic game-day advancement;
+- combat calculations;
+- level progression;
+- daily action reset;
+- NPC simulation;
+- rankings;
+- death/recovery;
+- long-run world stability.
+
+A useful recurring simulation test should advance the world hundreds or thousands of game days without UI interaction and verify that the state remains lawful.
+
+
+OUT OF SCOPE FOR INITIAL REBUILD
+
+Do not initially build:
+
+- multiplayer;
+- networking;
+- accounts;
+- cloud saves;
+- web version;
+- backend services;
+- real-time chat;
+- elaborate animation;
+- illustrated modern RPG interfaces;
+- monetization;
+- live-service mechanics;
+- procedural architecture intended for hypothetical future platforms.
+
+This is first an excellent offline Android game.
+
+
+MVP DEFINITION
+
+The first meaningful MVP is reached when:
+
+- the app installs and runs reliably on the NXTPAPER tablet;
+- it convincingly resembles an ANSI BBS;
+- a player can create and save a character;
+- Town and Forest are functional;
+- combat and leveling work;
+- days can be played consecutively without real-world waiting;
+- ending a day advances a persistent simulated community;
+- rankings and news visibly reflect that simulation;
+- several NPC adventurers feel like recurring members of the same BBS;
+- there is meaningful progression toward the Glass Dragon;
+- all ordinary gameplay can be controlled by touch.
+
+The essential test is simple:
+
+After playing ten or twenty consecutive game days, does it feel like the player has been spending time on an active little fantasy BBS whose community is moving forward with or without them?
+
+If yes, the foundation is working.
+
+
+IMPLEMENTATION RULE
+
+Build vertically.
+
+Prefer:
+
+one complete playable loop
+over
+many partially implemented systems.
+
+The expected development sequence is therefore:
+
+native shell
+-> ANSI presentation
+-> character
+-> town
+-> combat
+-> day advancement
+-> simulated adventurers
+-> community consequences
+-> broader LORD-like systems
+-> Glass Dragon arc
+-> polish.
+
+Every major work order after the foundation should leave the game more playable than it was before.
+```

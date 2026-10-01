@@ -1,0 +1,336 @@
+LGD-008 — GLASS CHRONICLE + DAWN BRIEF
+
+STATUS
+
+AUTHORIZED FOR IMPLEMENTATION
+
+MISSION
+
+Complete the game's day-transition experience so that ending a day feels like
+watching a small fantasy society continue living after the player goes to bed.
+
+Legend of the Glass Dragon is not merely an offline recreation of Legend of the
+Red Dragon. Its central twist is:
+
+* the player may play as many consecutive days as desired;
+* the world continues to act between those days;
+* recurring simulated residents pursue their own lives;
+* events have consequences;
+* the player can watch history accumulating around them.
+
+LGD-008 should make that promise visible through this polished transition:
+
+END DAY
+→ WORLD RESOLUTION
+→ THE GLASS CHRONICLE
+→ DAWN BRIEF
+→ NEXT PLAYABLE DAY
+
+The Chronicle and Dawn Brief serve different purposes and must remain distinct.
+
+======================================================================
+1. THE CORE DISTINCTION
+======================================================================
+
+THE GLASS CHRONICLE represents what the GAME knows. It may show important events
+regardless of whether the player's character witnessed them or could reasonably
+have learned about them. It is the player's privileged view into the simulated
+world.
+
+Chronicle examples include defeats deep in the forest, NPC fights, levels,
+important equipment, rivalries, disappearances, wealth changes, challenges,
+near-death escapes, quiet preparation, and meaningful ranking changes.
+
+THE DAWN BRIEF represents what the CHARACTER knows when the next day begins. It
+contains only information plausibly available through direct consequences,
+public knowledge, visible world changes, gossip, notices, rankings, community
+information, messages, and consequences affecting the player.
+
+The Dawn Brief must not duplicate the Chronicle.
+
+======================================================================
+2. WHY THIS MATTERS
+======================================================================
+
+The system should create recognizable, continuing community stories: residents
+fight while the player sleeps, old rivals improve, equipment changes hands,
+adventurers disappear or return wounded, and rankings change. Existing
+simulation changes must be exposed coherently instead of remaining silent state.
+
+======================================================================
+3. END DAY FLOW
+======================================================================
+
+When the player ends the day:
+
+1. Commit the player's completed-day state safely.
+2. Resolve all authorized NPC/world simulation for the transition.
+3. Capture meaningful transition events as structured facts.
+4. Derive the Glass Chronicle from those facts.
+5. Derive the Dawn Brief from the same authoritative resulting world state.
+6. Present them in sequence.
+7. Begin the next playable day only after the presentation is completed or
+   intentionally skipped.
+
+Simulation produces state and events. Presentation interprets them. Presentation
+must not become authoritative simulation.
+
+======================================================================
+4. TRANSITION EVENT RECORD
+======================================================================
+
+Create or refine a structured transition-event representation. It may include:
+
+* event type;
+* involved resident IDs;
+* location;
+* before/after values;
+* public/private visibility;
+* importance;
+* causal relationship;
+* related prior incident/story;
+* resulting relationship change;
+* whether it directly affects the player;
+* optional narrative parameters.
+
+Do not store finished English prose as the canonical event model where structured
+facts are more appropriate. Narrative text derives from authoritative facts.
+
+======================================================================
+5. EVENT IMPORTANCE
+======================================================================
+
+Do not report routine low-value simulation noise. Use a practical importance
+system. High importance includes permanent loss where supported, major defeat or
+victory, level advancement, rare equipment, major rank changes, formal duels,
+meaningful relationship changes, major reversals, factions when available, and
+Dragon events when available. Medium importance includes recurring rivalry,
+surprising defeat, exceptional profit, serious escape, story callbacks, and
+entering/leaving meaningful states. Usually omit low importance.
+
+The Chronicle is curated, not a debug log.
+
+======================================================================
+6. CHRONICLE LENGTH
+======================================================================
+
+Target roughly 3–7 Chronicle items on an active day, fewer when little happened,
+and occasionally more only for an unusually consequential transition. Do not
+fabricate filler. Prioritize interest and combine tightly related actions where
+useful.
+
+======================================================================
+7. THE GLASS CHRONICLE PRESENTATION
+======================================================================
+
+Create a dedicated ANSI-style old-BBS news/history presentation using LGD-007's
+visual language. Suggested heading:
+
+THE GLASS CHRONICLE
+Day <N> passes into history...
+
+Items should be concise, narrative, and text-first. Do not use feed cards,
+social-media presentation, or giant article pages.
+
+======================================================================
+8. NARRATIVE VARIETY
+======================================================================
+
+Provide bounded deterministic variation for common event families. Variation
+must not alter facts. Select templates deterministically from event/state data.
+
+======================================================================
+9. CONTINUITY AND CALLBACKS
+======================================================================
+
+Prefer references to real history—prior insults, repeated victories, established
+feuds, memories, incidents, and relationship state—where supporting data exists.
+Do not invent continuity absent from game state.
+
+======================================================================
+10. PLAYER VISIBILITY
+======================================================================
+
+Distinguish:
+
+PLAYER KNOWS BECAUSE THEY WITNESSED IT
+PLAYER LEARNS PUBLICLY AT DAWN
+PLAYER DOES NOT KNOW, BUT THE CHRONICLE SHOWS THE HUMAN PLAYER
+
+Encode visibility explicitly where practical.
+
+======================================================================
+11. DAWN BRIEF CONTENT
+======================================================================
+
+After the Chronicle, present a shorter, actionable:
+
+DAWN BRIEF
+Day <N+1>
+
+It may include player health/status, daily resources, overnight gold/bank
+changes, directed messages/challenges, obvious public rankings, public
+deaths/disappearances, notices, knowable relationship developments, major
+economy/shop changes, and other direct consequences. It answers what the
+adventurer needs to know before playing today.
+
+======================================================================
+12. INFORMATION BOUNDARY
+======================================================================
+
+A secret forest fight may appear with full participants in the Chronicle while
+the Dawn Brief reveals only a public consequence such as an adventurer returning
+badly wounded. Preserve this philosophical distinction.
+
+======================================================================
+13. SKIP / ADVANCE BEHAVIOR
+======================================================================
+
+Allow normal reading, next-screen advance, skipping remaining Chronicle
+presentation, and quick entry into the new day. Skip changes presentation only;
+world resolution still occurs exactly once.
+
+======================================================================
+14. CHRONICLE HISTORY
+======================================================================
+
+Persist a bounded historical record in save state. It should support future
+season chronicles, callbacks, retrospectives, and endgame narration without
+unbounded save growth. Retaining important facts for one finite season is
+preferred where storage cost is modest.
+
+======================================================================
+15. DAILY NEWS / EXISTING SYSTEM CONSOLIDATION
+======================================================================
+
+Inventory and consolidate Daily News, Morning Report, ranking notices, Inn
+gossip, incident feeds, and simulation result presentation. Recommended authority:
+
+GLASS CHRONICLE = omniscient historical recap.
+DAWN BRIEF = player-actionable/newly knowable information.
+INN GOSSIP = incomplete, colorful local social information.
+RANKINGS = authoritative current standings.
+
+Refactor or replace overlapping systems instead of creating permanent duplicates.
+
+======================================================================
+16. PLAYER-CREATED HISTORY
+======================================================================
+
+Chronicle important player events too: levels, rival victories, notable defeats,
+major acquisitions, exceptional standing, and significant story events. It is a
+realm history that includes the player, not merely a report about bots.
+
+======================================================================
+17. DAY NUMBER AND TIME
+======================================================================
+
+Make explicit which day ended, which transition is being recorded, and which day
+begins. Use game-day language rather than real dates.
+
+======================================================================
+18. DETERMINISM
+======================================================================
+
+Identical state, RNG seed/state, and player actions must produce the same world
+outcome, selected events, narrative template choices, and Dawn Brief. Narrative
+variation must not perturb gameplay RNG.
+
+======================================================================
+19. SAVE / RESTORE
+======================================================================
+
+The transition must survive closing immediately after End Day, during Chronicle,
+between Chronicle and Dawn, on Dawn, and after Android process recreation. The day
+must never resolve twice or duplicate simulation, money, items, or advancement.
+Persist enough phase/state to reconstruct presentation safely.
+
+======================================================================
+20. LONG-RUN EXPERIENCE
+======================================================================
+
+Inspect early days, several consecutive transitions, approximately Day 10, and a
+longer accelerated run. Watch for repetitive language, resident domination,
+noise, implausible counts, contradictions, stale incidents, knowledge leaks, and
+unexplained relationship changes.
+
+======================================================================
+21. VISUAL REQUIREMENTS
+======================================================================
+
+Use LGD-007's ANSI language. Chronicle uses black, terminal framing, cyan/white,
+gold for notable positive/world events, red/magenta for danger, and restrained
+ornament. Dawn is related but cleaner and optimized for scanning.
+
+======================================================================
+22. AUDIO
+======================================================================
+
+Music continues through transition. Valid Advance/Continue/Skip selections use
+the existing click. Add no fanfare, dawn music, page turn, narration, or event
+sounds.
+
+======================================================================
+23. OUT OF SCOPE
+======================================================================
+
+Do not implement the Glass Dragon boss, Dragon Season pressure, factions, new
+combat, major economy redesign, Main Menu, more sounds, large populations,
+cutscenes, or achievements.
+
+======================================================================
+24. TESTING
+======================================================================
+
+Targeted tests must prove:
+
+1. End Day resolves exactly once.
+2. Chronicle generation reads resulting transition events.
+3. Low-value noise is filtered.
+4. Significant events are retained.
+5. Ordering is deterministic.
+6. Narrative variation is deterministic.
+7. Dawn excludes private information.
+8. Direct player consequences appear.
+9. Skip does not alter simulation.
+10. Chronicle resume does not rerun End Day.
+11. Dawn resume does not rerun End Day.
+12. History persists.
+13. Old records remain immutable.
+14. Repeated days remain deterministic.
+15. Existing saves migrate safely.
+
+======================================================================
+25. PLAYER-FACING QUALIFICATION
+======================================================================
+
+Perform a real multi-day playthrough and judge whether residents matter,
+yesterday affects tomorrow, recurring names and rivalries are recognizable,
+Chronicle surprises, Dawn is useful, skip is quick, and End Day creates curiosity.
+If it reads like a simulation log, adjust it.
+
+======================================================================
+26. COMPLETION STANDARD
+======================================================================
+
+LGD-008 is complete when a player can finish a day, End Day, advance the world
+exactly once, read a concise curated Chronicle, recognize continuity, advance to
+a distinct knowable/actionable Dawn Brief, begin the next day, and repeat without
+corruption, duplication, or severe narrative repetition.
+
+The central success criterion is emotional: ENDING THE DAY SHOULD BE INTERESTING.
+
+======================================================================
+27. BUILDER RETURN
+======================================================================
+
+Return disposition, implementation commit/HEAD, transition architecture, event
+model, Chronicle selection and visibility rules, Dawn rules, consolidation,
+persistence/migration, automated results, multi-day play qualification, actual
+examples, genuine defects, and whether LGD-009 may proceed.
+
+Primary dispositions:
+
+LGD008_COMPLETE
+LGD008_COMPLETE_WITH_BOUNDED_FOLLOWUP
+LGD008_REPAIR_REQUIRED

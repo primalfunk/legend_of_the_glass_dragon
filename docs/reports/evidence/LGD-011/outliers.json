@@ -1,0 +1,17 @@
+{
+  "shortest_campaign": {"seed":5000026,"policy":"RECKLESS","days":18,"level":7,"rank":1,"wealth":160},
+  "longest_campaign": {"seed":1000021,"policy":"PASSIVE","days":29,"level":2,"rank":17,"wealth":31},
+  "earliest_player_victory": {"seed":5000026,"policy":"RECKLESS","days":18,"level":7,"rank":1,"wealth":160},
+  "latest_player_victory": {"seed":3000051,"policy":"ORDINARY","days":24,"level":7,"rank":1,"wealth":593},
+  "strongest_final_player": {"seed":4000004,"policy":"AGGRESSIVE","days":20,"level":8,"rank":1,"wealth":591},
+  "weakest_player_winner": {"seed":3000001,"policy":"ORDINARY","days":21,"level":7,"rank":1,"wealth":520},
+  "most_combat_defeats": {"seed":5000273,"policy":"RECKLESS","days":20,"level":7,"rank":1,"wealth":22},
+  "most_training_failures": {"seed":1000001,"policy":"PASSIVE","days":25,"level":3,"rank":16,"wealth":18},
+  "richest_player": {"seed":5000346,"policy":"RECKLESS","days":21,"level":8,"rank":1,"wealth":1088},
+  "poorest_at_conclusion": {"seed":1000131,"policy":"PASSIVE","days":21,"level":2,"rank":17,"wealth":0},
+  "most_npc_dragon_attempts": {"seed":2000096,"policy":"CASUAL","days":29,"level":7,"rank":1,"wealth":48},
+  "most_dominant_npc": {"seed":1000012,"policy":"PASSIVE","days":21,"level":2,"rank":17,"wealth":19},
+  "highest_chronicle_density": {"seed":1000001,"policy":"PASSIVE","days":25,"level":3,"rank":16,"wealth":18},
+  "lowest_chronicle_density": {"seed":3000497,"policy":"ORDINARY","days":20,"level":7,"rank":1,"wealth":27},
+  "first_unresolved": null
+}

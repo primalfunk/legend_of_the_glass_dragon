@@ -1,0 +1,680 @@
+LEGEND OF THE GLASS DRAGON
+WORK ORDER LGD-002
+CHARACTER CREATION, PERSISTENT PLAYER SAVE, AND FIRST REAL TOWN STATE
+
+STATUS
+
+AUTHORIZED FOR IMPLEMENTATION
+
+
+GOVERNING BASELINE
+
+LGD-001 established the clean native Android foundation.
+
+The application is intended to remain:
+
+- Kotlin;
+- Jetpack Compose;
+- native Android;
+- offline-first;
+- mobile-first;
+- touch-driven;
+- visually faithful to a color ANSI/BBS door-game experience.
+
+Do not change that architectural or visual direction unless a concrete defect requires it.
+
+LGD-002 should build directly on the LGD-001 foundation rather than redesigning the application shell.
+
+
+PRIMARY OBJECTIVE
+
+Replace the temporary New Game / Town prototype with the first genuine persistent game state.
+
+At completion, the player must be able to:
+
+1. launch the game;
+2. choose New Game;
+3. enter a character name using the Android software keyboard;
+4. create that character;
+5. arrive in a real Day 1 town state;
+6. leave and restart the application;
+7. choose Continue;
+8. return to the same character and game day.
+
+This work order establishes the durable player identity that all later gameplay systems will use.
+
+
+PRODUCT EXPERIENCE
+
+Character creation should feel like entering information into an old BBS door game, not filling out a modern Android form.
+
+The player may see something in this spirit:
+
+    -=- NEW ADVENTURER -=-
+
+    The realm has no record of you.
+
+    What name shall be written in the ledger?
+
+    > Arcturus_
+
+                 [ ACCEPT NAME ]
+
+The Android keyboard may appear because this is genuine free-form text entry.
+
+Once the name is accepted, ordinary gameplay returns to touch-only interaction.
+
+Do not expose a modern Material TextField if it can be avoided visually.
+
+The UI may use Compose text-entry facilities internally, but the visible result should resemble a terminal prompt.
+
+
+PART 1 — DEFINE THE FIRST REAL GAME STATE
+
+Create the minimum durable model needed for an actual new game.
+
+At minimum establish:
+
+GameState
+
+- save/schema version;
+- current game day;
+- player;
+- world seed or equivalent deterministic random seed if appropriate;
+- creation timestamp only if genuinely useful;
+- future-compatible world state container or clearly extensible structure.
+
+PlayerCharacter
+
+- stable internal ID;
+- name;
+- level;
+- experience;
+- current HP;
+- maximum HP;
+- attack;
+- defense;
+- gold;
+- weapon;
+- armor.
+
+PlayerDayState
+
+- current day;
+- fights remaining or equivalent future daily resource placeholder;
+- whether the player has ended the current day;
+- other fields only where immediately justified.
+
+Do not implement the broader simulation model yet.
+
+Do not add speculative dozens of fields because they may someday be useful.
+
+Establish a small model that can evolve cleanly.
+
+
+PART 2 — STARTING CHARACTER VALUES
+
+Define one canonical starting state.
+
+The exact initial balance may be adjusted later.
+
+Use intentionally simple starting values, for example:
+
+- Level 1
+- Experience 0
+- full HP
+- modest Attack
+- modest Defense
+- small starting gold amount
+- basic starter weapon
+- basic starter armor
+- Day 1
+
+The Builder may choose reasonable numerical values.
+
+Centralize these values in game rules/configuration rather than scattering literals through Compose screens.
+
+A new player should always begin from the same lawful baseline except for:
+
+- character identity;
+- character name;
+- world/random seed if one is used.
+
+
+PART 3 — CHARACTER NAME ENTRY
+
+Replace the LGD-001 placeholder with functional name creation.
+
+Requirements:
+
+- tapping the name-entry region summons the Android software keyboard;
+- text entry is visually styled as a BBS terminal prompt;
+- the player can edit before confirmation;
+- pressing an appropriate keyboard action such as Done may submit;
+- an ANSI-styled touch command must also permit confirmation;
+- keyboard dismissal must behave normally;
+- screen layout must remain usable when the keyboard is visible.
+
+NAME VALIDATION
+
+Keep rules simple and player-friendly.
+
+At minimum:
+
+- trim leading/trailing whitespace;
+- reject an empty name;
+- establish a sensible maximum displayed length;
+- reject or normalize control characters/newlines;
+- ensure the name can safely render in terminal screens and save data.
+
+Do not over-police ordinary names.
+
+Support normal letters, numbers, spaces, punctuation, and Unicode where the chosen persistence/rendering stack safely supports them.
+
+If the classic visual layout requires a tighter practical limit, choose one and document it.
+
+Do not require usernames, passwords, accounts, email addresses, or online identity.
+
+
+PART 4 — NAME CONFIRMATION
+
+Before creating the durable save, show a lightweight confirmation.
+
+Example:
+
+    You shall be known as:
+
+        Arcturus
+
+    [1] Enter the Realm
+    [2] Change Name
+
+This should still feel like the BBS experience.
+
+Once confirmed:
+
+- create the PlayerCharacter;
+- create GameState;
+- save it locally;
+- enter the real Town screen.
+
+Avoid unnecessary multi-page onboarding.
+
+
+PART 5 — PERSISTENCE V1
+
+Replace the LGD-001 placeholder save marker with genuine game persistence.
+
+Choose a simple local persistence approach suitable for a small offline game.
+
+Acceptable approaches include:
+
+- DataStore with serialized structured data;
+- Room if the existing implementation already demonstrates a clear need;
+- another standard Android-local approach with comparable durability and testability.
+
+Preference:
+
+Use the least complex solution that can comfortably store the current GameState and evolve through future phases.
+
+The system must support:
+
+- save;
+- load;
+- existence check;
+- replacement/reset;
+- version identification;
+- safe handling of corrupt or unreadable state.
+
+Do not add cloud storage.
+
+Do not add login.
+
+Do not request internet access.
+
+
+SAVE OWNERSHIP
+
+Persistence code should not live inside Town composables or individual UI controls.
+
+The game layer owns game state.
+
+The persistence layer serializes/deserializes it.
+
+The UI requests actions and renders state.
+
+
+SAVE TIMING
+
+For this phase, save at minimum:
+
+- immediately after character creation;
+- when any persistent value is deliberately changed;
+- when the application leaves a state that could otherwise lose meaningful progress.
+
+Do not require the user to manually choose "Save Game."
+
+This is a modern convenience that should remain invisible under the BBS presentation.
+
+
+PART 6 — CONTINUE GAME
+
+Make the Main Menu's Continue option functional.
+
+NO SAVE PRESENT
+
+If no valid save exists, Continue should appear unavailable or clearly communicate that no character exists yet.
+
+It should not navigate into an invalid state.
+
+VALID SAVE PRESENT
+
+Continue should:
+
+- load the saved state;
+- enter Town;
+- show the saved character;
+- preserve the current game day.
+
+Example:
+
+    Welcome back, Arcturus.
+
+    It is Day 1 in the realm.
+
+Do not replay full character creation.
+
+
+PART 7 — NEW GAME WHEN A SAVE EXISTS
+
+A player selecting New Game while a valid save already exists must not silently destroy it.
+
+Use an ANSI-style confirmation prompt.
+
+Example:
+
+    WARNING!
+
+    A record already exists for Arcturus.
+
+    Beginning again will erase that adventure.
+
+    [1] Start Over
+    [2] Return
+
+The destructive choice should be clearly separated from the safe choice.
+
+No modern dialog box is necessary unless technically unavoidable.
+
+Prefer an in-world terminal confirmation screen.
+
+Upon confirmed replacement:
+
+- remove or replace the previous game state cleanly;
+- begin new character creation.
+
+
+PART 8 — FIRST REAL TOWN SCREEN
+
+Replace the prototype Town with a screen backed by actual GameState.
+
+It need not yet implement the destinations.
+
+At minimum show:
+
+- player name;
+- current day;
+- level;
+- HP;
+- gold;
+- menu destinations.
+
+Suggested visual structure:
+
+    +----------------------------------+
+    |       THE VILLAGE SQUARE         |
+    +----------------------------------+
+
+    Day 1
+
+    Arcturus, Level 1
+    HP: 20 / 20
+    Gold: 25
+
+    Town criers shout the day's news while
+    adventurers come and go through the square.
+
+    [1] Enter the Forest
+    [2] Visit the Inn
+    [3] Seek Training
+    [4] View Rankings
+    [5] Character
+    [6] End the Day
+
+The exact prose may be refined.
+
+Town should now be considered a real game screen, not a UI demonstration.
+
+
+PART 9 — CHARACTER STATUS SCREEN
+
+Implement a basic functional Character screen using real player data.
+
+Display at minimum:
+
+- character name;
+- level;
+- experience;
+- HP / max HP;
+- attack;
+- defense;
+- gold;
+- weapon;
+- armor;
+- current game day.
+
+Presentation should remain terminal-like.
+
+Example:
+
+    -=- CHARACTER RECORD -=-
+
+    Name....... Arcturus
+    Level...... 1
+    Experience. 0
+    Hit Points. 20 / 20
+    Attack..... 4
+    Defense.... 2
+    Gold....... 25
+
+    Weapon..... Rusty Sword
+    Armor...... Worn Leather
+
+    [1] Return to Town
+
+No editable character sheet is needed.
+
+
+PART 10 — PLACEHOLDER DESTINATIONS
+
+Forest, Inn, Training, and Rankings may remain unavailable in this work order.
+
+However, their placeholder screens should now acknowledge the active player/game state where useful.
+
+Example:
+
+    FOREST
+
+    Arcturus approaches the forest road.
+
+    Combat is not yet available.
+
+    [1] Return to Town
+
+This reinforces that the application is now operating around a real persistent character.
+
+
+PART 11 — END DAY BOUNDARY
+
+Do NOT implement actual day advancement yet.
+
+However, the End the Day command must no longer be a meaningless placeholder.
+
+Create an intentional boundary screen explaining that the action will eventually advance the world.
+
+For LGD-002, it may state:
+
+    -=- END THE DAY -=-
+
+    Ending the day will eventually allow the
+    rest of the realm to take its turn.
+
+    World advancement is not yet available.
+
+    [1] Return to Town
+
+Do not increment the day number.
+
+Real day advancement belongs to a later work order once enough game state exists to make it meaningful.
+
+
+PART 12 — STATE RESTORATION
+
+Verify ordinary Android lifecycle behavior.
+
+The player should not lose their character because of:
+
+- screen rotation if supported;
+- app backgrounding;
+- activity recreation;
+- process restart followed by Continue;
+- normal navigation.
+
+Transient UI details do not all need permanent storage.
+
+Durable game state does.
+
+
+PART 13 — SAVE CORRUPTION / VERSION SAFETY
+
+Introduce basic defensive behavior now while the schema is small.
+
+If stored state:
+
+- cannot be parsed;
+- lacks a recognized version;
+- violates required invariants;
+
+the application must not crash into Town.
+
+Provide a simple recovery path.
+
+For example:
+
+    SAVE DATA ERROR
+
+    This adventure could not be loaded.
+
+    [1] Return to Main Menu
+    [2] Delete Broken Save
+
+Do not silently erase the save.
+
+Do not build a sophisticated migration framework yet.
+
+But establish a schema/version field now so future migration is possible.
+
+
+PART 14 — ARCHITECTURAL BOUNDARIES
+
+By the end of LGD-002, the following distinction should be visible in code:
+
+UI
+
+Responsible for:
+
+- terminal layout;
+- prompts;
+- displaying state;
+- dispatching player actions.
+
+GAME
+
+Responsible for:
+
+- creating a lawful starting character;
+- maintaining current GameState;
+- player/game invariants.
+
+DATA
+
+Responsible for:
+
+- writing GameState;
+- reading GameState;
+- deleting/replacing GameState;
+- reporting persistence failures.
+
+Do not put JSON parsing, database calls, or game-balance constants directly in Compose screens.
+
+
+PART 15 — TESTS
+
+Add meaningful automated coverage.
+
+At minimum test:
+
+NEW GAME
+
+- legal default character creation;
+- entered name is trimmed/validated;
+- initial Day is 1;
+- starting HP is full;
+- initial level/experience/equipment are lawful.
+
+PERSISTENCE
+
+- GameState save/load round trip;
+- player name survives round trip;
+- stats survive round trip;
+- day survives round trip;
+- Unicode name survives if supported;
+- deleting a save removes Continue availability.
+
+INVALID DATA
+
+- empty name rejected;
+- overlong name handled according to policy;
+- corrupted save does not crash normal loading;
+- unsupported version is handled deliberately.
+
+UI/state tests may be added where they provide real value.
+
+Do not create brittle screenshot tests merely to assert exact ANSI text positions.
+
+
+PART 16 — DEVICE QUALIFICATION
+
+On the NXTPAPER tablet, verify if device access is available:
+
+- character-name entry;
+- software keyboard appearance;
+- keyboard does not obscure the entire interaction;
+- Done/confirmation behavior;
+- touch selection;
+- Town readability;
+- Character screen readability;
+- app background/resume;
+- force-close/reopen;
+- Continue restores the player;
+- New Game replacement warning works;
+- Android Back does not accidentally discard the character.
+
+If the device is not available, qualify using an appropriate emulator and report physical-device testing as outstanding.
+
+
+VISUAL REQUIREMENTS
+
+Character creation is an important proof point.
+
+Do NOT produce a normal mobile form containing:
+
+- rounded text field;
+- floating label;
+- brightly colored Submit button;
+- Material dialog;
+- card-based character summary.
+
+Instead, make modern Android input mechanics visually disappear inside a terminal interaction.
+
+The player should think:
+
+"I typed my name into the BBS."
+
+Not:
+
+"I filled out an Android form."
+
+
+DO NOT IMPLEMENT YET
+
+Do not implement:
+
+- combat;
+- monsters;
+- experience rewards from gameplay;
+- actual leveling;
+- buying equipment;
+- Inn functionality;
+- training functionality;
+- rankings population;
+- NPC adventurers;
+- community simulation;
+- day advancement;
+- Dragon systems;
+- multiplayer;
+- network access;
+- accounts;
+- elaborate graphics.
+
+The goal is durable player identity and state, not feature breadth.
+
+
+BUILDER DISCRETION
+
+The Builder may choose:
+
+- exact starting stat values;
+- persistence implementation;
+- serialization format;
+- exact save schema representation;
+- sensible character-name length;
+- small wording improvements;
+- internal state-holder architecture;
+- whether transient UI state uses ViewModel/SavedStateHandle or equivalent.
+
+Prefer simple Android-native patterns.
+
+Do not add architecture for hypothetical scale that this offline game does not need.
+
+
+COMPLETION CRITERIA
+
+LGD-002 is complete when:
+
+1. New Game performs genuine character creation.
+2. The Android software keyboard is used for character-name entry.
+3. Character entry still visually resembles a terminal prompt.
+4. Character names are validated.
+5. A lawful Level 1 starting character is created.
+6. GameState contains a real persistent player and Day 1 state.
+7. GameState is saved locally.
+8. Continue loads that state after a full application restart.
+9. Main Menu correctly distinguishes between no-save and save-present states.
+10. Starting a new game over an existing save requires confirmation.
+11. Town displays real player/game values.
+12. Character Status displays real persistent player data.
+13. Forest, Inn, Training, and Rankings remain coherent placeholders.
+14. End Day is visibly reserved but does not yet advance time.
+15. Broken/unsupported save data fails safely.
+16. Persistence has explicit schema/version awareness.
+17. UI, game logic, and persistence remain cleanly separated.
+18. Automated tests cover character creation and save/load behavior.
+19. The project builds and passes its normal checks.
+20. NXTPAPER qualification is completed if device access exists, otherwise clearly deferred.
+
+
+EXPECTED TERMINAL STATE
+
+LGD002_CHARACTER_CREATION_COMPLETE
+LGD002_PLAYER_IDENTITY_PERSISTENT
+LGD002_CONTINUE_GAME_FUNCTIONAL
+LGD002_REAL_TOWN_STATE_ESTABLISHED
+LGD003_FIRST_PLAYABLE_DAY_READY
+
+
+NEXT PLANNED WORK
+
+LGD-003 — Forest Combat, Monsters, Experience, Gold, and the First Playable Day
+
+LGD-003 should turn the persistent character into a playable adventurer by implementing the first complete combat/progression loop while preserving the ANSI-first mobile interaction model.

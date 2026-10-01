@@ -1,0 +1,456 @@
+LEGEND OF THE GLASS DRAGON
+WORK ORDER LGD-010
+MAIN MENU + PRODUCT WRAPPER
+
+STATUS
+
+AUTHORIZED FOR IMPLEMENTATION
+
+
+MISSION
+
+Turn Legend of the Glass Dragon from a game that launches directly into its
+playable systems into a complete, polished Android game with a proper beginning,
+return path, campaign-state handling, and product identity.
+
+LGD-010 is the wrapper around everything already built.
+
+The target experience is:
+
+launch app
+-> see Legend of the Glass Dragon
+-> understand immediately what can be done
+-> New Game or Continue
+-> enter the game cleanly
+-> play
+-> return to menu safely
+-> resume later without confusion
+-> complete a season
+-> retain that completed-season history
+-> begin another season intentionally
+
+This pass should make the APK feel like a real game rather than a development
+build.
+
+
+1. CORE PRINCIPLE
+
+The Main Menu should feel like the front door of an extraordinarily polished
+1992 fantasy BBS.
+
+It must:
+
+- use the ANSI visual identity established in LGD-007;
+- use the approved Legend of the Glass Dragon title treatment;
+- remain touch-first;
+- remain readable on phones and tablets;
+- avoid obvious modern Android application chrome;
+- expose only meaningful player choices.
+
+Do not build a sprawling settings/dashboard system.
+
+The menu should be simple, elegant, fast and unmistakably part of the game.
+
+
+2. PRIMARY MAIN MENU
+
+Create a dedicated Main Menu screen.
+
+The core menu should support the appropriate subset of:
+
+CONTINUE
+NEW GAME
+SEASON RECORD
+SETTINGS
+CREDITS
+EXIT
+
+depending on current state.
+
+Do not show meaningless disabled options where they can simply be omitted.
+
+NO EXISTING GAME:
+
+NEW GAME
+SETTINGS
+CREDITS
+EXIT
+
+ACTIVE CAMPAIGN:
+
+CONTINUE
+NEW GAME
+SEASON RECORD if appropriate
+SETTINGS
+CREDITS
+EXIT
+
+COMPLETED CAMPAIGN:
+
+SEASON RECORD
+NEW GAME
+SETTINGS
+CREDITS
+EXIT
+
+The Builder may refine exact wording. Keep the number of choices small.
+
+
+3. TITLE PRESENTATION
+
+Use the production Legend of the Glass Dragon title art created or finalized
+during LGD-007.
+
+The title screen should include:
+
+- the approved title banner;
+- black/near-black background;
+- restrained ANSI ornament;
+- one clean menu column or command list;
+- version information in a subtle location where useful.
+
+Do not crowd the title screen with patch notes, debug statistics, gameplay
+instructions, multiple information panels, or giant copyright blocks. The title
+should dominate.
+
+
+4. MENU INTERACTION STYLE
+
+Selections should behave like touch-friendly BBS commands: highlighted terminal
+commands or boxed ANSI rows with generous touch targets, clear pressed state,
+click.mp3 on valid activation, and no need to tap tiny text. Standard Material
+buttons must not replace the established visual system.
+
+
+5. MUSIC
+
+Integrate the existing LGD-007 music system with the Main Menu. Music begins
+appropriately at launch, uses the same 15-track shuffle bag, continues naturally
+between menu and gameplay, does not restart on navigation, does not duplicate
+players, and obeys foreground/background lifecycle. Add no menu-specific or
+credits music.
+
+
+6. NEW GAME FLOW
+
+NEW GAME starts a fresh season. Guide the player through only the information
+genuinely required: character name and any already-established real choice, then
+BEGIN ADVENTURE. Do not add new character-creation mechanics merely to enrich the
+menu.
+
+
+7. CHARACTER NAMING
+
+Provide an ANSI-styled, mobile-appropriate naming screen using the Android soft
+keyboard. Allow straightforward typing, a sensible maximum length, trimming,
+empty-name rejection, safe unusual characters, and stable display/save behavior.
+Do not require typed fake-terminal commands where a terminal-styled text field is
+more usable.
+
+
+8. DEFAULT / INVALID NAMES
+
+Handle blank, whitespace-only, and overly long input gracefully. Do not crash or
+silently begin with an unusable name. Explain simply, for example: Please enter a
+name.
+
+
+9. NEW GAME WHEN A CAMPAIGN EXISTS
+
+For the MVP one active campaign is assumed. NEW GAME while an active campaign
+exists must show a clear confirmation explaining that the active season will be
+replaced. Do not erase the campaign merely by entering the New Game screen. The
+destructive action occurs only after explicit confirmation.
+
+
+10. COMPLETED SEASON HANDLING
+
+A completed season differs from an abandoned active save. Preserve its final
+record and Chronicle/history, mark it complete, and return to an appropriate
+completed-state flow. The Main Menu must recognize this state.
+
+
+11. SEASON RECORD
+
+Provide a concise review of the most recently completed season using LGD-009
+data, including Dragon victor, days, player final level/ranking, major rival,
+important item/accomplishments, and Final Glass Chronicle where appropriate. The
+purpose is to remember what happened in the last little world, not create a giant
+statistics database.
+
+
+12. STARTING AFTER A COMPLETED SEASON
+
+NEW GAME after completion initializes a fresh player, world, community, Dragon
+Season, day count, active Chronicle, and incidents. Do not carry money, level,
+equipment, rivalries, Dragon pressure, NPC advancement, or active incidents. The
+completed Season Record may remain until replaced by the next completed season.
+
+
+13. CONTINUE
+
+CONTINUE restores the correct authoritative campaign phase: ordinary gameplay,
+an interrupted Glass Chronicle, Dawn Brief, unresolved End Day transition, or
+another valid persisted phase. Do not always force Town.
+
+
+14. RETURN TO MENU
+
+Provide an intuitive path from gameplay to Main Menu. Returning must save safely,
+must not advance time or End Day, must not rerun simulation or restart music, and
+must not corrupt current state. Force-closing the app must not be required.
+
+
+15. ANDROID BACK BEHAVIOR
+
+Define Back deliberately. At Main Menu, Back may exit. In gameplay it returns to
+a safe state or compact menu. A modal closes. Text entry dismisses the keyboard
+as Android expects. Repeated Back must not End Day, start or erase a campaign, or
+duplicate navigation.
+
+
+16. IN-GAME SYSTEM MENU
+
+If needed, use only a compact ANSI in-game menu containing RETURN TO GAME, MAIN
+MENU, and optionally SETTINGS. Do not add a conventional RPG pause dashboard.
+
+
+17. SETTINGS
+
+Keep settings intentionally minimal:
+
+- MUSIC ON/OFF;
+- CLICK SOUND ON/OFF;
+- optionally TEXT SIZE NORMAL/LARGE only if justified.
+
+Do not add graphics quality, difficulty, soundtrack choice, equalizer, volume
+mixers, vibration, account, or cloud settings.
+
+
+18. SETTINGS PERSISTENCE
+
+Settings survive navigation, restart, active-campaign replacement, and completed
+campaign state. They belong to app preferences, not the campaign save, and a new
+season must not reset them.
+
+
+19. AUDIO SETTINGS BEHAVIOR
+
+MUSIC OFF pauses/stops promptly without silently continuing and retains coherent
+session state where practical. MUSIC ON resumes/starts normally without a second
+player. CLICK SOUND OFF keeps visual response while suppressing click.mp3.
+Changes take effect immediately.
+
+
+20. CREDITS
+
+Provide compact Credits/About content containing the game title, Wingtip Studio,
+appropriate design/development credit, required actual asset/music attribution,
+and version. Do not fabricate credits. Inventory music/document licensing; if
+provenance is missing, report that clearly.
+
+
+21. AUDIO LICENSING GATE
+
+Inventory the 15 supplied MP3 recordings. Classical compositions may be public
+domain while recordings may not be. Report filename, available metadata,
+known source/license information, and files without established distribution
+provenance. This is a release-readiness issue for LGD-012.
+
+
+22. FIRST-RUN EXPERIENCE
+
+A fresh offline installation launches directly to Main Menu, then New Game,
+name, and play. It must not show developer UI/logs, request unnecessary storage,
+require accounts/networking, or demand unrelated setup.
+
+
+23. OFFLINE REQUIREMENT
+
+Do not introduce login, registration, cloud dependency, analytics dependency,
+mandatory network checks, remote news, or advertising. The game remains fully
+offline.
+
+
+24. SPLASH / LAUNCH EXPERIENCE
+
+Use a short Android launch/splash presentation: black background and compact
+Glass Dragon crest/logo, then Main Menu. Do not add a long studio animation or
+branding delay.
+
+
+25. APP ICON
+
+Create and integrate a production-quality adaptive icon based on the Glass
+Dragon crest/head. It must be recognizable at launcher size, use a simple strong
+cyan/white silhouette, avoid tiny text, and fit the approved identity.
+
+
+26. APPLICATION NAME
+
+The installed application is presented as Legend of the Glass Dragon. Use a
+shorter launcher label only if the device genuinely requires it. Do not expose
+internal codenames.
+
+
+27. PACKAGE / VERSION PRESENTATION
+
+Review application label, versionName, versionCode, package/application ID,
+launcher configuration, and release/debug distinctions. Do not casually rename
+the established package ID. Report final values.
+
+
+28. DEBUG / DEVELOPMENT UI CLEANUP
+
+Remove or hide debug buttons, seed controls, raw dumps, developer-only resets,
+temporary navigation, placeholder labels, diagnostic counters, and test-only
+screens from production paths while retaining useful engineering tools outside
+ordinary player paths.
+
+
+29. SAVE SAFETY
+
+Test no-save, active, interrupted Chronicle, Dawn Brief, resolved, normal return,
+app-killed menu, app-killed naming, canceled and confirmed New Game. No menu action
+may duplicate day advancement, Dragon resolution, money/items, Chronicle events,
+or NPC simulation.
+
+
+30. RESET / DELETE ACTIVE CAMPAIGN
+
+NEW GAME may replace an active campaign only after clear confirmation. Do not add
+complex save management. If a direct delete exists it requires confirmation,
+does not remove settings, and never deletes unrelated files.
+
+
+31. ORIENTATION / LAYOUT
+
+Qualify representative Android phone portrait and NXTPAPER-class tablet portrait.
+Follow existing orientation policy otherwise. Do not redesign around desktop
+width. Title art may scale responsively while remaining readable.
+
+
+32. NXTPAPER EXPERIENCE
+
+Check title art, ANSI line thickness, cyan/gray contrast, tap targets, spacing,
+text scaling, keyboard naming, music, and icon. Avoid fine dither that turns to
+mush.
+
+
+33. ACCESSIBILITY / USABILITY
+
+Maintain adequate contrast, readable defaults, meaningful touch sizes, visible
+selection feedback, information beyond subtle color alone, normal Android text
+input, and appropriate Compose semantics/content descriptions.
+
+
+34. PERFORMANCE
+
+Main Menu must appear quickly. Avoid giant full-resolution decode, rebuilding
+simulation for title display, multiple media players, expensive animation loops,
+and disk reads every frame.
+
+
+35. VISUAL POLISH PASS
+
+Inspect transitions between splash, Main Menu, naming, gameplay, Chronicle, Dawn,
+Dragon conclusion, Season Record, and Main Menu. Maintain one game identity and
+fix wrapper-caused discontinuities without another art-system rewrite.
+
+
+36. CAMPAIGN COMPLETION FLOW
+
+After Dragon resolution: complete LGD-009 ending, persist completion, allow Season
+Record review, and provide a clear Main Menu route. Never automatically start the
+next campaign.
+
+
+37. MAIN MENU AFTER VICTORY
+
+Subtly recognize a completed season with SEASON RECORD and NEW GAME. Keep the
+history inside Season Record rather than adding a giant victory badge.
+
+
+38. NO META-PROGRESSION YET
+
+Do not add classes, permanent bonuses, account levels, achievements, cross-season
+currency, New Game+, Dragon counters, or prestige.
+
+
+39. AUTOMATED TESTS
+
+Target real wrapper behavior. Prove:
+
+1. no-save state exposes NEW GAME;
+2. active state exposes CONTINUE;
+3. completed state exposes Season Record/New Game;
+4. Continue restores the authoritative phase;
+5. New Game does not erase before confirmation;
+6. confirmed New Game resets campaign state;
+7. New Game does not reset app settings;
+8. completed Season Record survives restart;
+9. music does not duplicate across navigation;
+10. audio preferences persist;
+11. click preference is respected;
+12. invalid names cannot create a campaign;
+13. valid name creates once;
+14. return to menu does not End Day;
+15. restart from Main Menu preserves campaign;
+16. resolved campaigns do not continue to ordinary gameplay;
+17. no debug-only navigation appears in production configuration.
+
+
+40. PLAYER QUALIFICATION
+
+Perform fresh-install, active-campaign, restart, New Game cancel/confirm,
+completed-season, and settings walkthroughs.
+
+
+41. PRODUCT PRESENTATION QUALIFICATION
+
+Verify intentional launcher icon and app name, clean opening, no development
+terminology/placeholders/debug controls/network need, comfortable touch menus,
+natural naming, and cohesive menu/game transitions. Ask whether an unexplained
+APK reads as a finished game.
+
+
+42. OUT OF SCOPE
+
+Do not add combat mechanics, factions, NPC systems, Dragon mechanics, economy
+redesign, locations, quests, achievements, cloud/account/networking, additional
+music/effects, elaborate settings, multiple save slots, New Game+, or
+meta-progression. Document gameplay defects unless they directly block wrapper
+operation.
+
+
+43. COMPLETION STANDARD
+
+LGD-010 is complete when the game launches into a polished ANSI Main Menu; title
+identity, New Game, mobile naming, exact Continue, confirmed active replacement,
+completed-state recognition, latest Season Record, safe menu return, coherent
+audio/settings, intentional Android Back, splash/icon/name, offline behavior,
+production cleanup, and duplication-safe transitions all work from launch through
+campaign completion.
+
+Desired opening reaction:
+
+"Whoa. This looks like some lost fantasy BBS game."
+
+Desired usability reaction:
+
+"I immediately know how to start playing."
+
+
+44. BUILDER RETURN
+
+Return disposition; implementation commit/HEAD; Main Menu state model; New Game;
+Continue/resume; completed-season handling; Season Record; settings; audio
+lifecycle; splash/icon/label; asset paths; package/version values; production
+cleanup; automated and player/device qualification; music provenance; genuine
+constraints; and LGD-011 readiness recommendation.
+
+Primary dispositions:
+
+LGD010_COMPLETE
+LGD010_COMPLETE_WITH_BOUNDED_FOLLOWUP
+LGD010_REPAIR_REQUIRED

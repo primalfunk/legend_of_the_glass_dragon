@@ -1,0 +1,87 @@
+{
+  "schema": "LGD-011-characterization-v1",
+  "baseline": {
+    "git_head": null,
+    "save_schema": 7,
+    "maximum_days": 100,
+    "forest_fights_per_day": 10
+  },
+  "performance": {
+    "seasons": 2500,
+    "game_days": 54399,
+    "seconds": 7.10,
+    "seasons_per_second": 352.09
+  },
+  "policies": {
+    "PASSIVE": {
+      "seasons": 500,
+      "completed": 500,
+      "player_victories": 0,
+      "npc_victories": 500,
+      "unresolved": 0,
+      "duration": {"count":500,"min":19.00,"max":29.00,"mean":24.54,"median":25.00,"sd":1.68,"p10":23.00,"p25":24.00,"p75":26.00,"p90":26.00,"p95":27.00},
+      "final_level": {"count":500,"min":2.00,"max":3.00,"mean":2.20,"median":2.00,"sd":0.40,"p10":2.00,"p25":2.00,"p75":2.00,"p90":3.00,"p95":3.00},
+      "final_rank": {"count":500,"min":15.00,"max":17.00,"mean":16.94,"median":17.00,"sd":0.25,"p10":17.00,"p25":17.00,"p75":17.00,"p90":17.00,"p95":17.00},
+      "final_wealth": {"count":500,"min":0.00,"max":112.00,"mean":31.69,"median":27.00,"sd":21.73,"p10":8.00,"p25":16.00,"p75":43.00,"p90":65.00,"p95":78.00},
+      "combat_defeat_rate_percent": 0.44,
+      "training_failure_rate_percent": 0.00,
+      "median_chronicle_entries_per_day": 7.00
+    },
+    "CASUAL": {
+      "seasons": 500,
+      "completed": 500,
+      "player_victories": 0,
+      "npc_victories": 500,
+      "unresolved": 0,
+      "duration": {"count":500,"min":18.00,"max":29.00,"mean":24.47,"median":25.00,"sd":1.76,"p10":22.00,"p25":23.00,"p75":26.00,"p90":27.00,"p95":27.00},
+      "final_level": {"count":500,"min":3.00,"max":7.00,"mean":5.62,"median":6.00,"sd":0.56,"p10":5.00,"p25":5.00,"p75":6.00,"p90":6.00,"p95":6.00},
+      "final_rank": {"count":500,"min":1.00,"max":17.00,"mean":1.44,"median":1.00,"sd":1.62,"p10":1.00,"p25":1.00,"p75":1.00,"p90":2.00,"p95":5.00},
+      "final_wealth": {"count":500,"min":0.00,"max":570.00,"mean":188.54,"median":177.00,"sd":119.04,"p10":36.00,"p25":93.00,"p75":278.00,"p90":368.00,"p95":400.00},
+      "combat_defeat_rate_percent": 0.26,
+      "training_failure_rate_percent": 0.00,
+      "median_chronicle_entries_per_day": 7.00
+    },
+    "ORDINARY": {
+      "seasons": 500,
+      "completed": 500,
+      "player_victories": 489,
+      "npc_victories": 11,
+      "unresolved": 0,
+      "duration": {"count":500,"min":18.00,"max":24.00,"mean":20.21,"median":20.00,"sd":1.12,"p10":19.00,"p25":19.00,"p75":21.00,"p90":22.00,"p95":22.00},
+      "final_level": {"count":500,"min":6.00,"max":7.00,"mean":7.00,"median":7.00,"sd":0.04,"p10":7.00,"p25":7.00,"p75":7.00,"p90":7.00,"p95":7.00},
+      "final_rank": {"count":500,"min":1.00,"max":1.00,"mean":1.00,"median":1.00,"sd":0.00,"p10":1.00,"p25":1.00,"p75":1.00,"p90":1.00,"p95":1.00},
+      "final_wealth": {"count":500,"min":0.00,"max":684.00,"mean":346.07,"median":380.00,"sd":207.31,"p10":53.00,"p25":147.00,"p75":534.00,"p90":610.00,"p95":635.00},
+      "combat_defeat_rate_percent": 0.42,
+      "training_failure_rate_percent": 0.00,
+      "median_chronicle_entries_per_day": 7.00
+    },
+    "AGGRESSIVE": {
+      "seasons": 500,
+      "completed": 500,
+      "player_victories": 500,
+      "npc_victories": 0,
+      "unresolved": 0,
+      "duration": {"count":500,"min":18.00,"max":21.00,"mean":19.81,"median":20.00,"sd":0.74,"p10":19.00,"p25":19.00,"p75":20.00,"p90":21.00,"p95":21.00},
+      "final_level": {"count":500,"min":7.00,"max":8.00,"mean":7.19,"median":7.00,"sd":0.39,"p10":7.00,"p25":7.00,"p75":7.00,"p90":8.00,"p95":8.00},
+      "final_rank": {"count":500,"min":1.00,"max":1.00,"mean":1.00,"median":1.00,"sd":0.00,"p10":1.00,"p25":1.00,"p75":1.00,"p90":1.00,"p95":1.00},
+      "final_wealth": {"count":500,"min":3.00,"max":997.00,"mean":409.61,"median":415.00,"sd":219.04,"p10":108.00,"p25":241.00,"p75":564.00,"p90":678.00,"p95":774.00},
+      "combat_defeat_rate_percent": 0.60,
+      "training_failure_rate_percent": 0.00,
+      "median_chronicle_entries_per_day": 7.00
+    },
+    "RECKLESS": {
+      "seasons": 500,
+      "completed": 500,
+      "player_victories": 497,
+      "npc_victories": 3,
+      "unresolved": 0,
+      "duration": {"count":500,"min":18.00,"max":22.00,"mean":19.77,"median":20.00,"sd":0.72,"p10":19.00,"p25":19.00,"p75":20.00,"p90":21.00,"p95":21.00},
+      "final_level": {"count":500,"min":7.00,"max":8.00,"mean":7.19,"median":7.00,"sd":0.39,"p10":7.00,"p25":7.00,"p75":7.00,"p90":8.00,"p95":8.00},
+      "final_rank": {"count":500,"min":1.00,"max":1.00,"mean":1.00,"median":1.00,"sd":0.00,"p10":1.00,"p25":1.00,"p75":1.00,"p90":1.00,"p95":1.00},
+      "final_wealth": {"count":500,"min":0.00,"max":1088.00,"mean":445.92,"median":447.00,"sd":236.80,"p10":146.00,"p25":245.00,"p75":619.00,"p90":752.00,"p95":853.00},
+      "combat_defeat_rate_percent": 1.47,
+      "training_failure_rate_percent": 0.00,
+      "median_chronicle_entries_per_day": 7.00
+    }
+  }
+}

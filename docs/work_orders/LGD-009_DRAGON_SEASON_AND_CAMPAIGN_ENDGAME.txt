@@ -1,0 +1,411 @@
+LGD-009 — DRAGON SEASON + CAMPAIGN ENDGAME
+
+STATUS
+
+AUTHORIZED FOR IMPLEMENTATION
+
+MISSION
+
+Turn Legend of the Glass Dragon from an indefinitely repeating fantasy life
+simulation into a finite campaign with mounting pressure, competing ambitions,
+and a meaningful conclusion.
+
+The Glass Dragon becomes an active force. The campaign moves from ordinary
+adventuring through rumor, concern, preparation, rivalry, crisis,
+confrontation, and historical conclusion. The player matters but is not the
+only resident capable of resolving the world.
+
+======================================================================
+1. CORE DESIGN PRINCIPLE
+======================================================================
+
+The Glass Dragon is the campaign-scale problem shared by the simulated
+community. Residents hear rumors, react, prepare, fear, compete, improve,
+acquire equipment, discuss candidates, help or obstruct rivals where history
+justifies it, and may become challengers themselves. Pressure must appear in
+Chronicle, Dawn Brief, gossip, rankings, NPC behavior, economy, relationships,
+challenges, and story incidents. Do not reveal a simple boss button at a level.
+
+======================================================================
+2. THE SEASON
+======================================================================
+
+A new game is one finite season. Target meaningful early days, visible middle
+pressure, late preparation/competition, and resolution roughly during Days
+15–30 in a healthy campaign. Tune through play rather than imposing a rigid
+calendar. Strong, weak, aggressive, and cautious play must remain coherent.
+
+======================================================================
+3. DRAGON PRESSURE
+======================================================================
+
+Persist authoritative Dragon pressure and explicit player-facing crisis stages:
+
+STAGE 0 — WHISPERS
+STAGE 1 — SIGNS
+STAGE 2 — FEAR
+STAGE 3 — CRISIS
+STAGE 4 — CHALLENGE WINDOW
+STAGE 5 — RESOLVED
+
+Each stage escalates rumor, incidents, community response, champion discussion,
+and confrontation availability. Names may be refined, but escalation must be
+legible.
+
+======================================================================
+4. PRESSURE ADVANCEMENT
+======================================================================
+
+Advance pressure from game days, campaign state, major incidents, community
+strength, and earlier Dragon events with controlled deterministic variation.
+Narrative template choices must not perturb campaign outcomes.
+
+======================================================================
+5. DRAGON INCIDENTS
+======================================================================
+
+Create bounded stage-appropriate incidents: sightings, burned woodland,
+missing travelers, survivors, destroyed property, glass fragments, nervous
+merchants, reconnaissance, failed approaches, and declarations. Early events
+are ambiguous; late events unmistakable. Do not mechanically spam one per day.
+
+======================================================================
+6. GLASS MOTIF
+======================================================================
+
+Use concise BBS-compatible crystalline scales, translucent fragments, mirrored
+wounds, refracted light, glass residue, chiming, and splintered surfaces. Keep
+the Dragon mysterious.
+
+======================================================================
+7. NPC AWARENESS
+======================================================================
+
+Resident response derives from personality, strength, wealth, relationships,
+and memory. Bounded tendencies may include fearful, cautious, opportunistic,
+supportive, ambitious, and obsessed. Behavior matters more than enum labels.
+
+======================================================================
+8. CHAMPION CANDIDATES
+======================================================================
+
+Derive plausible candidates from actual level, combat capability, equipment,
+health, resources, victories, personality/confidence, rank/reputation, and
+Dragon history. Several candidates may exist. Do not automatically select the
+player or highest-level NPC.
+
+======================================================================
+9. PLAYER QUALIFICATION
+======================================================================
+
+Use understandable broad readiness based on level, combat strength, health,
+equipment, and campaign stage. Explain missing readiness plainly rather than
+exposing opaque formulas or requiring one exact build/day.
+
+======================================================================
+10. NPC QUALIFICATION
+======================================================================
+
+NPCs use comparable readiness, ordinary training, canonical equipment, wealth,
+and recovery. They must become ready without cheating.
+
+======================================================================
+11. DECLARING INTENT
+======================================================================
+
+Late-game candidates may publicly or privately declare intent. Declarations
+create real Chronicle/gossip/Dawn and relationship consequences—encouragement,
+mockery, jealousy, fear, rivalry, help, or opposition—through existing systems.
+
+======================================================================
+12. PLAYER RESPONSE TO OTHER CHAMPIONS
+======================================================================
+
+Support competing through ordinary progression/challenges, supporting a
+candidate through modest existing social/economic means, obstructing through
+existing rivalry systems, and ignoring the crisis. Do not build a giant
+companion system or a cartoon sabotage control. The world continues without the
+player.
+
+======================================================================
+13. NPC DRAGON ATTEMPTS
+======================================================================
+
+Ready NPCs with appropriate disposition and campaign conditions may make
+deterministic Dragon attempts. Results—decisive defeat, narrow defeat,
+retreat/survival, or victory—must derive from actual state, not narrative coin
+flips.
+
+======================================================================
+14. CONSEQUENCES OF NPC FAILURE
+======================================================================
+
+Failure may cause severe injury, money loss, supported equipment consequences,
+reputation/relationship changes, recovery, and retry delay. Avoid casual
+permadeath. Every attempt is major Chronicle material and applies once.
+
+======================================================================
+15. CONSEQUENCES OF NPC VICTORY
+======================================================================
+
+An NPC can legally slay the Dragon. The crisis ends, that resident becomes the
+season victor, history records it, and the campaign concludes. The result must
+be surprising but fair and visibly foreshadowed.
+
+======================================================================
+16. PLAYER DRAGON ATTEMPT
+======================================================================
+
+Provide a clear established-UI route when the challenge window is open and the
+player is ready. Use strong ANSI event treatment and do not hide the culmination
+behind obscure menu knowledge.
+
+======================================================================
+17. GLASS DRAGON COMBAT
+======================================================================
+
+Reuse existing combat architecture. Give the Dragon 2–3 bounded distinct
+mechanics such as high health/damage, a defensive phase, a distinctive attack,
+or resistance/weakness, with stronger text. Do not build a cinematic combat
+engine.
+
+======================================================================
+18. FAIRNESS
+======================================================================
+
+The fight is dangerous but understandable. Readiness communication should let a
+well-prepared player judge the risk. Loss comes from visible danger, not a hidden
+arbitrary punishment.
+
+======================================================================
+19. RETRY RULES
+======================================================================
+
+A failed challenge requires recovery and cannot be repeated trivially the same
+day. Prevent heal-and-spam loops.
+
+======================================================================
+20. DRAGON VICTORY
+======================================================================
+
+Player victory resolves combat, marks the crisis resolved, stores the player as
+victor, creates a major structured Chronicle fact, preserves world reactions,
+and enters conclusion without erasing accumulated state.
+
+======================================================================
+21. SEASON CONCLUSION
+======================================================================
+
+Create a concise campaign-specific sequence:
+
+THE GLASS DRAGON HAS FALLEN (or alternate outcome)
+→ FINAL GLASS CHRONICLE
+→ SEASON RECORD
+→ future-menu/completed-game boundary
+
+Reflect victor, final player level/rank/wealth/equipment, strongest residents,
+rivals and relationships, challenges, important events/attempts, and campaign
+length without a giant statistics dump.
+
+======================================================================
+22. FINAL GLASS CHRONICLE
+======================================================================
+
+Generate a short historical account from real stored facts: season duration,
+actual attempts, actual leaders/rivals, victor, and resolution day. Never
+fabricate names, deeds, or relationships.
+
+======================================================================
+23. NON-PLAYER VICTORY CONCLUSION
+======================================================================
+
+Give NPC victory full legitimacy. Still summarize the player's real story—rank,
+wealth, rivalry, support, opposition, or ordinary life. Do not frame every NPC
+victory as player failure.
+
+======================================================================
+24. PLAYER NEVER CHALLENGED
+======================================================================
+
+The season may and must be able to end without a player attempt. Escalating
+pressure and NPC agency prevent permanent waiting.
+
+======================================================================
+25. DEADLOCK PREVENTION
+======================================================================
+
+Prove campaigns cannot stall because nobody qualifies, candidates refuse,
+economy blocks progress, attempts fail forever, pressure stalls, scheduling
+never occurs, or the player must act. Use bounded, deterministic escalation while
+remaining simulation-driven.
+
+======================================================================
+26. ECONOMY INTERACTION
+======================================================================
+
+Allow modest existing-economy preparation: equipment desirability and resident
+investment. Do not add inflation, dynamic commodity markets, or scarcity
+simulation.
+
+======================================================================
+27. RELATIONSHIP INTERACTION
+======================================================================
+
+Dragon ambition may cause justified envy, admiration, fear, rivalry, support,
+resentment, or respect based on actual behavior/history. Do not globally mutate
+every relationship at stage changes.
+
+======================================================================
+28. CHRONICLE INTEGRATION
+======================================================================
+
+LGD-008 remains authoritative. Dragon Season emits structured sightings,
+incidents, intent, attempts, failure, and victory facts. Chronicle may know more
+than Dawn.
+
+======================================================================
+29. INN GOSSIP INTEGRATION
+======================================================================
+
+Gossip imperfectly interprets public facts, intentions, champions, and rivalries.
+It may exaggerate opinion but cannot contradict authoritative facts.
+
+======================================================================
+30. MAIN MENU BOUNDARY
+======================================================================
+
+Do not implement a new full Main Menu. Represent completed state cleanly for a
+future New Game/completed-campaign flow and never destroy the season
+automatically.
+
+======================================================================
+31. SAVE FORMAT
+======================================================================
+
+Persist Dragon pressure/stage, incidents, authoritative readiness as needed,
+declared challengers, attempts, outcome, victor, resolution/conclusion state, and
+final-summary inputs. Migrate existing saves into a sensible campaign state.
+
+======================================================================
+32. DETERMINISM
+======================================================================
+
+Identical starting state, seed, and player actions produce the same stage
+history, candidates, decisions, attempts, outcomes, victor, and historical
+facts. UI composition must never consume gameplay RNG.
+
+======================================================================
+33. ONE-DAY / MULTI-DAY PLAY
+======================================================================
+
+Campaign progression uses game days only and must work when one, twelve, or the
+entire season is played in one physical sitting. Never use wall-clock waiting.
+
+======================================================================
+34. PLAYER COPY
+======================================================================
+
+Use direct energetic language accessible to a bright middle-school-aged player.
+Keep internal simulation terminology out of player-facing copy.
+
+======================================================================
+35. VISUAL DIRECTION
+======================================================================
+
+Use LGD-007's ANSI identity. Escalate from cyan/white/gray through gold/magenta
+to red/bright white/cyan crystal accents. Make the confrontation one of the
+richest ANSI moments without switching to modern painted fantasy art.
+
+======================================================================
+36. AUDIO BOUNDARY
+======================================================================
+
+Continue the existing shuffle and universal click. Add no boss music, roar,
+combat effects, victory fanfare, or crisis ambience.
+
+======================================================================
+37. BALANCE TARGET
+======================================================================
+
+Healthy campaigns produce several plausible adventurers, ranking change,
+recognizable rivalries, multiple Dragon developments, often multiple late
+candidates, a dangerous achievable player fight, and eventual resolution. NPC
+victory must be neither irrelevant nor so common the player lacks a chance.
+
+======================================================================
+38. SIMULATION QUALIFICATION
+======================================================================
+
+Run at least 25 deterministic accelerated seasons. Record campaign length,
+victor, player/NPC result for simulated policy, challengers, failed attempts,
+strongest levels, deadlocks, and suspiciously identical patterns. Zero seasons
+may deadlock.
+
+======================================================================
+39. PLAYER QUALIFICATION
+======================================================================
+
+Perform normal, aggressive, passive, marginal/underprepared player-defeat, and
+deterministic NPC-victory cases. Inspect escalation, pacing, recovery, and full
+conclusions.
+
+======================================================================
+40. TARGETED AUTOMATED TESTS
+======================================================================
+
+Prove deterministic/non-regressing stages, stage-valid incidents,
+authoritative readiness, rejection of unqualified NPCs, deterministic intent,
+exactly-once attempts and consequences, save-safe player attempts, single
+victor, legal NPC victory, conclusion without player challenge, Chronicle
+integration, Dawn privacy, resolved-world lock, migration, and eventual
+termination.
+
+======================================================================
+41. PERFORMANCE
+======================================================================
+
+Resolve strategic decisions during End Day or relevant state changes, not per
+frame. Continue outcome-oriented simulation and keep Android UI responsive.
+
+======================================================================
+42. OUT OF SCOPE
+======================================================================
+
+Do not add a full Main Menu, full factions, multiple Dragons, New Game+, endless
+postgame, regions, cinematic branching, procedural bosses, parties, complex
+quests, more sound, networking, multiplayer, or cloud saves. One good finite
+season is the target.
+
+======================================================================
+43. COMPLETION STANDARD
+======================================================================
+
+LGD-009 is complete when Dragon pressure escalates coherently; residents react;
+real candidates emerge; player and NPCs can become ready; NPCs can attempt and
+win; the player can attempt and win; failure is coherent; no deadlock exists;
+Dragon facts integrate into social/narrative systems; resolution ends ordinary
+simulation; and the Final Chronicle/Season Record remain deterministic and
+save-safe.
+
+Essential experience:
+
+THE PLAYER IS LIVING INSIDE A WORLD HEADING TOWARD A CRISIS.
+
+Not:
+
+THE PLAYER IS GRINDING UNTIL A BOSS BUTTON UNLOCKS.
+
+======================================================================
+44. BUILDER RETURN
+======================================================================
+
+Return disposition, commit/HEAD, season model, escalation/readiness/decision
+rules, Dragon mechanics, failure consequences, resolution architecture,
+Chronicle/Dawn/gossip integration, migration, tests, 25-season summary, player
+qualification, actual ending examples, constraints, and next-pass recommendation.
+
+Primary dispositions:
+
+LGD009_COMPLETE
+LGD009_COMPLETE_WITH_BOUNDED_FOLLOWUP
+LGD009_REPAIR_REQUIRED

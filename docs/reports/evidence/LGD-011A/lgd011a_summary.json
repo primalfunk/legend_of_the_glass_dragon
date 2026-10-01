@@ -1,0 +1,19 @@
+{
+  "seasons": 2500,
+  "completed": 2500,
+  "total_game_days": 49603,
+  "duration_seconds": 7.59,
+  "deterministic_pairs": 10,
+  "save_reload_pairs": 5,
+  "ordinary": {
+    "median_days": 20.00,
+    "player_victory_percent": 12.20,
+    "npc_victory_percent": 87.80,
+    "player_rank_one_percent": 98.60,
+    "dragon_first_attempt_win_percent": 9.70,
+    "training_first_attempt_success_percent": 84.51,
+    "chronicle_mean": 5.80,
+    "chronicle_median": 6.00,
+    "callbacks_per_season": 5.41
+  }
+}

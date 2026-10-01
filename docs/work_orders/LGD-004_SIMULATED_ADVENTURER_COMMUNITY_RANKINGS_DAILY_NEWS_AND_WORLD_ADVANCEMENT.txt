@@ -1,0 +1,1054 @@
+LEGEND OF THE GLASS DRAGON
+WORK ORDER LGD-004
+SIMULATED ADVENTURER COMMUNITY, RANKINGS, DAILY NEWS, AND WORLD ADVANCEMENT
+
+STATUS
+
+AUTHORIZED FOR IMPLEMENTATION
+
+
+GOVERNING BASELINE
+
+LGD-001 established:
+
+- native Android / Kotlin / Jetpack Compose;
+- ANSI/BBS presentation;
+- touch-driven terminal navigation;
+- local persistence.
+
+LGD-002 established:
+
+- persistent player identity;
+- character creation;
+- Continue Game;
+- real GameState;
+- Town and Character Status.
+
+LGD-003 established:
+
+- Forest combat;
+- monsters;
+- HP and healing;
+- gold and experience;
+- training and leveling;
+- finite daily fights;
+- player defeat/recovery;
+- real game-day advancement;
+- immediate consecutive-day play;
+- an explicit world-advancement seam.
+
+LGD-004 implements the feature that most distinguishes Legend of the Glass Dragon from a simple offline LORD-inspired RPG:
+
+THE BBS COMMUNITY IS SIMULATED LOCALLY.
+
+The player is not alone in a frozen world.
+
+Every game day, other adventurers also take their turns.
+
+
+PRIMARY OBJECTIVE
+
+Create the first persistent simulated adventurer community and integrate it into the existing game-day cycle.
+
+At completion, ending the day must cause a population of simulated adventurers to:
+
+- undertake plausible daily activity;
+- fight;
+- gain experience;
+- gain levels;
+- earn or lose gold;
+- suffer defeats;
+- recover;
+- improve equipment in a lightweight manner;
+- change their rankings;
+- generate visible news.
+
+The next morning, the player should immediately be able to see evidence that the realm changed.
+
+The intended emotional result is:
+
+"I wonder what everybody did yesterday."
+
+not:
+
+"The game rolled some background numbers."
+
+
+CORE EXPERIENCE
+
+A new game should create both:
+
+- the player's character;
+- a persistent local community.
+
+The community should contain enough adventurers that rankings and daily events feel meaningful without becoming expensive or unwieldy.
+
+A sensible initial target is approximately:
+
+12–20 simulated adventurers.
+
+The exact number is Builder discretion.
+
+Their names, identities, progression, and notable history must survive save/load and day advancement.
+
+They are persistent inhabitants of this particular game world.
+
+
+IMPORTANT SIMULATION PRINCIPLE
+
+Do not attempt to simulate every NPC battle turn-by-turn using the player combat UI engine.
+
+The player needs detailed combat because the player experiences it.
+
+NPC adventurers need believable outcomes.
+
+Prefer inexpensive outcome-oriented simulation that uses the same broad progression logic without unnecessarily executing hundreds of individual combat turns.
+
+The standard is:
+
+BELIEVABLE CONSEQUENCES
+
+not:
+
+PERFECT HIDDEN MICRO-SIMULATION.
+
+
+PART 1 — NPC ADVENTURER MODEL
+
+Introduce a durable NpcAdventurer model.
+
+At minimum support:
+
+- stable ID;
+- name;
+- level;
+- experience;
+- maximum HP or an appropriate combat-strength representation;
+- attack;
+- defense;
+- gold;
+- weapon;
+- armor;
+- current status;
+- personality/archetype;
+- relationship or familiarity with the player;
+- notable progression flags if immediately needed.
+
+Reuse common character concepts where cleanly appropriate.
+
+Do not force PlayerCharacter and NpcAdventurer into one overly clever inheritance hierarchy merely because they share statistics.
+
+Prefer straightforward Kotlin data structures.
+
+
+NPC STATUS
+
+Support at least simple states such as:
+
+- ACTIVE;
+- RECOVERING.
+
+Additional states may be introduced only if immediately useful.
+
+A defeated NPC should not disappear permanently in this phase unless an exceptional event explicitly requires it.
+
+This first community should remain recognizable across many days.
+
+
+PART 2 — COMMUNITY CREATION
+
+When a new game is created, generate the starting simulated population once.
+
+Each NPC should receive:
+
+- stable identity;
+- persistent name;
+- starting stats;
+- modest personality variation.
+
+Do not regenerate the community whenever the application launches.
+
+The people encountered on Day 1 must still be the same people on Day 20 unless game events have explicitly changed that.
+
+
+NPC NAMES
+
+Provide a data-driven pool of fantasy/BBS-appropriate names.
+
+Names should be readable, memorable, and varied.
+
+Examples of tone:
+
+- Raven
+- Cedric
+- Thorn
+- Mira
+- Blackwood
+- Elowen
+- Garrick
+- Willow
+- Rook
+- Selene
+
+These are examples only.
+
+Avoid generating dozens of near-identical joke names.
+
+A little personality and BBS-era flair is welcome.
+
+
+PART 3 — NPC PERSONALITY V1
+
+Create a very small personality system that influences daily behavior.
+
+Do not build psychological simulation.
+
+Approximately 4–6 archetypes are enough.
+
+Possible examples:
+
+AGGRESSIVE
+- fights more;
+- accepts more risk;
+- progresses quickly but loses more often.
+
+CAUTIOUS
+- fights less;
+- retreats or rests more;
+- suffers fewer defeats.
+
+AMBITIOUS
+- strongly pursues experience and advancement.
+
+GREEDY
+- places greater weight on earning and keeping gold/equipment.
+
+SOCIAL
+- generates more community/gossip events.
+
+ERRATIC
+- has somewhat wider action variation.
+
+Exact names and implementation are Builder discretion.
+
+The important point is that two similarly leveled NPCs should not always follow identical daily behavior.
+
+
+PART 4 — NPC DAILY ACTION BUDGET
+
+Each active NPC receives a bounded daily opportunity set analogous in spirit to the player's day.
+
+Do not literally recreate the player's interface-driven sequence.
+
+At world advancement, determine a small number of activities for each NPC.
+
+Potential activities:
+
+- forest adventuring;
+- resting;
+- training if eligible;
+- purchasing an equipment improvement;
+- social/community activity;
+- recovering from previous defeat.
+
+The daily process must terminate deterministically.
+
+No NPC may become trapped in an unbounded simulation loop.
+
+
+PART 5 — NPC FOREST OUTCOMES
+
+Implement a lightweight NPC adventuring resolver.
+
+It should consider:
+
+- NPC level;
+- attack/defense;
+- equipment;
+- personality/risk tendency;
+- monster difficulty or abstract encounter strength;
+- controlled randomness.
+
+Possible results:
+
+- successful expedition;
+- especially profitable expedition;
+- defeat;
+- uneventful/poor day.
+
+Successful adventuring may grant:
+
+- experience;
+- gold.
+
+Defeat may:
+
+- reduce or remove some earned gold;
+- set RECOVERING status;
+- reduce the NPC's productive actions for that day.
+
+NPC stats must remain lawful.
+
+Do not permit negative gold, invalid HP/stat values, or impossible level states.
+
+
+PART 6 — NPC LEVELING
+
+NPCs must be able to progress through the same broad level ladder as the player.
+
+Use the same experience thresholds unless there is a strong documented reason not to.
+
+When an NPC becomes eligible:
+
+- they may train;
+- training may occur immediately during their simulated day or according to a simple personality-driven probability;
+- successful training raises their level;
+- apply equivalent or comparable stat growth to player progression.
+
+The player should eventually see NPCs:
+
+- remain behind;
+- keep pace;
+- pass them;
+- become notable leaders.
+
+Do not secretly clamp all NPCs to the player's level.
+
+
+PART 7 — PROGRESSION GUARDRAILS
+
+The community must neither:
+
+A. remain permanently frozen behind the player;
+
+nor:
+
+B. rocket far beyond the player through uncontrolled compounding.
+
+Perform a practical progression pass.
+
+Variation is desirable.
+
+Some NPCs should perform better than others.
+
+The leading adventurer should be able to change over time.
+
+Do not hard-script the player to always be special or always be rank #1.
+
+
+PART 8 — EQUIPMENT PROGRESSION V1
+
+Introduce lightweight NPC equipment improvement.
+
+Do not build the full player shop yet.
+
+Use a small data-driven equipment ladder compatible with the existing attack/defense concepts.
+
+NPCs with sufficient gold may occasionally upgrade:
+
+- weapon;
+- armor.
+
+Equipment decisions may depend on:
+
+- affordability;
+- current gear;
+- personality.
+
+Their gold should be reduced appropriately.
+
+This produces visible community stories such as:
+
+    Raven bought a Steel Blade.
+
+or:
+
+    Cedric finally replaced his battered armor.
+
+The player does not yet need equivalent shopping functionality in this work order unless an existing LGD-003 implementation already supports it cleanly.
+
+
+PART 9 — RANKINGS
+
+Replace the Rankings placeholder with a functional persistent community leaderboard.
+
+The rankings should include:
+
+- the player;
+- all active NPC adventurers.
+
+Primary ordering should reflect:
+
+1. level;
+2. experience or equivalent progress toward next level;
+3. a stable tie-breaker.
+
+Example:
+
+    -=- HEROES OF THE REALM -=-
+
+     1. Raven........ Level 4
+     2. Arcturus..... Level 3   < YOU
+     3. Mira......... Level 3
+     4. Thorn........ Level 2
+     5. Cedric....... Level 2
+
+    [1] Return to Town
+
+The exact formatting may adapt to screen width.
+
+Do not use a modern table/grid component visually.
+
+Rankings should look like a BBS text listing.
+
+
+PLAYER POSITION
+
+If the list becomes longer than the visible screen:
+
+- allow touch scrolling;
+- clearly mark the player;
+- do not sacrifice readability to force everything onto one page.
+
+
+PART 10 — DAILY NEWS / REALM NEWS
+
+Create a persistent daily event/news system.
+
+World advancement should produce a bounded set of notable events.
+
+Examples:
+
+    -=- YESTERDAY IN THE REALM -=-
+
+    Raven reached Level 3!
+
+    Mira was carried from the forest after
+    tangling with an Ogre.
+
+    Cedric purchased a new Iron Sword.
+
+    Thorn overtook Arcturus in the rankings.
+
+    Selene returned to adventuring after
+    recovering from her wounds.
+
+The exact tone should remain playful and BBS-like.
+
+
+WORLD EVENT MODEL
+
+Introduce a durable WorldEvent or equivalent containing at minimum:
+
+- stable/event ID if useful;
+- game day;
+- event type;
+- involved character IDs;
+- human-readable presentation data or sufficient structured data to produce it;
+- importance/notability if needed.
+
+Prefer structured events plus presentation formatting over permanently storing arbitrary UI strings when practical.
+
+However, do not build an elaborate localization architecture for this phase.
+
+
+PART 11 — NEWS CURATION
+
+Do not dump every hidden NPC action into the news feed.
+
+If 16 adventurers each perform several actions, the player does not need 50 lines of bookkeeping every morning.
+
+Generate or select a modest number of interesting events.
+
+Prioritize:
+
+- level gains;
+- defeats;
+- recoveries;
+- major gold/equipment changes;
+- rank changes;
+- unusual successful days;
+- social/gossip events.
+
+Routine uneventful actions may remain invisible.
+
+A typical new day should produce roughly 3–8 visible items when enough meaningful events occurred.
+
+It is acceptable for a quiet day to produce fewer.
+
+
+PART 12 — MORNING REPORT
+
+After End Day advances the world, do not immediately drop the player into Town without context.
+
+Introduce a brief new-day report.
+
+Example:
+
+    +----------------------------------+
+    |            DAY 7                 |
+    +----------------------------------+
+
+    You awaken to another day in the realm.
+
+    While you slept...
+
+    Raven reached Level 4.
+    Mira was defeated in the forest.
+    Thorn purchased a new blade.
+
+    [1] Enter the Village Square
+    [2] Read All News
+
+This is a major part of the game's community illusion.
+
+The player should immediately understand:
+
+THE WORLD JUST TOOK ITS TURN.
+
+
+PART 13 — NEWS ARCHIVE
+
+Make recent realm news accessible from Town or Inn.
+
+A simple initial implementation is sufficient.
+
+Support viewing at least several recent game days.
+
+Example:
+
+    -=- REALM NEWS -=-
+
+    Day 8
+      Raven reached Level 4.
+      Cedric was defeated by a Troll.
+
+    Day 7
+      Mira purchased Chain Armor.
+      Selene passed Thorn in the rankings.
+
+    [1] Older News
+    [2] Return to Town
+
+Touch scrolling may replace explicit paging if that fits the established terminal style.
+
+Bound retained news history sensibly if unlimited storage is unnecessary.
+
+Do not silently let textual logs grow without limit for tens of thousands of game days.
+
+
+PART 14 — INN V1
+
+Replace the Inn placeholder with the first functional community-facing location.
+
+Keep its scope modest.
+
+For LGD-004, the Inn should principally provide access to community information.
+
+Suggested menu:
+
+    -=- THE DRAGON'S REST -=-
+
+    The room is thick with smoke, ale,
+    and exaggerated stories.
+
+    [1] Hear the Latest Gossip
+    [2] Read Realm News
+    [3] See Who Is Here
+    [4] Return to Town
+
+"Who Is Here" may show a small selection of simulated adventurers for the current day.
+
+Do not implement elaborate conversation trees yet.
+
+
+PART 15 — GOSSIP V1
+
+Create lightweight gossip based on actual community state where possible.
+
+Examples:
+
+    "I heard Raven thinks he's the strongest
+    fighter in town."
+
+    "Mira has been spending a great deal of
+    gold at the armorer lately."
+
+    "Thorn hasn't been the same since that
+    beating in the forest."
+
+Prefer gossip that references:
+
+- real NPCs;
+- actual levels;
+- rank position;
+- recent events;
+- equipment;
+- player standing.
+
+A small number of generic filler lines may exist, but the system should not merely choose disconnected random flavor text.
+
+
+PART 16 — PLAYER FAMILIARITY V1
+
+Introduce one minimal relationship/familiarity value between the player and each NPC.
+
+Do not implement romance or a detailed relationship system yet.
+
+For this phase, familiarity may change when:
+
+- the NPC appears in an Inn encounter;
+- the player reads/interacts with a small community event;
+- future systems explicitly reference the NPC.
+
+The value need not yet produce many effects.
+
+The purpose is to establish durable groundwork for later rivalry/friendship mechanics without overbuilding them.
+
+
+PART 17 — RANK CHANGE EVENTS
+
+Track meaningful changes in standing.
+
+When appropriate, generate news for events such as:
+
+    Raven has taken the #1 position.
+
+    You have passed Cedric in the rankings.
+
+    Mira has overtaken you.
+
+Do not produce spam for insignificant tie-break reshuffling.
+
+The player should begin to recognize particular rivals naturally.
+
+
+PART 18 — WORLD ADVANCEMENT ORDER
+
+LGD-003 created the world-advancement seam.
+
+LGD-004 must make its ordering explicit.
+
+A sensible transition is:
+
+1. confirm player ends the day;
+2. finalize player daily state;
+3. snapshot relevant prior rankings/state;
+4. advance recovering NPCs;
+5. resolve each active NPC's daily actions;
+6. resolve NPC training/equipment effects;
+7. recompute rankings;
+8. derive notable rank changes;
+9. create daily WorldEvents/news;
+10. increment or establish the next game day consistently;
+11. reset player's daily allowances;
+12. apply overnight player recovery;
+13. persist the complete resulting GameState atomically;
+14. display the morning report.
+
+The exact implementation order may vary if current GameState semantics increment the day at a different boundary.
+
+What matters is that:
+
+- each world day resolves exactly once;
+- results are coherent;
+- the player cannot accidentally trigger the same NPC day twice.
+
+
+PART 19 — ATOMIC DAY TRANSITION
+
+End Day is now a high-value state transition.
+
+Treat it as one logical operation.
+
+Rapid tapping, activity recreation, or navigation must not:
+
+- advance NPCs twice;
+- increment the day twice;
+- duplicate events;
+- award NPC rewards twice;
+- reset the player twice.
+
+Persist the final result coherently.
+
+If the application is interrupted during advancement, it must reopen into a lawful state without inventing a second world day.
+
+Use the simplest robust strategy appropriate to the existing persistence architecture.
+
+
+PART 20 — DETERMINISTIC RANDOMNESS
+
+The community simulation needs substantial random variation.
+
+Keep it controllable.
+
+Tests must be able to run world advancement with deterministic random input or fixed seeds.
+
+Where practical, a saved world seed / PRNG state should ensure a given transition cannot produce one result, crash midway, and then produce a completely different duplicate outcome after recovery.
+
+Do not call uncontrolled global randomness from many unrelated classes.
+
+
+PART 21 — SIMULATION PERFORMANCE
+
+The initial community is intentionally small.
+
+World advancement on the NXTPAPER should feel effectively immediate.
+
+Do not:
+
+- create one coroutine per NPC unnecessarily;
+- run heavyweight AI;
+- simulate hidden frame-by-frame combat;
+- perform network activity;
+- write dozens of persistence transactions during one End Day.
+
+Resolve the day's simulation in memory and commit a coherent resulting state.
+
+
+PART 22 — COMMUNITY INSPECTION
+
+Allow the player to inspect another adventurer from Rankings or the Inn.
+
+A simple profile is sufficient.
+
+Example:
+
+    -=- RAVEN -=-
+
+    Level....... 4
+    Rank........ 1
+    Weapon...... Steel Sword
+    Armor....... Chain Mail
+    Status...... Adventuring
+
+    "Raven has become one of the most
+     feared fighters in the realm."
+
+    [1] Return
+
+Do not expose hidden personality coefficients or simulation internals.
+
+Display only information a BBS player might plausibly know.
+
+
+PART 23 — INITIAL COMMUNITY BALANCE
+
+Run the community for enough simulated days to determine whether it feels alive.
+
+Expected behavior across roughly 30–100 simulated days:
+
+- multiple NPCs gain levels;
+- the ranking order changes;
+- some NPCs perform considerably better than others;
+- defeats occur;
+- equipment upgrades occur;
+- nobody routinely acquires impossible values;
+- no single personality type automatically dominates every world;
+- NPCs do not all advance in lockstep.
+
+The exact outcome is not prescribed.
+
+Uniformity is undesirable.
+
+
+PART 24 — LONG-RUN SIMULATION QUALIFICATION
+
+This work order introduces the first meaningful autonomous system.
+
+Add a deterministic simulation soak test.
+
+Advance a world for at least:
+
+    1,000 game days
+
+without Compose/UI interaction.
+
+Verify continuously or at the end:
+
+- day count is correct;
+- all stable NPC IDs remain unique;
+- NPC names/identities persist;
+- levels remain lawful;
+- experience remains lawful;
+- gold never becomes negative;
+- rankings contain each eligible character exactly once;
+- the player remains represented correctly;
+- NPC recovery never becomes permanently stuck;
+- event generation remains bounded;
+- news retention remains bounded if a limit is used;
+- no simulation action creates NaN/overflow/invalid numeric states;
+- day advancement always terminates.
+
+Do not tune the entire game's future progression curve around what happens after Day 1,000.
+
+The soak test is for structural stability.
+
+
+PART 25 — PLAYER INACTIVITY IS NOT REAL TIME
+
+Reinforce the project rule:
+
+NPCs advance only when the player advances the GAME DAY.
+
+They do not advance merely because:
+
+- the app was closed overnight;
+- the tablet clock changed;
+- a week passed in real life;
+- the application resumed from background.
+
+If the player closes the application on Day 8 and returns a month later, the game is still on Day 8.
+
+The world advances when the player chooses End Day.
+
+
+PART 26 — SAVE COMPATIBILITY
+
+LGD-004 changes the GameState schema materially.
+
+Handle existing LGD-003 saves deliberately.
+
+Acceptable strategies:
+
+A. migrate a lawful LGD-003 save by creating the NPC community and related state;
+
+or
+
+B. if pre-release development policy permits save reset, detect the prior schema and provide an explicit development-era reset path.
+
+Do not crash.
+
+Do not silently reinterpret incompatible data.
+
+Document the chosen approach.
+
+
+PART 27 — TEST REQUIREMENTS
+
+Add meaningful automated tests for:
+
+COMMUNITY CREATION
+
+- expected population size;
+- unique stable IDs;
+- legal names/stats;
+- personality assignment;
+- persistence round trip.
+
+DAILY SIMULATION
+
+- each NPC advances at most once per day;
+- bounded daily actions;
+- successful adventuring;
+- defeat;
+- recovery;
+- XP and gold rewards;
+- lawful progression.
+
+NPC LEVELING
+
+- threshold behavior;
+- level increment;
+- stat growth;
+- no repeated illegal level-up.
+
+EQUIPMENT
+
+- affordability;
+- upgrade replaces weaker item;
+- purchase cost applied exactly once;
+- gold never becomes negative.
+
+RANKINGS
+
+- player included;
+- all eligible NPCs included exactly once;
+- correct primary ordering;
+- stable tie-break behavior;
+- rank changes detected correctly.
+
+NEWS
+
+- notable events generated from real changes;
+- uninteresting action volume does not flood the feed;
+- event day is correct;
+- retention limit works if implemented.
+
+DAY ADVANCEMENT
+
+- world advances exactly once;
+- rapid/repeated End Day submission cannot duplicate advancement;
+- player daily state resets correctly;
+- NPC simulation and player reset occur in one coherent transition.
+
+LONG RUN
+
+- deterministic 1,000-day simulation remains lawful.
+
+
+PART 28 — DEVICE QUALIFICATION
+
+If NXTPAPER device access exists, qualify:
+
+- End Day;
+- morning report;
+- Rankings;
+- scrolling through rankings;
+- inspecting NPCs;
+- Inn;
+- gossip;
+- recent news;
+- several consecutive game days;
+- ranking movement;
+- NPC level-up event;
+- NPC defeat/recovery event;
+- background/resume around the morning report;
+- app restart and Continue after world advancement.
+
+Pay particular attention to text density.
+
+The richer community presentation must still feel comfortable on a touchscreen terminal.
+
+If physical access is unavailable, perform emulator qualification and clearly report the device test as outstanding.
+
+
+VISUAL DIRECTION
+
+Do not turn community information into:
+
+- avatar cards;
+- profile pictures;
+- progress rings;
+- graphical leaderboard podiums;
+- chat bubbles;
+- social-media feeds.
+
+This remains a BBS.
+
+Prefer screens like:
+
+    -=- WHO'S ONLINE? -=-
+
+    Raven.......... Level 4
+    Mira........... Level 3
+    Thorn.......... Level 3
+
+and:
+
+    -=- REALM NEWS -=-
+
+    * Raven reached Level 4!
+    * Mira was defeated in the forest.
+    * Thorn bought a new sword.
+
+The simulation may be modern.
+
+Its presentation should remain antique.
+
+
+DO NOT IMPLEMENT YET
+
+Do not implement:
+
+- player-vs-NPC combat;
+- killing other players;
+- NPC permadeath;
+- romance;
+- marriage;
+- complex friendship trees;
+- clans/guilds;
+- mail;
+- multiplayer;
+- online chat;
+- networking;
+- cloud simulation;
+- real-time NPC activity;
+- extensive shops;
+- bank;
+- Glass Dragon attempts;
+- generative AI dialogue.
+
+Those belong to later development.
+
+
+BUILDER DISCRETION
+
+The Builder may choose:
+
+- exact NPC population size;
+- personality archetypes;
+- daily NPC action counts;
+- NPC outcome formulas;
+- progression-rate tuning;
+- equipment ladder details;
+- news retention size;
+- ranking tie-break rules;
+- exact gossip wording;
+- how many NPCs appear "at the Inn" on a given day;
+- exact morning-report layout.
+
+Favor:
+
+- simple;
+- legible;
+- persistent;
+- deterministic enough to test;
+- varied enough to surprise.
+
+
+COMPLETION CRITERIA
+
+LGD-004 is complete when:
+
+1. Every new game contains a persistent simulated adventurer population.
+2. NPC identities survive save/load.
+3. NPCs have modest behavioral/personality variation.
+4. Ending the day advances the NPC community.
+5. NPCs can adventure successfully.
+6. NPCs can be defeated.
+7. Defeated NPCs can recover.
+8. NPCs gain experience and gold.
+9. NPCs can gain levels.
+10. NPCs can improve equipment.
+11. NPC progression does not simply mirror the player's progress.
+12. Rankings contain the player and NPC population.
+13. Rankings change as the world develops.
+14. The player can inspect other adventurers.
+15. World advancement produces structured notable events.
+16. Daily news exposes meaningful NPC activity.
+17. The player receives a morning report after world advancement.
+18. Recent news can be revisited.
+19. The Inn provides the first functional community-facing experience.
+20. Gossip references real community state where practical.
+21. The player's familiarity with NPCs has a durable minimal foundation.
+22. Rank changes can become visible community events.
+23. A world day cannot be advanced twice accidentally.
+24. NPC activity is driven solely by game-day advancement, never wall-clock time.
+25. World simulation uses controlled/testable randomness.
+26. Community advancement performs efficiently on the target device.
+27. A deterministic 1,000-day simulation remains structurally lawful.
+28. Schema compatibility with earlier development saves is handled deliberately.
+29. Normal build/test checks pass.
+30. NXTPAPER qualification is completed if device access exists, otherwise explicitly deferred.
+
+
+EXPECTED TERMINAL STATE
+
+LGD004_SIMULATED_COMMUNITY_COMPLETE
+LGD004_NPC_DAILY_ADVANCEMENT_FUNCTIONAL
+LGD004_RANKINGS_FUNCTIONAL
+LGD004_REALM_NEWS_FUNCTIONAL
+LGD004_MORNING_REPORT_FUNCTIONAL
+LGD004_INN_COMMUNITY_V1_FUNCTIONAL
+LGD004_1000_DAY_SIMULATION_STABLE
+LGD005_CLASSIC_WORLD_EXPANSION_READY
+
+
+NEXT PLANNED WORK
+
+LGD-005 — Shops, Bank, Expanded Inn, Equipment Economy, and Player-vs-Adventurer Challenges
+
+The next phase should begin turning the working vertical slice into a fuller classic BBS RPG town.
+
+Its major goal should be to give the player's money, equipment, rankings, and simulated rivals much more practical meaning while preserving the fast ANSI-first mobile experience.

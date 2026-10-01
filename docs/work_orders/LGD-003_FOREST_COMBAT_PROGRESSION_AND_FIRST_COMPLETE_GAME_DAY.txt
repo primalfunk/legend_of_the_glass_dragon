@@ -1,0 +1,830 @@
+LEGEND OF THE GLASS DRAGON
+WORK ORDER LGD-003
+FOREST COMBAT, PROGRESSION, AND THE FIRST COMPLETE GAME DAY
+
+STATUS
+
+AUTHORIZED FOR IMPLEMENTATION
+
+
+GOVERNING BASELINE
+
+LGD-001 established the native Android / Jetpack Compose application and ANSI/BBS presentation shell.
+
+LGD-002 established:
+
+- character creation;
+- persistent local GameState;
+- Continue Game;
+- the first real Town state;
+- Character Status;
+- save/version handling;
+- the separation between presentation, game rules, and persistence.
+
+LGD-003 is the first gameplay work order.
+
+Do not redesign those foundations unless a concrete defect requires repair.
+
+
+PRIMARY OBJECTIVE
+
+Turn Legend of the Glass Dragon from a persistent application shell into a genuinely playable game.
+
+At completion, the player must be able to:
+
+1. enter the Forest;
+2. encounter monsters;
+3. fight using a simple turn-based combat system;
+4. win or lose;
+5. earn experience and gold;
+6. consume a limited number of forest fights;
+7. improve through leveling/training;
+8. survive or recover from defeat;
+9. end the game day;
+10. begin the next game day immediately;
+11. repeat that loop indefinitely.
+
+This should constitute the first complete vertical slice of the game.
+
+
+PRODUCT FEEL
+
+The experience should remain recognizably descended from an ANSI BBS door game.
+
+Combat may look approximately like:
+
+    -=- DEEP FOREST -=-
+
+    A Goblin leaps from behind a fallen tree!
+
+    Goblin
+    HP: 12 / 12
+
+    Arcturus
+    HP: 20 / 20
+
+    [1] Attack
+    [2] Run Away
+
+After an attack:
+
+    You strike the Goblin for 5 damage!
+
+    The Goblin claws you for 2 damage.
+
+    Goblin HP: 7
+    Your HP: 18
+
+    [1] Attack
+    [2] Run Away
+
+The player taps these lines.
+
+They do not type "1".
+
+Avoid graphical health bars, character portraits, combat animations, floating numbers, card layouts, or conventional mobile-RPG battle interfaces.
+
+The terminal text is the game.
+
+
+PART 1 — DAILY FOREST FIGHTS
+
+Establish a finite number of Forest fights per game day.
+
+Choose one simple starting value appropriate for early testing, such as:
+
+    10 fights per day
+
+Centralize this value in game rules/configuration.
+
+The Town and Forest screens must display the remaining fights clearly.
+
+Example:
+
+    Forest Fights Remaining: 8
+
+Entering the Forest without actually beginning an encounter should not consume a fight.
+
+A fight is consumed when an encounter is committed.
+
+Do not allow the counter to become negative.
+
+
+PART 2 — MONSTER CONTENT MODEL
+
+Create a data-driven MonsterDefinition model.
+
+At minimum support:
+
+- stable ID;
+- display name;
+- minimum or intended level;
+- maximum HP;
+- attack;
+- defense;
+- experience reward;
+- gold reward range or fixed reward;
+- encounter text if useful.
+
+Do not hard-code individual monster statistics inside Compose screens.
+
+Create a small initial roster sufficient for repeated Level 1 and early-level play.
+
+Approximately 6–10 monsters is enough.
+
+Use light fantasy/BBS flavor.
+
+Examples may include:
+
+- Giant Rat;
+- Cave Bat;
+- Goblin;
+- Highwayman;
+- Wild Boar;
+- Skeleton;
+- Forest Spider;
+- Orc Scout.
+
+The exact list is Builder discretion.
+
+Avoid spending this phase constructing a huge bestiary.
+
+
+PART 3 — MONSTER SELECTION
+
+When the player searches the Forest, choose an appropriate monster based primarily on player level.
+
+The system should avoid routinely generating hopeless encounters.
+
+A modest amount of variation is desirable.
+
+The selection rules must live in the game layer and be testable without Compose.
+
+If randomness is used, it should flow through the game's controlled random mechanism rather than directly calling random APIs throughout the UI.
+
+
+PART 4 — COMBAT STATE
+
+Introduce a transient or resumable combat state with enough information to represent an encounter lawfully.
+
+At minimum:
+
+- selected monster;
+- monster current HP;
+- player current HP as part of persistent player state;
+- combat status;
+- fight consumed;
+- combat log or recent messages;
+- whether escape remains available.
+
+Combat rules must not be encoded directly in UI click handlers.
+
+The UI should issue intents such as:
+
+- Attack
+- Run
+
+and render the resulting state.
+
+
+PART 5 — BASIC ATTACK RULE
+
+Implement a deliberately simple combat formula.
+
+The exact initial constants are Builder discretion, but the result should approximately reflect:
+
+    attacker strength
+    versus
+    defender defense
+    plus
+    a small controlled random range
+
+Damage must have a sensible minimum so fights do not deadlock through endless zero-damage turns.
+
+Keep formulas centralized and documented.
+
+Do not pursue final game balance in LGD-003.
+
+The initial goal is:
+
+- understandable;
+- testable;
+- tunable;
+- fun enough for the first play loop.
+
+
+PART 6 — TURN ORDER
+
+For the initial implementation:
+
+1. player chooses Attack;
+2. player attack resolves;
+3. if monster survives, monster attack resolves;
+4. combat state updates;
+5. next player choice is presented.
+
+If the player's attack defeats the monster, it should not attack from beyond the grave.
+
+If the monster defeats the player, no additional player action occurs.
+
+Avoid unnecessary initiative systems at this stage.
+
+
+PART 7 — VICTORY
+
+On monster defeat:
+
+- mark combat complete;
+- grant experience;
+- grant gold;
+- preserve remaining player HP;
+- save the updated GameState;
+- show a terminal-style victory result.
+
+Example:
+
+    *** VICTORY! ***
+
+    The Goblin falls!
+
+    Experience gained: 12
+    Gold found:       7
+
+    You have 7 forest fights remaining.
+
+    [1] Search Again
+    [2] Return to Town
+
+Search Again should begin another encounter if fights remain.
+
+Do not force the player back through Town after every battle.
+
+
+PART 8 — EXPERIENCE AND LEVEL THRESHOLDS
+
+Implement real experience accumulation.
+
+Create centralized level thresholds or an equivalent progression formula.
+
+The precise balance is not final, but early levels should arrive quickly enough to exercise progression during ordinary testing.
+
+The player must not silently jump levels solely because enough XP exists.
+
+Use the classic RPG/BBS concept that qualifying for a level enables Training.
+
+Example Town message:
+
+    You feel ready for greater challenges.
+
+    The Master at the Training Hall may test you.
+
+This provides purpose to the Training destination.
+
+
+PART 9 — TRAINING V1
+
+Replace the Training placeholder with the first functional Training Hall.
+
+The player may attempt training when their experience meets the requirement for the next level.
+
+For LGD-003, keep the mechanic simple.
+
+Acceptable implementation:
+
+- the trainer confirms readiness;
+- player chooses to undertake training;
+- a short deterministic or lightly randomized training challenge resolves;
+- success increases level and improves core statistics.
+
+Alternatively, if a combat-style trainer encounter can be implemented simply using the existing combat engine, that is preferred because it reuses real gameplay.
+
+Do not build a separate elaborate minigame.
+
+
+LEVEL-UP EFFECTS
+
+On successful training:
+
+- increment Level by 1;
+- increase maximum HP;
+- increase Attack;
+- increase Defense;
+- restore HP either fully or according to one consistent rule;
+- preserve lawful experience progression.
+
+Centralize stat growth rules.
+
+Display the result clearly.
+
+Example:
+
+    -=- TRAINING COMPLETE -=-
+
+    You have attained Level 2!
+
+    Maximum HP increased.
+    Attack increased.
+    Defense increased.
+
+    [1] Return to Town
+
+
+PART 10 — TRAINING WHEN NOT READY
+
+If the player lacks sufficient experience, Training should say so in-world.
+
+Example:
+
+    The old master studies you carefully.
+
+    "You have more to learn in the forest."
+
+    Experience needed: 18
+
+    [1] Return to Town
+
+Do not use disabled modern controls as the only explanation.
+
+
+PART 11 — RUNNING FROM COMBAT
+
+Implement Run Away.
+
+Running should:
+
+- have a reasonable chance of success;
+- resolve through game rules;
+- never create an invalid combat state.
+
+On success:
+
+- combat ends;
+- no rewards are granted;
+- the already-consumed forest fight remains consumed.
+
+On failure:
+
+- the monster receives an attack;
+- combat continues if the player survives.
+
+Keep the rule simple and tunable.
+
+
+PART 12 — PLAYER DEFEAT
+
+Implement the first real defeat/recovery loop.
+
+A player reduced to 0 HP should not permanently brick the save.
+
+Use a simple BBS-style consequence.
+
+For this phase:
+
+- end the current combat;
+- lose a meaningful but not devastating portion of carried gold;
+- restore the player to a lawful recovery state;
+- prevent further forest fighting during that day OR otherwise apply a clear defeat consequence;
+- allow the player to proceed toward ending the day.
+
+Example:
+
+    -=- YOU HAVE FALLEN -=-
+
+    Darkness takes you...
+
+    Hours later, you awaken in the healer's care.
+
+    Some of your gold is missing.
+
+    Your fighting day is over.
+
+    [1] Return to Town
+
+Exact gold-loss percentage is Builder discretion and should be centralized.
+
+Do not introduce permadeath.
+
+
+PART 13 — HEALING
+
+The first loop needs a practical way to recover between successful fights.
+
+Implement a very small healing mechanism.
+
+Preferred approach:
+
+Add a simple Healer destination to Town.
+
+The healer may:
+
+- restore missing HP;
+- charge a modest gold cost based on HP restored;
+- refuse impossible/invalid transactions;
+- optionally heal free at Level 1 if early balance proves too punishing.
+
+Keep it simple.
+
+Example:
+
+    -=- THE HEALER -=-
+
+    "I can mend those wounds."
+
+    Health: 11 / 20
+    Cost:   9 gold
+
+    [1] Heal Me
+    [2] Return to Town
+
+Do not add consumable potion systems yet unless already trivial.
+
+
+PART 14 — FIRST REAL END-OF-DAY FLOW
+
+Replace the LGD-002 End Day placeholder.
+
+The player must now be able to end the current game day.
+
+Require confirmation.
+
+Example:
+
+    -=- END THE DAY? -=-
+
+    You have 3 forest fights remaining.
+
+    Once you retire for the night, these fights
+    will be lost.
+
+    [1] Sleep Until Tomorrow
+    [2] Return to Town
+
+On confirmation:
+
+1. close any current daily activity;
+2. increment the game day;
+3. reset forest fights;
+4. restore whatever daily flags LGD-003 uses;
+5. apply the chosen overnight HP recovery rule;
+6. preserve player progression, equipment, gold, and experience;
+7. save the new state;
+8. enter the next day's Town screen.
+
+
+IMPORTANT TIME RULE
+
+There is NO connection between game days and real-world calendar days.
+
+The player may:
+
+    play Day 1
+    -> end the day
+    -> immediately play Day 2
+    -> immediately play Day 3
+    -> continue as long as desired.
+
+Do not use system date/time to enforce waiting.
+
+Do not create cooldowns.
+
+Do not introduce energy mechanics.
+
+The game's day exists solely inside GameState.
+
+
+PART 15 — WORLD-ADVANCEMENT HOOK
+
+LGD-004 will introduce the simulated BBS community.
+
+Prepare one explicit game-layer boundary for:
+
+    advanceWorldToNextDay(...)
+
+or equivalent.
+
+For LGD-003 this may initially perform only player/day reset operations.
+
+However, End Day should already route through this boundary so LGD-004 can add NPC/community simulation without rewriting the UI flow.
+
+Do not create a speculative simulation framework beyond this small seam.
+
+
+PART 16 — TOWN V1 AFTER LGD-003
+
+Town should now reflect playable state.
+
+At minimum show:
+
+- current day;
+- character name;
+- level;
+- HP;
+- gold;
+- forest fights remaining;
+- level-up readiness when applicable.
+
+Functional destinations:
+
+    [1] Enter the Forest
+    [2] Visit the Healer
+    [3] Seek Training
+    [4] Visit the Inn
+    [5] View Rankings
+    [6] Character
+    [7] End the Day
+
+Inn and Rankings may remain placeholders until community simulation arrives.
+
+Character remains functional from LGD-002.
+
+
+PART 17 — COMBAT TEXT PRESENTATION
+
+Combat logs are important to the intended experience.
+
+Use concise colored ANSI-like text.
+
+Examples:
+
+    You hit the Orc Scout for 6 damage!
+
+    The Orc Scout hits you for 3 damage!
+
+    *** CRITICAL HIT! ***
+
+    You dodge the attack!
+
+Do not require critical hits or dodging in this phase unless they naturally fit the simple rule system.
+
+The examples describe presentation style, not mandatory mechanics.
+
+The log should remain readable and not endlessly accumulate into an unusable screen.
+
+Displaying the current exchange plus a modest recent history is sufficient.
+
+
+PART 18 — SAVE DURABILITY DURING COMBAT
+
+Avoid easy state exploits and corrupted saves.
+
+The application should have a deliberate policy for process death during an encounter.
+
+Preferred simple rule:
+
+- save when an encounter begins;
+- persist enough encounter state to resume the same combat after process restart;
+
+OR, if that is materially more complex than justified:
+
+- resolve interrupted combat through one explicit safe policy that cannot duplicate rewards or refund consumed fights.
+
+Do not allow:
+
+1. start fight;
+2. lose badly;
+3. kill application;
+4. reopen with full HP and the fight restored;
+
+unless that behavior is explicitly intended.
+
+The Builder should document the chosen interruption policy.
+
+
+PART 19 — FIRST BALANCE PASS
+
+Perform a modest practical balance pass.
+
+A fresh Level 1 character should ordinarily be capable of:
+
+- winning several fights;
+- being injured;
+- using healing;
+- earning gold;
+- earning enough XP to become training-eligible within a reasonable number of fights/days;
+- reaching Level 2 without extraordinary luck.
+
+The player should also be capable of losing if careless or unlucky.
+
+Do not attempt production-final balancing.
+
+The purpose is to make the vertical slice enjoyable enough to evaluate.
+
+
+PART 20 — LONG-RUN SAFETY
+
+Because this game allows unlimited consecutive days, test repeated progression.
+
+At minimum verify programmatically that:
+
+- game day can advance repeatedly;
+- daily fights reset every day;
+- fights never become negative;
+- HP remains within lawful bounds;
+- gold does not become negative through healing/death rules;
+- XP remains lawful;
+- repeated save/load cycles preserve state;
+- level progression remains internally consistent.
+
+Include a lightweight simulation/test that advances at least several hundred days or repeated day transitions.
+
+There is not yet enough autonomous world simulation to require a sophisticated soak test.
+
+
+AUTOMATED TEST REQUIREMENTS
+
+Add meaningful automated tests around the game rules.
+
+At minimum cover:
+
+COMBAT
+
+- player damage;
+- monster damage;
+- monster defeated before retaliation;
+- player defeat;
+- damage cannot create invalid HP;
+- reward granted exactly once;
+- running success;
+- running failure.
+
+FOREST
+
+- fight consumed at correct boundary;
+- no negative fights;
+- no new fight when none remain.
+
+PROGRESSION
+
+- XP rewards accumulate;
+- training eligibility;
+- successful level advancement;
+- stat gains;
+- illegal repeated training prevented.
+
+HEALING
+
+- correct restoration;
+- correct gold charge;
+- HP cannot exceed max HP;
+- gold cannot become negative.
+
+DAY ADVANCEMENT
+
+- day increments exactly once;
+- daily fights reset;
+- progression persists;
+- save/load after day transition preserves state.
+
+DEFEAT
+
+- recovery state is lawful;
+- gold-loss rule cannot produce negative gold;
+- rewards are not granted after defeat.
+
+RANDOMNESS
+
+Where random behavior affects tests, inject or otherwise control the random source so tests remain deterministic.
+
+
+DEVICE QUALIFICATION
+
+On the NXTPAPER tablet, if accessible, play through at least:
+
+- character Continue;
+- Town;
+- multiple Forest encounters;
+- victory;
+- defeat or a controlled defeat test;
+- healer;
+- training eligibility;
+- level-up;
+- End Day;
+- immediate next day;
+- app background/resume during ordinary gameplay;
+- app restart and Continue.
+
+Specifically inspect:
+
+- readability of combat text;
+- tap targets during repeated combat;
+- accidental double-tap behavior;
+- scrolling;
+- whether rapid taps can submit two attacks;
+- whether combat remains pleasant without a keyboard.
+
+If physical device access is unavailable, use an appropriate emulator and report the device qualification as outstanding.
+
+
+ANTI-DOUBLE-ACTION REQUIREMENT
+
+Touch interfaces introduce a risk that did not exist in the same way for typed BBS commands.
+
+Prevent rapid repeated taps from:
+
+- resolving two attacks for one turn;
+- claiming rewards twice;
+- consuming multiple fights unexpectedly;
+- executing End Day twice;
+- training multiple levels from one confirmation.
+
+Game actions should be atomic from the player's perspective.
+
+
+DO NOT IMPLEMENT YET
+
+Do not implement:
+
+- autonomous NPC adventurers;
+- community rankings populated with simulated players;
+- gossip/news simulation;
+- PvP;
+- romance/social systems;
+- Inn functionality beyond placeholder content;
+- shops;
+- broad equipment purchasing;
+- bank;
+- Dragon encounters;
+- multiplayer;
+- networking;
+- accounts;
+- cloud saves;
+- graphical combat;
+- animation-heavy effects.
+
+Those belong to later phases.
+
+
+BUILDER DISCRETION
+
+The Builder may select and tune:
+
+- starting forest fights per day;
+- combat formula constants;
+- initial monster roster;
+- XP thresholds;
+- monster rewards;
+- escape chance;
+- death gold penalty;
+- healer pricing;
+- level-up stat gains;
+- overnight healing rule;
+- exact ANSI combat wording.
+
+Keep all tunable values centralized wherever practical.
+
+Favor a fun, understandable first loop over attempting to reproduce every historical LORD rule exactly.
+
+
+COMPLETION CRITERIA
+
+LGD-003 is complete when:
+
+1. Forest is functional.
+2. A data-driven monster roster exists.
+3. Appropriate monsters can be encountered.
+4. Forest fights are finite per game day.
+5. Combat operates through touch using the ANSI menu presentation.
+6. Attack resolution is functional and testable.
+7. Monsters can defeat the player.
+8. The player can defeat monsters.
+9. Victory grants XP and gold exactly once.
+10. Running from combat works.
+11. HP persists between encounters.
+12. Healing is available.
+13. Experience produces training eligibility.
+14. Training can increase the player to the next level.
+15. Level-up stat growth is real and persistent.
+16. Defeat has a coherent recoverable consequence.
+17. End Day works.
+18. Game day advances without reference to real-world time.
+19. Daily forest fights reset on the next day.
+20. The player may immediately continue playing consecutive days.
+21. The day transition routes through a clear future world-simulation seam.
+22. Save/load remains coherent through the gameplay loop.
+23. Rapid touch input cannot duplicate important game actions.
+24. Automated tests cover the major game-rule boundaries.
+25. Repeated day advancement remains lawful over a long test run.
+26. The application passes normal build/test checks.
+27. NXTPAPER qualification is completed if device access exists, otherwise clearly deferred.
+
+
+EXPECTED TERMINAL STATE
+
+LGD003_FOREST_COMBAT_COMPLETE
+LGD003_PLAYER_PROGRESSION_FUNCTIONAL
+LGD003_TRAINING_FUNCTIONAL
+LGD003_DEFEAT_RECOVERY_FUNCTIONAL
+LGD003_GAME_DAY_ADVANCEMENT_COMPLETE
+LGD003_FIRST_PLAYABLE_LOOP_COMPLETE
+LGD004_COMMUNITY_SIMULATION_READY
+
+
+NEXT PLANNED WORK
+
+LGD-004 — Simulated Adventurer Community, Rankings, Daily News, and World Advancement
+
+That work order should introduce the defining twist of Legend of the Glass Dragon: a persistent locally simulated population of adventurers whose lives and progress advance whenever the player ends a game day.
+
+From that point forward, beginning a new day should no longer mean merely resetting the player's fights.
+
+It should mean discovering what happened in the realm while everyone else took their turn.

@@ -1,0 +1,89 @@
+LEGEND OF THE GLASS DRAGON
+WORK ORDER LGD-011
+CAMPAIGN SIMULATION + BALANCE CHARACTERIZATION
+
+STATUS
+
+AUTHORIZED FOR IMPLEMENTATION
+
+MISSION
+
+Measure Legend of the Glass Dragon as a complete game using deterministic,
+non-human simulation. Build or extend development-only tooling that starts
+fresh seasons, drives lawful production-domain actions, advances the simulated
+community and Dragon Season, reaches campaign conclusion, and records
+structured metrics.
+
+PHASE BOUNDARY
+
+This work order is measurement, simulation, characterization and objective
+defect discovery. It is not discretionary balance tuning. The Principal, not
+the Builder, decides whether measured balance matches the desired experience.
+
+No human playtesting is requested or permitted in this phase.
+
+REQUIRED POLICIES
+
+- Casual / Conservative;
+- Ordinary;
+- Aggressive / Optimizing;
+- Reckless;
+- Passive.
+
+Policy rules must be deterministic, bounded, transparent and documented. The
+harness must use ordinary production game rules wherever practical rather than
+an alternate toy simulation.
+
+QUALIFICATION SAMPLE
+
+Attempt at least 1,000 complete seasons, preferably 2,500–5,000 when practical,
+with a large Ordinary cohort and varied deterministic seeds. Apply a generous
+100-game-day ceiling and classify any campaign beyond it as unresolved rather
+than forcing victory.
+
+MEASUREMENT SCOPE
+
+Characterize distributions—not only averages—for:
+
+- campaign duration and termination;
+- player/NPC Dragon victories and attempts;
+- player level timing and final level;
+- Physical Training attempts and failures;
+- forest combat, enemies and daily fight use;
+- economy, banking, healing, defeat losses and equipment;
+- NPC progression and equipment;
+- player rankings and ranking churn;
+- Dragon readiness and stage timing;
+- society activity, Chronicle density, callbacks and NPC spotlight;
+- policy differences, confidence/sample stability and reproducible outliers.
+
+Preserve per-season and per-day machine-readable evidence plus enemy aggregates,
+summary distributions and outlier seeds. Produce a human-readable Principal
+decision report with compact tables and explicit numerical answers to the 20
+questions in the authorized work order.
+
+DETERMINISM AND SAVE/RESTORE
+
+Rerun representative seeds for every policy and require identical authoritative
+outcomes. Compare bounded continuous campaigns with campaigns encoded/decoded
+at selected day boundaries. A restart must not change the world outcome.
+
+OBJECTIVE DEFECT POLICY
+
+Only objective correctness defects—nontermination, invalid state, duplicated
+resolution, progression lock, overflow, unreachable lawful systems, and similar
+failures—may be repaired. Preserve failing seeds and rerun the cohort after any
+material production fix. Do not tune a valid distribution to personal taste.
+
+OUT OF SCOPE
+
+No human playtesting, factions, new gameplay, new Dragon mechanics, content,
+audio, visual redesign, achievements, meta-progression or unauthorized balance
+tuning.
+
+COMPLETION STATE
+
+LGD011_BALANCE_CHARACTERIZED_PRINCIPAL_REVIEW_REQUIRED
+
+Do not proceed automatically to LGD-012.
+

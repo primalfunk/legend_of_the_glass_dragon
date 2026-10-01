@@ -1,0 +1,635 @@
+LGD-007 — ANSI VISUAL IDENTITY + MINIMAL AUDIO PASS
+
+MISSION
+
+Give Legend of the Glass Dragon its first coherent production presentation.
+
+This pass has two tightly bounded responsibilities:
+
+1. Establish and integrate the game's approved ANSI/BBS visual identity across the existing playable experience.
+2. Add the complete audio system we currently intend to support:
+
+   * the 15 Principal-supplied MP3 music tracks, shuffled during play;
+   * click.mp3 as the universal selection/button sound.
+
+Do not expand this into a broader sound-design system.
+
+The intended result is a modern, touch-friendly Android game which still gives the immediate impression of a richly produced fantasy BBS game from roughly 1990–1993.
+
+The antique presentation is intentional.
+The modern conveniences should remain largely invisible behind it.
+
+======================================================================
+
+1. ACCEPTED VISUAL DIRECTION
+======================================================================
+
+The Principal has approved the style represented by the newly produced
+"Legend of the Glass Dragon" ANSI-style title banner.
+
+Treat that piece as the primary visual reference for this pass.
+
+The target look is:
+
+* black or near-black foundation;
+* bright cyan / ice-blue as the primary Glass Dragon identity color;
+* silver / bright white highlights;
+* restrained gold/yellow ornament;
+* red or magenta primarily for danger, warnings, blood, hostile states, etc.;
+* DOS ANSI / CP437 influence;
+* hard-edged, character-grid or pixel-grid construction;
+* strong silhouettes;
+* fantasy ornament;
+* symmetrical framing where useful;
+* swords, crystals, dragons, runes, box-drawing motifs and similar period-appropriate imagery;
+* deliberately limited color use;
+* no glossy modern-mobile visual language.
+
+The guiding fiction is:
+
+"A lavish fantasy BBS game from 1992 that somehow had the presentation we remember old computer games having."
+
+This does NOT mean every piece must literally be encoded ANSI text.
+
+Use the representation that works best for each asset:
+
+* actual monospaced/CP437-style text where appropriate;
+* Android-drawn borders and symbols where that produces cleaner scalable UI;
+* vector assets where suitable;
+* deliberately low-resolution raster artwork where illustration is needed.
+
+Regardless of representation, everything must belong to the same ANSI-derived visual language.
+
+======================================================================
+2. MOBILE-FIRST RULE
+======================================================================
+
+Legend of the Glass Dragon is a native Android, mobile-first game.
+
+Its primary real-world target includes the NXTPAPER tablet, but the interface must remain sensible across ordinary Android phone and tablet dimensions.
+
+Retro authenticity must not be used as an excuse for:
+
+* tiny touch targets;
+* illegible text;
+* excessive information density;
+* requiring keyboard commands for ordinary play;
+* fixed desktop-size layouts;
+* artwork which clips or becomes unreadable on smaller screens.
+
+The UI should LOOK antique while BEHAVING like a modern touch application.
+
+Existing touch interaction remains authoritative.
+
+======================================================================
+3. VISUAL SYSTEM — BUILD THE REUSABLE LANGUAGE FIRST
+======================================================================
+
+Before decorating individual screens independently, establish reusable visual components so the game does not become a collection of unrelated retro ideas.
+
+At minimum create a coherent system for:
+
+A. PANEL / TERMINAL FRAMES
+
+Create reusable frame treatments for:
+
+* primary game content;
+* modal / overlay content;
+* important notices;
+* danger / combat presentation;
+* compact information panels.
+
+Prefer reusable components over baked-in full-screen raster backgrounds.
+
+Use ANSI/CP437-inspired elements such as:
+
+╔ ═ ╗ ║ ╚ ╝
+─ │ ┌ ┐ └ ┘
+░ ▒ ▓ █
+◆ ◇ ♦
+• ·
+and related period-appropriate shapes where useful.
+
+Do not overdecorate every surface.
+
+Large black negative spaces are part of the intended look.
+
+B. DIVIDERS AND ORNAMENT
+
+Create a small reusable vocabulary of:
+
+* horizontal dividers;
+* section-header ornaments;
+* small crystal/glass motifs;
+* dragon motifs;
+* sword or weapon ornaments where appropriate;
+* warning/danger dividers.
+
+These should help visually structure text-heavy screens without making them feel like modern cards.
+
+C. BUTTON / SELECTION LANGUAGE
+
+Current touch buttons should be restyled so they visually belong to the BBS interface.
+
+They should feel more like:
+
+* highlighted terminal commands;
+* boxed ANSI selections;
+* illuminated menu rows;
+* old software menu choices;
+
+rather than contemporary Material Design buttons.
+
+However:
+
+* keep touch targets generous;
+* preserve obvious pressed/selected feedback;
+* preserve enabled/disabled states;
+* do not sacrifice accessibility or readability.
+
+Selection should feel visually immediate even before the click sound plays.
+
+D. TYPOGRAPHY
+
+Preserve a strong monospaced terminal presentation.
+
+Use hierarchy primarily through:
+
+* ANSI color;
+* spacing;
+* capitalization;
+* borders;
+* symbols;
+* limited size changes.
+
+Avoid introducing ornate medieval display fonts throughout ordinary gameplay.
+
+Fantasy ornament belongs around the terminal language, not in place of it.
+
+======================================================================
+4. PRINCIPAL ART ASSET PACKAGE
+======================================================================
+
+The Builder owns creation of the visual assets in this pass.
+
+Do not wait for separately commissioned artwork.
+
+Produce a compact coherent production set rather than placeholder boxes.
+
+At minimum include:
+
+A. TITLE ART
+
+Produce the production title treatment:
+
+LEGEND OF THE GLASS DRAGON
+
+It should follow the approved reference:
+
+* wide composition;
+* dragon integrated into the upper ornament or silhouette;
+* icy cyan / white glass treatment;
+* subtle gold accents;
+* black background or transparency intended for black;
+* unmistakably ANSI/pixel/BBS-derived;
+* readable at tablet width;
+* still recognizable when scaled down.
+
+This asset will become the anchor visual for the Main Menu when that screen is implemented.
+
+If there is not yet a Main Menu, DO NOT turn LGD-007 into the Main Menu work order.
+
+Prepare and integrate the asset where appropriate, but leave full Main Menu construction for its own pass.
+
+B. GLASS DRAGON CREST
+
+Create a smaller reusable Glass Dragon emblem/crest suitable for:
+
+* headers;
+* loading/start presentation;
+* special notices;
+* victory/advancement moments;
+* future menu use.
+
+It should derive directly from the title visual identity rather than introducing a second dragon style.
+
+C. LOCATION ART
+
+Inventory the locations/screens that are actually implemented now.
+
+Give the major currently playable locations compact ANSI-style visual identity.
+
+Expected examples, where those locations presently exist, include:
+
+* Town / Village;
+* Forest;
+* Inn / Tavern;
+* Training area;
+* Healer;
+* Graveyard;
+* other similarly important current locations.
+
+Do not invent large amounts of artwork for locations which do not exist yet.
+
+These should normally be compact splash/header illustrations or decorative scene plates rather than giant full-screen paintings.
+
+The artwork should support the text, not displace it.
+
+D. EVENT ART
+
+Create compact reusable presentation for major events already supported by the game, especially:
+
+* NEW DAY;
+* VICTORY;
+* DEFEAT;
+* LEVEL UP / ADVANCEMENT.
+
+These may be true ANSI/text compositions where appropriate.
+
+They should make important moments feel special without turning every action into a cinematic interruption.
+
+E. COMBAT PRESENTATION
+
+Give the existing combat interface a stronger visual identity using the same system:
+
+* danger colors;
+* framing;
+* enemy/player separation;
+* compact ornament;
+* readable health/state information;
+* strong battle-result presentation.
+
+Do not obscure combat information behind artwork.
+
+Combat remains primarily fast, readable, text-forward gameplay.
+
+======================================================================
+5. ART PRODUCTION CONSTRAINTS
+======================================================================
+
+For raster assets:
+
+* author them intentionally for pixel/ANSI-style presentation;
+* avoid accidental bilinear blur;
+* prefer nearest-neighbor or otherwise crisp scaling when appropriate;
+* avoid huge source files where a modest-resolution asset is sufficient;
+* optimize final packaged assets sensibly.
+
+For generated vector/programmatic assets:
+
+* preserve hard edges;
+* avoid glossy gradients and modern iconography;
+* keep the palette disciplined.
+
+Do not introduce:
+
+* generic fantasy stock art;
+* photorealism;
+* modern gacha/mobile-game presentation;
+* painterly high-fantasy backgrounds;
+* rounded Material cards everywhere;
+* neon cyberpunk styling;
+* excessive CRT distortion;
+* artificial VHS damage;
+* constant scanline overlays which harm readability.
+
+Subtle period texture is acceptable.
+
+Readability comes first.
+
+======================================================================
+6. AUDIO INPUTS
+======================================================================
+
+The Principal has placed the audio source files in:
+
+root/temp
+
+Inputs include:
+
+* 15 MP3 music tracks;
+* click.mp3
+
+Inventory the directory before implementation.
+
+The 15 music files constitute the entire intended music library for now.
+
+click.mp3 is NOT music.
+
+Do not download, compose, generate, replace, normalize, remix, or otherwise substitute audio without a demonstrated technical necessity.
+
+These are Principal-supplied source assets.
+
+If Android resource naming rules require filename normalization, copy them into the proper application resource area using lawful lowercase resource names and retain a clear source-to-packaged filename mapping.
+
+======================================================================
+7. MUSIC BEHAVIOR
+======================================================================
+
+Implement one simple global music system.
+
+Music should:
+
+* begin automatically as part of the normal game experience;
+* play one track at a time;
+* automatically advance when a track finishes;
+* shuffle the 15-track library;
+* continue through normal gameplay navigation rather than restarting whenever the player changes screens;
+* be architected so the same music session can continue naturally through the future Main Menu;
+* avoid simultaneous playback;
+* avoid creating multiple music-controller instances.
+
+Use a shuffle-bag style implementation:
+
+1. shuffle all 15 tracks;
+2. play through the shuffled set;
+3. reshuffle only after the set is exhausted;
+4. avoid playing the same track immediately twice across the reshuffle boundary.
+
+This gives actual variety rather than repeatedly choosing random tracks with replacement.
+
+Music does NOT need:
+
+* contextual combat tracks;
+* area-specific tracks;
+* crossfading;
+* dynamic layers;
+* tempo adaptation;
+* playlists;
+* track-selection UI;
+* elaborate audio settings.
+
+Those are explicitly outside the present sound-design boundary.
+
+======================================================================
+8. ANDROID AUDIO LIFECYCLE
+======================================================================
+
+The audio system must behave like a well-mannered Android application.
+
+At minimum:
+
+* do not keep creating players as screens recompose;
+* release resources correctly;
+* pause/suspend appropriately when the application leaves the foreground;
+* resume coherently when the player returns;
+* do not restart the current track merely because of recomposition;
+* do not play music over itself after activity recreation;
+* handle track-completion callbacks safely;
+* tolerate lifecycle changes without crashing.
+
+Use the simplest dependable implementation suitable for packaged local MP3 assets.
+
+Do not build a background music service unless the application genuinely needs one.
+
+Music is for playing the game, not for continuing after the user leaves the app.
+
+======================================================================
+9. CLICK / SELECT SOUND
+======================================================================
+
+Use click.mp3 as the game's one universal interactive sound.
+
+Play it when the player activates a valid touch/button/menu selection.
+
+The effect should be:
+
+* low latency;
+* short;
+* consistent;
+* allowed to overlap briefly with music;
+* not powerful enough to interrupt/restart the music player.
+
+Use an implementation suitable for short UI sound effects, such as SoundPool or an equivalently appropriate Android mechanism.
+
+Centralize this behavior where practical so every screen does not invent its own click-player implementation.
+
+Do NOT play the sound merely because:
+
+* a composable recomposed;
+* focus moved programmatically;
+* a disabled control was touched;
+* navigation was restored after configuration change.
+
+It represents an actual player selection.
+
+======================================================================
+10. AUDIO SCOPE LOCK
+======================================================================
+
+For present purposes, sound design is COMPLETE when the following exist:
+
+* shuffled 15-track music playback;
+* click.mp3 on valid selections.
+
+Do not add:
+
+* sword sounds;
+* monster sounds;
+* victory jingles;
+* death sounds;
+* ambience;
+* voice;
+* footsteps;
+* tavern noise;
+* UI beeps beyond click.mp3;
+* procedural sound;
+* spatial sound.
+
+Future work may change this policy, but LGD-007 must not anticipate it.
+
+======================================================================
+11. TEMP DIRECTORY CLEANUP
+======================================================================
+
+root/temp is an intake location, not the permanent production asset location.
+
+Once the supplied files have been safely incorporated:
+
+* copy the required assets into their proper Android project resource locations;
+* verify packaged playback uses those production resources;
+* preserve source provenance sufficiently to understand what was imported.
+
+Do not leave runtime code depending on root/temp.
+
+Do not delete Principal source files unless existing project policy explicitly authorizes that cleanup.
+
+======================================================================
+12. APPLY THE VISUAL PASS TO THE ACTUAL GAME
+======================================================================
+
+This order is not satisfied by merely creating unused art files.
+
+Apply the new visual system across the current playable experience.
+
+Review every presently reachable player-facing screen and correct obvious stylistic drift.
+
+The player should no longer encounter a mixture of:
+
+* generic Android UI;
+* temporary developer styling;
+* unrelated colors;
+* ad hoc buttons;
+* inconsistent spacing;
+* placeholder headings.
+
+The whole current gameplay loop should look as though it belongs to one game.
+
+Prefer systemic reusable style changes over screen-by-screen hacks.
+
+======================================================================
+13. PRESERVE THE BBS ILLUSION
+======================================================================
+
+Modern convenience should remain quietly underneath the presentation.
+
+Good:
+
+* touchable command rows;
+* large invisible/implicit touch areas around terminal-style selections;
+* scrolling that feels natural on Android;
+* popup keyboard only when text entry is genuinely necessary;
+* dialog behavior disguised as terminal panels;
+* responsive layouts;
+* accessible touch sizes.
+
+Bad:
+
+* obvious Material floating action buttons;
+* modern toolbar chrome;
+* unrelated dropdown styling;
+* glossy switches;
+* standard blue Android buttons;
+* conventional modern-card dashboards.
+
+The player should feel as though they are touching an unusually magical old BBS, not operating a contemporary CRUD application.
+
+======================================================================
+14. PERFORMANCE
+======================================================================
+
+Do not damage responsiveness to achieve the visual pass.
+
+Specifically check:
+
+* image decode sizes;
+* unnecessary recomposition;
+* oversized raster assets;
+* duplicate player creation;
+* audio resource leakage;
+* slow screen transitions;
+* art-induced layout instability.
+
+The intended retro presentation should be comparatively cheap to render.
+
+======================================================================
+15. QUALIFICATION
+======================================================================
+
+Qualification should be practical and player-facing.
+
+At minimum verify on the available Android development target/emulator and, where available, the NXTPAPER device:
+
+AUDIO
+
+1. All 15 supplied music tracks are recognized.
+2. click.mp3 is excluded from the music shuffle.
+3. One music track begins normally.
+4. Completion advances to another track.
+5. The shuffle bag can cycle through all 15 tracks.
+6. No immediate repeat occurs across reshuffling.
+7. Navigating between gameplay screens does not restart music.
+8. Background/foreground behavior is sane.
+9. Repeated navigation does not cause overlapping music.
+10. Valid button activation plays click.mp3.
+11. Repeated button presses do not leak audio resources or crash the app.
+
+VISUAL
+
+12. The title artwork exists and matches the approved Glass Dragon direction.
+13. The reusable frame/button/divider system is visibly consistent.
+14. Existing primary gameplay locations have coherent ANSI presentation.
+15. Combat is readable and stylistically integrated.
+16. major event states receive their intended presentation.
+17. No important text is clipped at target tablet dimensions.
+18. Touch targets remain comfortable.
+19. The interface remains usable at a representative phone-size viewport.
+20. No obvious temporary/default Android UI remains in the principal gameplay path unless technically unavoidable and documented.
+
+Run the existing automated test/build/qualification suite as appropriate.
+
+Add targeted tests where they protect real behavior, especially the shuffle logic and audio lifecycle/state logic.
+
+Do not create ceremonial tests merely to inflate coverage.
+
+======================================================================
+16. OUT OF SCOPE
+======================================================================
+
+Do NOT use this pass to implement:
+
+* the complete Main Menu;
+* new gameplay systems;
+* new combat mechanics;
+* additional simulation depth;
+* new NPC content;
+* new music;
+* additional sound effects;
+* music settings screens;
+* volume mixers;
+* achievements;
+* animation-heavy cinematics;
+* a general graphics engine;
+* elaborate theme/customization systems.
+
+If minor refactoring is necessary to make the new visual/audio systems cleanly reusable, perform it.
+
+Do not let supporting refactoring become the project.
+
+======================================================================
+17. COMPLETION STANDARD
+======================================================================
+
+LGD-007 is complete when:
+
+* the 15 supplied music tracks play continuously through a deterministic shuffle-bag system;
+* click.mp3 provides the game's universal valid-selection sound;
+* audio behaves correctly through normal Android lifecycle/navigation;
+* the approved ANSI Glass Dragon identity has become a reusable visual system;
+* the Builder has created the necessary visual assets rather than leaving placeholders;
+* the current playable game uses those assets and styles coherently;
+* title art is ready for the future Main Menu;
+* the current gameplay loop looks recognizably like Legend of the Glass Dragon rather than a prototype Android application;
+* the game remains responsive, legible and touch-friendly.
+
+The desired player reaction is:
+
+"This looks like an impossibly fancy old fantasy BBS."
+
+Not:
+
+"This is a modern mobile game wearing a retro skin."
+
+======================================================================
+18. BUILDER RETURN
+======================================================================
+
+Return a concise implementation report containing:
+
+1. disposition;
+2. implementation commit / current HEAD;
+3. audio files discovered and their packaged mapping;
+4. music-system architecture;
+5. visual assets created;
+6. major screens visually revised;
+7. automated qualification results;
+8. device/emulator qualification performed;
+9. screenshots or paths to useful visual evidence where available;
+10. any genuine remaining defects or constraints;
+11. explicit confirmation that no additional sound-design scope was introduced.
+
+Primary dispositions:
+
+LGD007_COMPLETE
+LGD007_COMPLETE_WITH_BOUNDED_FOLLOWUP
+LGD007_REPAIR_REQUIRED

@@ -1,0 +1,16 @@
+{
+  "shortest_season":{"policy":"AGGRESSIVE","seed":4000410,"detail":"17 days"},
+  "longest_season":{"policy":"PASSIVE","seed":1000154,"detail":"27 days"},
+  "earliest_player_win":{"policy":"AGGRESSIVE","seed":4000410,"detail":"day 17"},
+  "latest_player_win":{"policy":"ORDINARY","seed":3000201,"detail":"day 24"},
+  "strongest_npc_win":{"policy":"CASUAL","seed":2000504,"detail":"top NPC level 8"},
+  "weakest_successful_player":{"policy":"ORDINARY","seed":3000338,"detail":"level 7, XP 5682"},
+  "greatest_training_failure_streak":{"policy":"CASUAL","seed":2000174,"detail":"4 failures"},
+  "greatest_combat_defeat_count":{"policy":"RECKLESS","seed":5000323,"detail":"10 defeats"},
+  "most_dragon_attempts":{"policy":"CASUAL","seed":2000501,"detail":"8 attempts"},
+  "most_credible_challengers":{"policy":"ORDINARY","seed":3000299,"detail":"6 candidates"},
+  "most_callback_heavy":{"policy":"RECKLESS","seed":5000188,"detail":"19 callbacks"},
+  "quietest_chronicle":{"policy":"ORDINARY","seed":3000567,"detail":"4.89 entries/day"},
+  "most_dominant_npc":{"policy":"RECKLESS","seed":5000913,"detail":"34.78% top-NPC share"},
+  "first_unresolved":null
+}

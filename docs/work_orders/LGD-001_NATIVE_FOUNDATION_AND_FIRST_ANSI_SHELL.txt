@@ -1,0 +1,242 @@
+LEGEND OF THE GLASS DRAGON
+WORK ORDER LGD-001
+NATIVE ANDROID FOUNDATION AND FIRST ANSI SHELL
+
+STATUS
+
+AUTHORIZED FOR IMPLEMENTATION
+
+PROJECT STATE
+
+This is a clean-slate native Android rebuild.
+
+Do not migrate, wrap, port, or preserve the architecture of the previous web application. The previous Legend of the Glass Dragon web project may be inspected for game ideas, wording, content, or useful design lessons, but it is reference material only. No existing source code is considered part of the new application's technical baseline.
+
+PRIMARY TARGET
+
+TCL NXTPAPER Android tablet.
+
+The application must also remain sensibly usable on ordinary Android phone/tablet dimensions.
+
+PRODUCT NORTH STAR
+
+Legend of the Glass Dragon should feel like a real color ANSI-era fantasy BBS door game that has somehow become comfortable to operate on a modern touchscreen.
+
+The antique presentation is intentional. The modern interaction should be nearly invisible. The player should see numbered terminal commands, but simply tap those lines rather than typing commands. Mobile convenience must not turn the application into a conventional modern RPG interface.
+
+OBJECTIVE
+
+Create the new Android application from zero and establish the technical and visual foundation upon which all subsequent gameplay will be built.
+
+At completion, the application must:
+
+- build and run as a native Android application;
+- be deployable to the NXTPAPER tablet;
+- use Kotlin and Jetpack Compose;
+- present the first convincing ANSI/BBS-style application shell;
+- support touch navigation between a small set of placeholder screens;
+- establish clean separation between UI and future game/simulation state;
+- provide a simple local persistence foundation;
+- contain no dependency on a web runtime or remote service.
+
+TECHNICAL DIRECTION
+
+Use Android Studio, Kotlin, Jetpack Compose, Compose Navigation or the simplest current equivalent appropriate for this application, standard Android lifecycle/state handling, and local-only persistence.
+
+Prefer current stable Android/Jetpack libraries. Avoid unnecessary frameworks. Do not introduce dependency injection frameworks, networking stacks, server abstractions, cross-platform frameworks, game engines, or elaborate repository layers unless there is an immediate demonstrated need. The architecture should remain easy for a small game project to understand.
+
+PACKAGE / PROJECT IDENTITY
+
+Establish a sensible application/package identity for Legend of the Glass Dragon. Use a package namespace consistent with the existing Wingtip Studio catalogue if that information is already available in the workspace. If no established namespace is available, choose a straightforward temporary project namespace and document it rather than blocking implementation.
+
+WORKSPACE DOCUMENTATION
+
+Preserve the governing implementation plan in the new Android Studio workspace. Create an appropriate project documentation location containing the Initial Implementation Plan, this work order, and a short README identifying this repository as the clean-slate native Android generation. The README should explicitly state that the previous web implementation is reference-only and not an architectural dependency.
+
+PART 1 — CREATE THE NATIVE PROJECT
+
+Create a normal Compose-based Android application.
+
+Requirements:
+
+- Kotlin source;
+- Jetpack Compose enabled;
+- sensible current minimum Android SDK;
+- sensible current target SDK;
+- Gradle project builds cleanly;
+- debug APK/installable build succeeds;
+- application launches directly into the LOTGD experience.
+
+Do not add a splash screen merely because a template provides one unless Android requires it. The desired opening experience is the game's own fake terminal connection/startup sequence.
+
+PART 2 — APPLICATION STRUCTURE
+
+Establish a small, understandable source structure. Conceptually separate at least game (future game models and rules), simulation (future community/day simulation), data (save/persistence concerns), ui (Compose presentation), ui/theme (ANSI palette, typography and reusable visual definitions), and navigation (application screen/navigation definitions if useful).
+
+Do not fill these packages with speculative abstractions. Empty or nearly empty future-facing packages are acceptable only where they make the intended boundaries obvious.
+
+PART 3 — ANSI VISUAL FOUNDATION
+
+This work order must establish visual direction, not leave Compose's default appearance in place.
+
+ANSI/BBS COLOR PALETTE
+
+Support an intentional small color vocabulary inspired by classic ANSI displays. The screen background should be black or effectively black. Useful colors should include equivalents of white/light gray, dim gray, bright red, red, yellow, bright green, green, cyan, bright blue, and magenta. Do not automatically use every color at once. Color should feel like ANSI markup, not modern UI decoration.
+
+TYPOGRAPHY
+
+Use a highly legible monospaced presentation. Prefer a bundled/system-safe monospace solution suitable for offline use. Text must remain comfortably readable on the NXTPAPER tablet. Do not sacrifice touch usability or readability in pursuit of pixel-perfect historical terminal dimensions.
+
+TERMINAL SURFACE
+
+Create a reusable Compose component that provides the basic BBS screen environment. It should support a black terminal background, monospaced text, colored text spans, vertically scrolling content where needed, safe screen padding, predictable line spacing, and phone/tablet width adaptation.
+
+ANSI MENU ROW
+
+Create a reusable touchable menu-row component that visually appears as a numbered terminal line.
+
+Requirements:
+
+- the complete row is tappable;
+- the visible design remains terminal text;
+- touch target size must be reasonable for fingers;
+- no Material-looking raised button, rounded card, pill, or glossy surface;
+- pressed/selected feedback should be subtle and BBS-compatible.
+
+The player must never need to tap precisely on the characters themselves.
+
+BOX DRAWING / DIVIDERS
+
+Establish reusable support for simple terminal divisions using ASCII or Unicode box-drawing characters. Reliability is more important than decorative complexity.
+
+PART 4 — FIRST RUNNING SCREEN FLOW
+
+Implement this small navigation flow.
+
+SCREEN A — CONNECTION / STARTUP
+
+Show a brief fake BBS connection sequence in the spirit of connecting, detecting a carrier, negotiating a terminal, enabling ANSI color, and presenting Wingtip Studio. Do not create a long unskippable animation. Touch should allow immediate advancement where appropriate.
+
+SCREEN B — TITLE
+
+Create a bespoke text/ANSI title treatment for LEGEND OF THE GLASS DRAGON. It should feel like something a skilled BBS sysop might proudly have placed at the top of a door game. ASCII/ANSI lettering, colored text, separators, or restrained decorative characters are appropriate. Do not use an illustrated logo or modern graphical title card. Include a small Wingtip Studio attribution.
+
+SCREEN C — MAIN MENU
+
+Initial menu:
+
+    [1] New Game
+    [2] Continue
+    [3] About
+
+Continue may initially display as unavailable if there is no saved game. It must still be represented intentionally rather than crashing or doing nothing inexplicably.
+
+SCREEN D — NEW GAME PLACEHOLDER
+
+Do not implement full character creation yet. This screen may demonstrate navigation and establish where character creation will begin:
+
+    CHARACTER CREATION
+
+    The realm awaits a new adventurer.
+
+    [1] Begin
+    [2] Return to Main Menu
+
+Begin may lead to the temporary Town prototype. Do not summon the keyboard yet unless doing so is trivial and clearly beneficial. Proper character creation belongs to the next work order.
+
+SCREEN E — TOWN PROTOTYPE
+
+Create a non-functional prototype of the future town menu:
+
+    -=- THE VILLAGE SQUARE -=-
+
+    Day 1
+
+    The town is busy with adventurers preparing
+    for another dangerous day.
+
+    [1] Forest
+    [2] Inn
+    [3] Training
+    [4] Rankings
+    [5] Character
+    [6] End the Day
+
+For this work order these entries may open simple placeholder terminal screens or indicate that the area is not yet available. Navigation back to Town must work. The purpose is to prove the eventual interaction model, not implement the game systems.
+
+PART 5 — LOCAL STATE / PERSISTENCE FOUNDATION
+
+Create only enough persistence capability to support the project cleanly going forward. Persist at minimum whether the introductory/startup presentation has been seen if useful, and a tiny placeholder save-state marker sufficient to prove local persistence works.
+
+Do not design the complete save schema in this work order. Do not introduce cloud synchronization. Do not require internet permission. Future game state must be able to remain completely local.
+
+PART 6 — ANDROID INTERACTION BEHAVIOR
+
+Ensure Android Back behaves sensibly; terminal screens are touch-scrollable when content exceeds height; no ordinary interaction requires a hardware keyboard; system bars do not make important content unreachable; keyboard behavior is not yet a blocker; and app recreation does not immediately destroy basic navigation/state in obviously broken ways.
+
+PART 7 — FIRST DEVICE QUALIFICATION
+
+Build and install the application on the NXTPAPER tablet if the Builder has device/ADB access.
+
+Check at minimum launch, readability, portrait layout, menu touch targets, scrolling, navigation, Android Back, return from background, no visual clipping, and no default Material styling visibly undermining the ANSI presentation.
+
+If direct device access is unavailable, complete equivalent emulator qualification and clearly report that physical NXTPAPER qualification remains outstanding. Do not fabricate device evidence.
+
+AUTOMATED TESTS
+
+Testing should remain proportionate. Add useful tests for foundational logic where practical. At minimum cover initial application/save state, persistence round trip for the placeholder saved value, and any navigation/state logic extracted from Compose that has meaningful behavior.
+
+Do not create a large ceremonial test suite for static UI text. The project must pass its normal build/test/lint checks before completion.
+
+VISUAL ACCEPTANCE STANDARD
+
+LGD-001 should not look like a stock Android Compose tutorial, Material cards on a black background, a modern fantasy mobile game, or a website inside an Android shell.
+
+It should already evoke dialing into a BBS, opening an ANSI door game, bright terminal colors, monospaced text, numbered commands, and touch controls hiding beneath those numbered commands.
+
+DO NOT IMPLEMENT YET
+
+Do not implement real combat, monsters, leveling, full character creation, shops, equipment, NPC simulation, Dragon progression, relationships, multiplayer, networking, accounts, cloud saves, monetization, elaborate animation, or graphical fantasy artwork.
+
+Do not get ahead of the work order. The principal deliverable is the native foundation and interaction/visual language.
+
+BUILDER DISCRETION
+
+The Builder may make ordinary implementation decisions involving Gradle organization, exact Compose APIs, package subdivision, state-holder pattern, font sizing, ANSI palette values, minor startup wording, terminal spacing, and navigation implementation.
+
+Favor simplicity and maintainability. When choosing between a historically perfect inconvenience and a modern usability improvement that can be hidden inside the presentation, choose usability.
+
+COMPLETION CRITERIA
+
+LGD-001 is complete when all of the following are true:
+
+1. A clean native Android project exists.
+2. Kotlin and Jetpack Compose are the application foundation.
+3. The project builds successfully.
+4. The application launches without a web runtime or network dependency.
+5. The opening screens already establish a convincing ANSI/BBS identity.
+6. Numbered terminal menu lines operate as touch targets.
+7. Startup -> Title -> Main Menu -> New Game placeholder -> Town prototype works.
+8. Town contains the planned primary menu destinations as placeholders.
+9. Android Back/navigation works coherently.
+10. Local persistence has been proven with at least a minimal round trip.
+11. The source structure clearly separates presentation from future game/simulation logic.
+12. Default modern Android visual styling is not leaking conspicuously into the experience.
+13. The implementation plan and work order are preserved in the Android workspace.
+14. Tests/build checks pass.
+15. NXTPAPER qualification is performed if device access exists, otherwise explicitly deferred.
+16. No gameplay systems beyond this work order have been unnecessarily implemented.
+
+EXPECTED TERMINAL STATE
+
+LGD001_NATIVE_FOUNDATION_COMPLETE
+LGD001_ANSI_SHELL_ESTABLISHED
+LGD001_TOUCH_NAVIGATION_PROVEN
+LGD001_LOCAL_PERSISTENCE_FOUNDATION_PROVEN
+LGD002_CHARACTER_CREATION_READY
+
+NEXT PLANNED WORK
+
+LGD-002 — Character Creation, Persistent Player Save, and First Real Town State
+
+That work order will replace the character placeholder with the first actual player character and establish the durable game save from which gameplay can begin.

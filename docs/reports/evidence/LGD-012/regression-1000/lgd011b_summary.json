@@ -1,0 +1,71 @@
+{
+  "schema": "LGD-011B-recharacterization-v1",
+  "baseline": {"git_head":null,"save_schema":8},
+  "performance": {
+    "seasons":1000,"completed":1000,"unresolved":0,
+    "game_days":20232,"seconds":5.05,"seasons_per_second":197.92
+  },
+  "qualification": {
+    "runner_deterministic_pairs":10,
+    "condition_deterministic_pairs":10,
+    "save_reload_pairs":5,
+    "deterministic_cases":["training_failure:PASSIVE:1000001", "player_dragon_defeat:CASUAL:2000001", "npc_dragon_victory:PASSIVE:1000001", "player_dragon_victory:ORDINARY:3000001", "strong_npc_rank_one:PASSIVE:1000001", "multiple_callbacks:PASSIVE:1000001", "ordinary_retry_victory:ORDINARY:3000001", "casual_dragon_attempt:CASUAL:2000001", "multiple_credible_candidates:PASSIVE:1000001", "reckless_combat_defeat:RECKLESS:5000001"],
+    "save_reload_cases":["ordinary_loss_then_later_victory:ORDINARY:3000001", "npc_beats_player_to_dragon:PASSIVE:1000001", "strong_npc_ranking_lead:PASSIVE:1000001", "training_failure:PASSIVE:1000001", "chronicle_callback_chain:PASSIVE:1000001"]
+  },
+  "policies": {
+    "PASSIVE":{"count":200,"completed":200,"unresolved":0,"duration":{"count":200,"min":18.00,"max":27.00,"mean":20.94,"median":21.00,"p10":19.00,"p25":20.00,"p75":22.00,"p90":23.00,"p95":24.00},"player_victory_percent":0.00,"npc_victory_percent":100.00,"final_level_frequency":{"2":195, "3":5},"final_rank_frequency":{"16":19, "17":181},"median_final_level":2,"median_final_rank":17,"combat_defeat_percent":0.43,"fights_per_day":0.95,"mean_player_dragon_attempts":0.00,"first_dragon_attempt_success_percent":0.00,"at_least_one_dragon_attempt_percent":0.00,"median_first_ready_day":null,"median_first_attempt_day":null,"training_first_attempt_percent":86.34,"median_final_wealth":22},
+    "CASUAL":{"count":200,"completed":200,"unresolved":0,"duration":{"count":200,"min":18.00,"max":27.00,"mean":21.06,"median":21.00,"p10":19.00,"p25":20.00,"p75":22.00,"p90":23.00,"p95":24.00},"player_victory_percent":0.50,"npc_victory_percent":99.50,"final_level_frequency":{"2":1, "3":2, "4":4, "5":27, "6":103, "7":63},"final_rank_frequency":{"1":57, "2":54, "3":50, "4":19, "5":7, "6":3, "7":3, "8":1, "9":1, "11":1, "14":1, "15":1, "16":1, "17":1},"median_final_level":6,"median_final_rank":2,"combat_defeat_percent":0.19,"fights_per_day":6.51,"mean_player_dragon_attempts":0.31,"first_dragon_attempt_success_percent":0.00,"at_least_one_dragon_attempt_percent":19.50,"median_first_ready_day":20,"median_first_attempt_day":21,"training_first_attempt_percent":84.48,"median_final_wealth":240},
+    "ORDINARY":{"count":200,"completed":200,"unresolved":0,"duration":{"count":200,"min":18.00,"max":24.00,"mean":20.00,"median":20.00,"p10":19.00,"p25":19.00,"p75":21.00,"p90":21.00,"p95":22.00},"player_victory_percent":60.00,"npc_victory_percent":40.00,"final_level_frequency":{"6":25, "7":175},"final_rank_frequency":{"1":135, "2":51, "3":11, "4":3},"median_final_level":7,"median_final_rank":1,"combat_defeat_percent":0.43,"fights_per_day":8.16,"mean_player_dragon_attempts":1.00,"first_dragon_attempt_success_percent":59.64,"at_least_one_dragon_attempt_percent":83.00,"median_first_ready_day":19,"median_first_attempt_day":20,"training_first_attempt_percent":82.04,"median_final_wealth":235},
+    "AGGRESSIVE":{"count":200,"completed":200,"unresolved":0,"duration":{"count":200,"min":18.00,"max":21.00,"mean":19.58,"median":20.00,"p10":19.00,"p25":19.00,"p75":20.00,"p90":20.00,"p95":21.00},"player_victory_percent":98.50,"npc_victory_percent":1.50,"final_level_frequency":{"7":176, "8":24},"final_rank_frequency":{"1":186, "2":14},"median_final_level":7,"median_final_rank":1,"combat_defeat_percent":0.48,"fights_per_day":9.21,"mean_player_dragon_attempts":1.02,"first_dragon_attempt_success_percent":96.50,"at_least_one_dragon_attempt_percent":100.00,"median_first_ready_day":19,"median_first_attempt_day":20,"training_first_attempt_percent":83.33,"median_final_wealth":406},
+    "RECKLESS":{"count":200,"completed":200,"unresolved":0,"duration":{"count":200,"min":18.00,"max":22.00,"mean":19.59,"median":20.00,"p10":19.00,"p25":19.00,"p75":20.00,"p90":21.00,"p95":21.00},"player_victory_percent":99.00,"npc_victory_percent":1.00,"final_level_frequency":{"6":1, "7":171, "8":28},"final_rank_frequency":{"1":182, "2":16, "3":2},"median_final_level":7,"median_final_rank":1,"combat_defeat_percent":1.39,"fights_per_day":8.97,"mean_player_dragon_attempts":1.01,"first_dragon_attempt_success_percent":98.99,"at_least_one_dragon_attempt_percent":99.50,"median_first_ready_day":19,"median_first_attempt_day":20,"training_first_attempt_percent":83.13,"median_final_wealth":428}
+  },
+  "ordinary": {
+    "duration":{"count":200,"min":18.00,"max":24.00,"mean":20.00,"median":20.00,"p10":19.00,"p25":19.00,"p75":21.00,"p90":21.00,"p95":22.00},
+    "player_victory_percent":60.00,
+    "npc_victory_percent":40.00,
+    "unresolved_percent":0.00,
+    "first_player_attempt_success_percent":59.64,
+    "all_player_attempt_success_percent":60.00,
+    "mean_player_attempts":1.00,
+    "player_never_attempted_percent":17.00,
+    "player_lost_then_npc_won_percent":23.00,
+    "player_lost_then_later_won_percent":10.50,
+    "player_first_attempt_win_season_percent":49.50,
+    "player_multiple_attempt_win_percent":10.50,
+    "npc_first_attempt_success_percent":57.58,
+    "multiple_npc_challengers_percent":16.00,
+    "player_attempt_readiness":{"attempts":200,"unique_challengers":166,"mean_level":7.00,"median_level":7,"mean_attack":26.91,"mean_defense":17.17,"mean_maximum_hp":50.00,"mean_combat_power":149.52,"readiness_tiers":{"WELL_PREPARED":200},"weapon_distribution":{"battle_axe":127, "steel_longsword":73},"armor_distribution":{"knight_plate":189, "mithril_mail":11},"first_attempt_success_percent":59.64,"all_attempt_success_percent":60.00,"median_first_attempt_day":20},
+    "npc_attempt_readiness":{"attempts":136,"unique_challengers":62,"mean_level":6.29,"median_level":6,"mean_attack":21.82,"mean_defense":14.04,"mean_maximum_hp":46.65,"mean_combat_power":123.46,"readiness_tiers":{"DANGEROUS":30, "READY":28, "WELL_PREPARED":78},"weapon_distribution":{"broad_sword":90, "knights_sword":22, "steel_blade":5, "steel_longsword":19},"armor_distribution":{"chain_mail":8, "knight_plate":15, "plate_armor":38, "scale_armor":75},"first_attempt_success_percent":57.58,"all_attempt_success_percent":58.82,"median_first_attempt_day":20},
+    "npc_victory_categories":{"A_NPC_STRONGER_THAN_PLAYER":37, "B_NPC_READY_EARLIER":30, "C_PLAYER_LOST_NPC_WON_LATER":13},
+    "final_player_levels":{"6":25, "7":175},
+    "final_player_ranks":{"1":135, "2":51, "3":11, "4":3},
+    "player_rank_one_percent":67.50,
+    "player_top_three_percent":98.50,
+    "player_top_five_percent":100.00,
+    "final_rank_stats":{"count":200,"min":1.00,"max":4.00,"mean":1.41,"median":1.00,"p10":1.00,"p25":1.00,"p75":2.00,"p90":2.00,"p95":3.00},
+    "candidate_stats":{"count":200,"min":1.00,"max":5.00,"mean":2.28,"median":2.00,"p10":1.00,"p25":2.00,"p75":3.00,"p90":4.00,"p95":4.00},
+    "candidate_frequency":{"0":0, "1":44, "2":81, "3":53, "4_plus":22},
+    "npc_ready_before_player_percent":32.50,
+    "npc_levels":{"all_npc_median":4,"maximum_observed":8,"top_npc_frequency":{"5":6, "6":87, "7":100, "8":7},"top_npc_stats":{"count":200,"min":5.00,"max":8.00,"mean":6.54,"median":7.00,"p10":6.00,"p25":6.00,"p75":7.00,"p90":7.00,"p95":7.00},"top_three_median_levels":[7,6,5],"mean_at_player_minus_one":1.89,"mean_equal_to_player":0.66,"mean_above_player":0.17},
+    "training":{"attempts":1418,"successes":1175,"failures":243,"first_attempt_success_percent":82.04,"second_attempt_promotion_percent":15.91,"three_plus_attempt_promotion_percent":2.04,"maximum_attempts":5,"maximum_failure_streak":4,"average_failure_delay_days":0.21,"progression_lock_cases":0,"by_target_level":{"2":{"attempts":249,"successes":200,"failures":49,"attempt_success_percent":80.32,"first_attempt_success_percent":80.50},"3":{"attempts":254,"successes":200,"failures":54,"attempt_success_percent":78.74,"first_attempt_success_percent":77.00},"4":{"attempts":233,"successes":200,"failures":33,"attempt_success_percent":85.84,"first_attempt_success_percent":84.00},"5":{"attempts":240,"successes":200,"failures":40,"attempt_success_percent":83.33,"first_attempt_success_percent":82.50},"6":{"attempts":242,"successes":200,"failures":42,"attempt_success_percent":82.64,"first_attempt_success_percent":81.50},"7":{"attempts":200,"successes":175,"failures":25,"attempt_success_percent":87.50,"first_attempt_success_percent":86.44}}},
+    "combat_defeat_percent":0.43,
+    "chronicle": {
+      "size_frequency":{"0":1, "1":120, "2":3, "3":12, "4":115, "5":1809, "6":1863, "7":77},
+      "stats":{"count":4000,"min":0.00,"max":7.00,"mean":5.35,"median":5.00,"p10":5.00,"p25":5.00,"p75":6.00,"p90":6.00,"p95":6.00},
+      "ceiling_day_percent":1.93,
+      "callbacks_per_season":4.68,
+      "incidents_with_callback_per_season":4.68,
+      "rivalry_callbacks_per_season":4.68,
+      "dragon_preparation_callbacks_per_season":0.00,
+      "callback_share_percent":4.37,
+      "mean_npcs_present":15.93,
+      "mean_npcs_repeated":15.49,
+      "mean_npcs_absent":0.07,
+      "mean_top_npc_share_percent":14.07,
+      "mean_top_three_share_percent":34.56
+    },
+    "level_timing":{"2":{"reached":200,"percent":100.00,"median_day":1,"p10_day":1,"p90_day":2},"3":{"reached":200,"percent":100.00,"median_day":5,"p10_day":4,"p90_day":8},"4":{"reached":200,"percent":100.00,"median_day":7,"p10_day":5,"p90_day":10},"5":{"reached":200,"percent":100.00,"median_day":9,"p10_day":7,"p90_day":12},"6":{"reached":200,"percent":100.00,"median_day":13,"p10_day":11,"p90_day":16},"7":{"reached":175,"percent":87.50,"median_day":18,"p10_day":16,"p90_day":20},"8":{"reached":0,"percent":0.00,"median_day":null,"p10_day":null,"p90_day":null},"9":{"reached":0,"percent":0.00,"median_day":null,"p10_day":null,"p90_day":null}},
+    "dragon_stage_timing":{"WHISPERS":{"count":200,"min":1.00,"max":1.00,"mean":1.00,"median":1.00,"p10":1.00,"p25":1.00,"p75":1.00,"p90":1.00,"p95":1.00},"SIGNS":{"count":200,"min":3.00,"max":5.00,"mean":4.03,"median":4.00,"p10":4.00,"p25":4.00,"p75":4.00,"p90":4.00,"p95":4.00},"FEAR":{"count":200,"min":7.00,"max":10.00,"mean":8.40,"median":8.00,"p10":8.00,"p25":8.00,"p75":9.00,"p90":9.00,"p95":9.00},"CRISIS":{"count":200,"min":13.00,"max":16.00,"mean":14.04,"median":14.00,"p10":13.00,"p25":14.00,"p75":14.00,"p90":15.00,"p95":15.00},"CHALLENGE_WINDOW":{"count":200,"min":17.00,"max":20.00,"mean":18.54,"median":19.00,"p10":18.00,"p25":18.00,"p75":19.00,"p90":19.00,"p95":20.00},"RESOLVED":{"count":200,"min":18.00,"max":24.00,"mean":20.00,"median":20.00,"p10":19.00,"p25":19.00,"p75":21.00,"p90":21.00,"p95":22.00}},
+    "economy_equipment":{"final_wealth":{"count":200,"min":6.00,"max":688.00,"mean":291.90,"median":235.00,"p10":42.00,"p25":125.00,"p75":467.00,"p90":606.00,"p95":631.00},"weapons":{"battle_axe":145, "broad_sword":1, "steel_longsword":54},"armor":{"knight_plate":184, "mithril_mail":11, "scale_armor":5},"mean_healing_spent":301.09,"mean_equipment_spent":2291.38,"mean_defeat_loss":5.24}
+  }
+}

@@ -1,0 +1,24 @@
+LEGEND OF THE GLASS DRAGON
+WORK ORDER LGD-011A
+TARGETED BALANCE EXPERIMENT + RECHARACTERIZATION
+
+STATUS
+
+AUTHORIZED FOR ONE TARGETED EXPERIMENT
+
+SCOPE
+
+- strengthen a legitimate high-performing NPC cohort;
+- make the Glass Dragon less automatic;
+- add bounded deterministic Physical Training failure;
+- broaden lawful player progression outcomes;
+- reduce Chronicle saturation and strengthen recurring callbacks;
+- repair the synthetic Casual policy;
+- rerun 2,500 deterministic seasons with 500 per policy;
+- stop after the experiment and return measurements for Principal review;
+- use zero human playtesting and perform no unauthorized iterative tuning.
+
+EXPECTED DISPOSITION
+
+LGD011A_RECHARACTERIZED_PRINCIPAL_REVIEW_REQUIRED
+

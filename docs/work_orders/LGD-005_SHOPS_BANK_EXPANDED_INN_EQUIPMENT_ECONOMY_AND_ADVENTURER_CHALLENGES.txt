@@ -1,0 +1,1114 @@
+LEGEND OF THE GLASS DRAGON
+WORK ORDER LGD-005
+SHOPS, BANK, EXPANDED INN, EQUIPMENT ECONOMY, AND ADVENTURER CHALLENGES
+
+STATUS
+
+AUTHORIZED FOR IMPLEMENTATION
+
+
+GOVERNING BASELINE
+
+LGD-001 established the native Android / Kotlin / Jetpack Compose foundation and ANSI/BBS presentation.
+
+LGD-002 established:
+
+- character creation;
+- persistent player identity;
+- Continue Game;
+- GameState persistence;
+- Town;
+- Character Status.
+
+LGD-003 established:
+
+- Forest combat;
+- monster encounters;
+- HP and healing;
+- experience and gold;
+- training and leveling;
+- finite daily fights;
+- defeat/recovery;
+- consecutive game-day advancement.
+
+LGD-004 established:
+
+- a persistent simulated adventurer population;
+- daily NPC activity;
+- NPC progression;
+- NPC equipment improvement;
+- Rankings;
+- Realm News;
+- morning reports;
+- Inn community presence;
+- gossip;
+- deterministic world advancement.
+
+LGD-005 should expand the existing playable loop rather than introduce a new architectural direction.
+
+
+PRIMARY OBJECTIVE
+
+Turn the Village from a collection of functional destinations into a meaningful BBS RPG economy and social competition hub.
+
+At completion, the player must be able to:
+
+- buy and upgrade weapons;
+- buy and upgrade armor;
+- deposit gold safely;
+- withdraw gold;
+- understand the difference between carried and banked wealth;
+- interact more meaningfully with the simulated adventurers in the Inn;
+- challenge another adventurer;
+- win or lose those encounters;
+- create rivalry, news, and ranking consequences from those encounters;
+- see player and NPC equipment participate in one coherent economy/progression system.
+
+This should make gold, equipment, rankings, and rival adventurers matter substantially more than they do at the LGD-004 baseline.
+
+
+PRODUCT FEEL
+
+This should feel like exploring additional doors on a busy BBS game menu.
+
+For example:
+
+    -=- YE OLDE WEAPON SHOPPE -=-
+
+    You carry: 327 gold
+
+    [1] Short Sword........ 100
+    [2] Broad Sword........ 250
+    [3] Steel Longsword.... 500
+
+    Your weapon:
+    Rusty Sword
+
+    [4] Sell Current Weapon
+    [5] Return to Town
+
+The player taps lines.
+
+Do not turn shops into:
+
+- image grids;
+- shopping cards;
+- item icons;
+- modern store tabs;
+- graphical currency badges.
+
+The game remains text-first.
+
+
+PART 1 — UNIFY THE EQUIPMENT CATALOG
+
+LGD-004 introduced lightweight NPC equipment progression.
+
+Formalize the equipment model so player and NPC characters refer to the same canonical catalog where appropriate.
+
+At minimum support:
+
+WeaponDefinition
+
+- stable ID;
+- display name;
+- attack contribution;
+- purchase price;
+- resale value or resale rule;
+- progression tier;
+- minimum level if required.
+
+ArmorDefinition
+
+- stable ID;
+- display name;
+- defense contribution;
+- purchase price;
+- resale value or resale rule;
+- progression tier;
+- minimum level if required.
+
+Do not store complete duplicated item statistics separately inside every character save if stable catalog IDs are sufficient.
+
+The save should preserve item identity lawfully across reloads.
+
+
+PART 2 — EQUIPMENT LADDER
+
+Create a modest initial progression ladder.
+
+Do not create dozens of items.
+
+A useful first pass might contain approximately:
+
+- 6–10 weapons;
+- 6–10 armor pieces.
+
+The early tiers should be realistically affordable during ordinary play.
+
+Later tiers should provide goals over multiple game days.
+
+Example tone:
+
+WEAPONS
+
+- Rusty Sword
+- Short Sword
+- Broad Sword
+- Steel Longsword
+- Battle Axe
+- Runed Blade
+
+ARMOR
+
+- Worn Leather
+- Leather Armor
+- Studded Leather
+- Chain Mail
+- Scale Armor
+- Plate Mail
+
+Exact names and numbers are Builder discretion.
+
+Maintain the light reskin / Glass Dragon identity rather than reproducing an old game's item list verbatim if there is a better thematic option.
+
+
+PART 3 — PLAYER COMBAT STATS
+
+Ensure attack and defense derive coherently from:
+
+- base character growth;
+- equipment contribution;
+- any already-existing stat fields.
+
+Avoid accidentally counting equipment twice.
+
+If LGD-003 stored final Attack and Defense directly and LGD-005 now needs base/equipment separation, migrate the model deliberately.
+
+The UI should remain able to display simple understandable totals such as:
+
+    Attack...... 11
+    Defense..... 8
+
+Optional detail may appear in Character Status:
+
+    Attack...... 11  (6 + 5 weapon)
+    Defense.....  8  (4 + 4 armor)
+
+Do not expose unnecessary internal formulas.
+
+
+PART 4 — WEAPON SHOP
+
+Replace any placeholder with a functional weapon merchant.
+
+At minimum support:
+
+- current weapon display;
+- current carried gold;
+- available weapons;
+- price;
+- basic attack improvement;
+- purchase;
+- sale/trade-in handling;
+- refusal when unaffordable;
+- refusal when level-gated if level gates are used;
+- return to Town.
+
+Purchases must be atomic.
+
+Rapid taps must not:
+
+- buy twice;
+- deduct gold twice;
+- duplicate items.
+
+The player should not need to manually manage an inventory of obsolete weapons unless that adds clear value.
+
+Preferred initial rule:
+
+The player owns one equipped weapon.
+
+Buying another weapon replaces the current one, with a documented resale/trade-in value applied if appropriate.
+
+
+PART 5 — ARMOR SHOP
+
+Implement armor purchasing using the same general principles as the Weapon Shop.
+
+At minimum:
+
+- current armor;
+- carried gold;
+- available armor;
+- defense effect;
+- purchase;
+- trade-in/resale;
+- affordability handling.
+
+Avoid duplicating shop logic unnecessarily where a shared shop/economy service is appropriate.
+
+Do not force both shops into one generic abstraction if doing so makes the code harder to understand.
+
+
+PART 6 — PURCHASE EXPERIENCE
+
+Buying something should produce a small BBS-style acknowledgement.
+
+Example:
+
+    The smith takes your gold.
+
+    You are now armed with:
+    Steel Longsword
+
+    Attack increased to 14!
+
+    [1] Continue Shopping
+    [2] Return to Town
+
+Keep feedback concise.
+
+Do not animate an equipment panel or open a modern toast for major purchases.
+
+
+PART 7 — ECONOMY RULES
+
+Centralize core economy rules.
+
+At minimum define:
+
+- equipment price;
+- resale/trade-in value;
+- healer cost;
+- monster gold rewards;
+- death gold loss;
+- bank deposit behavior;
+- bank withdrawal behavior.
+
+The economy should be internally coherent enough that:
+
+- Forest victories produce meaningful purchasing power;
+- better equipment requires some saving;
+- defeat makes carried gold meaningfully risky;
+- the bank provides a reason to visit Town.
+
+Do not attempt final economy balance yet.
+
+
+PART 8 — BANK
+
+Implement a functional Bank.
+
+Add persistent:
+
+- carried gold;
+- banked gold.
+
+The player should be able to:
+
+- deposit gold;
+- withdraw gold;
+- deposit all;
+- withdraw all;
+- return to Town.
+
+A terminal-style flow might be:
+
+    -=- FIRST BANK OF THE REALM -=-
+
+    On hand:  327 gold
+    In bank:  850 gold
+
+    [1] Deposit Gold
+    [2] Withdraw Gold
+    [3] Deposit All
+    [4] Withdraw All
+    [5] Return to Town
+
+
+PART 9 — GOLD ENTRY
+
+Do not require free-form keyboard entry for ordinary banking unless it clearly improves usability.
+
+Prefer touch-driven amount choices.
+
+Possible design:
+
+    How much do you wish to deposit?
+
+    [1] 25 gold
+    [2] 50 gold
+    [3] 100 gold
+    [4] Half
+    [5] All
+    [6] Cancel
+
+Another acceptable solution is a terminal-styled numeric selector if convenient.
+
+The project principle remains:
+
+TEXT ENTRY ONLY WHERE IT IS GENUINELY BETTER.
+
+Do not summon the software keyboard merely because historical BBS software expected typed numbers.
+
+
+PART 10 — BANK SAFETY
+
+Banked gold must be protected from ordinary Forest defeat.
+
+Only carried gold should participate in the LGD-003 defeat loss unless a future explicit mechanic changes that.
+
+Verify:
+
+- carried gold never goes negative;
+- banked gold never goes negative;
+- deposits cannot exceed carried gold;
+- withdrawals cannot exceed banked gold;
+- a transaction executes exactly once;
+- save/load preserves both balances.
+
+
+PART 11 — PLAYER EQUIPMENT AND NPC ECONOMY COHERENCE
+
+NPC equipment upgrades from LGD-004 should now use the canonical weapon/armor catalogs and real purchase prices where practical.
+
+NPCs should not simply materialize equipment for free.
+
+Their lightweight economy should account for:
+
+- available gold;
+- desired upgrade;
+- actual equipment cost.
+
+It is acceptable for NPC purchase logic to remain abstract and outcome-oriented.
+
+Do not force NPCs to visit UI shop screens.
+
+The important rule is that NPC wealth and equipment should broadly obey the same world economy.
+
+
+PART 12 — NPC EQUIPMENT VISIBILITY
+
+NPC profiles should now show meaningful equipment.
+
+Example:
+
+    -=- MIRA -=-
+
+    Rank......... 3
+    Level........ 5
+    Weapon....... Broad Sword
+    Armor........ Chain Mail
+
+    Recent News:
+    Defeated a Forest Troll on Day 12.
+
+    [1] Challenge Mira
+    [2] Return
+
+This should help players form opinions such as:
+
+"Mira has better armor than I do."
+
+That comparison is desirable.
+
+
+PART 13 — EXPANDED INN
+
+Expand the Inn from an information location into the first meaningful social/action hub.
+
+Suggested structure:
+
+    -=- THE DRAGON'S REST -=-
+
+    [1] Hear Gossip
+    [2] Read Realm News
+    [3] See Who Is Here
+    [4] Talk to an Adventurer
+    [5] Challenge an Adventurer
+    [6] Return to Town
+
+"Talk" may remain modest in this phase.
+
+The important new interaction is:
+
+CHALLENGE AN ADVENTURER.
+
+
+PART 14 — WHO IS AT THE INN
+
+Each game day, determine a bounded subset of NPC adventurers who are present at the Inn.
+
+Presence should be:
+
+- persistent for that game day;
+- derived deterministically from the world state / controlled randomness;
+- influenced by status/personality if convenient.
+
+A recovering adventurer might plausibly be more likely to appear.
+
+An adventurer currently incapacitated by another state should not appear inconsistently.
+
+The player should not need access to every NPC from every Inn menu every day.
+
+
+PART 15 — ADVENTURER CHALLENGES
+
+Implement player-vs-simulated-adventurer combat.
+
+This is NOT real multiplayer.
+
+The player challenges a locally simulated persistent NPC.
+
+Use the existing combat engine/rules where practical.
+
+The opponent should derive combat values from their actual:
+
+- level;
+- stats;
+- weapon;
+- armor.
+
+Do not create a separate arbitrary "PvP power score" if the existing rules can cleanly support the encounter.
+
+
+PART 16 — CHALLENGE ELIGIBILITY
+
+Not every NPC should necessarily be challengeable at all times.
+
+At minimum prevent challenges when:
+
+- NPC is not in an eligible active state;
+- player is already defeated for the day;
+- another challenge is currently resolving.
+
+Optional guardrails may include:
+
+- level-difference warnings;
+- daily challenge limits.
+
+Do not overcomplicate eligibility.
+
+The system should principally prevent incoherent or exploitative states.
+
+
+PART 17 — DAILY PLAYER CHALLENGE LIMIT
+
+Introduce a small daily limit for adventurer challenges.
+
+Recommended initial rule:
+
+    1 challenge per game day
+
+or:
+
+    2 challenges per game day
+
+Builder may choose based on play feel.
+
+This creates consequence and prevents the Inn from becoming an unlimited gold/XP farming loop.
+
+Display the remaining opportunity clearly.
+
+Example:
+
+    Adventurer Challenge Remaining: 1
+
+
+PART 18 — CHALLENGE ACCEPTANCE
+
+For LGD-005, NPC challenge acceptance may be simple.
+
+Possible rule:
+
+- most eligible NPCs accept;
+- cautious personalities may occasionally refuse;
+- aggressive personalities almost always accept;
+- NPCs significantly stronger/weaker may react differently.
+
+A refusal should produce flavor, not break the interaction.
+
+Example:
+
+    Cedric laughs.
+
+    "Not today. Find someone else to bleed on."
+
+Do not build a negotiation system.
+
+
+PART 19 — ADVENTURER COMBAT PRESENTATION
+
+Distinguish an adventurer duel from a monster encounter while reusing core mechanics.
+
+Example:
+
+    -=- A CHALLENGE! -=-
+
+    Arcturus
+    Level 5
+    HP: 41 / 41
+
+           versus
+
+    Mira
+    Level 5
+    HP: 39 / 39
+
+    [1] Attack
+    [2] Yield
+
+Use "Yield" rather than "Run Away" if it better fits the duel.
+
+The combat log should identify the opponent by name.
+
+Example:
+
+    You strike Mira for 7 damage!
+
+    Mira answers with a vicious blow for 5!
+
+
+PART 20 — PLAYER VICTORY IN A CHALLENGE
+
+A victory should matter, but should not destroy NPC continuity.
+
+On player victory:
+
+- resolve opponent defeat lawfully;
+- record the challenge result;
+- generate a WorldEvent;
+- modify familiarity/rivalry;
+- apply a modest reward if appropriate;
+- update relevant statistics.
+
+Potential reward options:
+
+- small gold stake;
+- small experience award;
+- prestige/ranking contribution.
+
+Do NOT award the same rewards as a full Forest monster grind if that creates easy farming.
+
+The exact initial reward is Builder discretion.
+
+
+PART 21 — PLAYER LOSS / YIELD
+
+If the player loses:
+
+- the save remains lawful;
+- apply a meaningful but recoverable consequence;
+- generate community news where notable;
+- update relationship/rivalry;
+- consume the daily challenge opportunity.
+
+Prefer not to end the entire player's Forest fighting day automatically unless playtesting shows that is desirable.
+
+A duel loss and a Forest near-death do not have to be identical.
+
+If the player chooses Yield:
+
+- combat ends;
+- no victory reward;
+- challenge is consumed;
+- rivalry/familiarity may change modestly.
+
+Do not permit Yield after the opponent is already defeated.
+
+
+PART 22 — NPC CONSEQUENCE OF PLAYER DUEL
+
+A defeated NPC should remain the same persistent NPC.
+
+Potential consequence:
+
+- temporary RECOVERING status;
+- modest carried gold loss if such a model exists;
+- daily action reduction;
+- rivalry increase.
+
+Be cautious about allowing the player to repeatedly cripple the entire simulated population.
+
+A challenge should create history, not permanently sabotage the simulation.
+
+
+PART 23 — NPC-VS-NPC CHALLENGES
+
+Extend world simulation with a lightweight possibility of adventurers challenging one another.
+
+Do not simulate these through full combat turns.
+
+Resolve them using outcome-oriented logic.
+
+Generate notable events such as:
+
+    Raven defeated Thorn in a challenge.
+
+    Mira embarrassed Cedric at the Inn.
+
+    Selene has challenged Raven for bragging rights.
+
+This should reinforce the sense that the community has social competition independent of the player.
+
+
+PART 24 — RIVALRY V1
+
+Expand the LGD-004 familiarity foundation with a simple rivalry value or relationship classification.
+
+Do not build a giant relationship engine.
+
+At minimum, repeated events such as:
+
+- player challenging NPC;
+- NPC beating player;
+- player beating NPC;
+- overtaking each other in rankings;
+
+may increase rivalry.
+
+The UI may expose only a readable label such as:
+
+    Attitude..... Rival
+
+or:
+
+    You and Mira have become fierce rivals.
+
+Do not display raw numbers unless useful for debugging.
+
+
+PART 25 — REMEMBERED CHALLENGE HISTORY
+
+NPCs should not behave as if a duel never happened.
+
+Store enough compact history to support later references.
+
+At minimum consider:
+
+- player wins vs this NPC;
+- player losses vs this NPC;
+- most recent challenge day;
+- rivalry/familiarity.
+
+This can drive gossip such as:
+
+    "Mira is still angry about the beating
+     you gave her yesterday."
+
+or:
+
+    "Raven says you won't get lucky twice."
+
+
+PART 26 — REALM NEWS INTEGRATION
+
+Generate news from meaningful player/NPC challenge outcomes.
+
+Examples:
+
+    Arcturus defeated Mira at the Inn!
+
+    Raven bested Thorn in a challenge.
+
+    Cedric forced Arcturus to yield.
+
+Prioritize noteworthy events.
+
+Do not generate a giant transcript of every attack.
+
+
+PART 27 — GOSSIP INTEGRATION
+
+Update gossip generation to reference:
+
+- recent player challenges;
+- known rivalries;
+- equipment purchases;
+- bank/economy only where publicly plausible;
+- rank changes.
+
+Do not have NPCs mysteriously know the exact value of the player's private bank account.
+
+World information should remain plausible within the BBS fiction.
+
+
+PART 28 — RANKINGS AND CHALLENGES
+
+Do not automatically change the primary level/XP ranking simply because someone wins one duel unless that follows the existing progression system.
+
+However, challenge outcomes may:
+
+- affect XP modestly;
+- create a separate win/loss indicator;
+- influence descriptive prestige.
+
+If adding an explicit PvP record, keep it simple.
+
+Example NPC profile:
+
+    Challenges... 4 wins / 2 losses
+
+A separate "greatest fighter" leaderboard is optional and should only be added if it remains visually simple and provides clear value.
+
+
+PART 29 — PLAYER CHARACTER STATUS EXPANSION
+
+Update Character Status to include:
+
+- carried gold;
+- banked gold;
+- weapon;
+- armor;
+- current attack/defense;
+- challenge record if implemented;
+- current rank.
+
+Keep it compact enough to feel like an old character record screen.
+
+
+PART 30 — TOWN MENU EXPANSION
+
+By the end of LGD-005, Town should include functional access to approximately:
+
+    [1] Enter the Forest
+    [2] Visit the Healer
+    [3] Weapon Shop
+    [4] Armor Shop
+    [5] Bank
+    [6] Training Hall
+    [7] The Inn
+    [8] Rankings
+    [9] Character
+    [0] End the Day
+
+Exact numbering/layout may differ.
+
+If the menu becomes too tall for some devices:
+
+- use scrolling;
+- maintain generous touch targets;
+- do not shrink text into illegibility.
+
+A classic numbered menu may happily scroll on a modern touchscreen.
+
+
+PART 31 — ECONOMY BALANCE PASS
+
+Run a practical early-game balance pass.
+
+A normal player should be able to:
+
+- afford their first meaningful upgrade within a reasonable number of fights/days;
+- understand why banking gold is useful;
+- feel some tension about carrying a large amount into the Forest;
+- save toward clearly stronger equipment;
+- avoid becoming instantly rich from NPC challenges.
+
+NPCs should also upgrade over time without all purchasing the same tier on the same day.
+
+
+PART 32 — COMBAT BALANCE WITH EQUIPMENT
+
+Verify that equipment now produces meaningful combat differences.
+
+Expected:
+
+- buying a better weapon noticeably improves offensive performance;
+- buying armor noticeably improves survival;
+- equipment advantages are meaningful but not absolute;
+- an under-equipped character can still occasionally beat a similar-level rival;
+- a vastly stronger opponent remains dangerous.
+
+Do not overfit final balance.
+
+
+PART 33 — SAVE SCHEMA EVOLUTION
+
+LGD-005 materially expands GameState.
+
+Handle:
+
+- banked gold;
+- canonical equipment IDs;
+- challenge counts;
+- rivalry/history;
+- Inn daily presence if persisted;
+- any new NPC economy state.
+
+Use the existing schema/version strategy.
+
+Migrate lawful LGD-004 saves where reasonably simple.
+
+If development-era reset remains the project policy, make incompatibility explicit rather than silently corrupting state.
+
+
+PART 34 — ATOMIC ACTION SAFETY
+
+High-value actions now include:
+
+- buying equipment;
+- selling/trading equipment;
+- bank deposit;
+- bank withdrawal;
+- beginning a challenge;
+- resolving a challenge reward;
+- End Day.
+
+Rapid tapping and lifecycle events must not:
+
+- duplicate purchases;
+- duplicate sale credit;
+- duplicate withdrawals;
+- create gold;
+- duplicate duel rewards;
+- consume multiple daily challenges.
+
+Treat these operations as logical atomic transitions in the game layer.
+
+
+PART 35 — TEST REQUIREMENTS
+
+Add meaningful automated tests for:
+
+EQUIPMENT
+
+- catalog IDs unique;
+- lawful prices;
+- stronger tiers improve appropriate stat;
+- equipment lookup survives save/load;
+- purchase deducts exactly once;
+- trade-in/resale correct;
+- unaffordable purchase rejected;
+- duplicate tap cannot duplicate acquisition.
+
+COMBAT STATS
+
+- base + equipment calculation correct;
+- equipment not double-counted;
+- stat values remain lawful.
+
+BANK
+
+- deposit;
+- withdrawal;
+- deposit all;
+- withdraw all;
+- insufficient funds;
+- carried/banked gold never negative;
+- banked gold protected from ordinary Forest defeat;
+- save/load round trip.
+
+NPC ECONOMY
+
+- NPC cannot buy unaffordable equipment;
+- purchase reduces gold;
+- NPC uses canonical equipment catalog;
+- progression remains lawful.
+
+CHALLENGES
+
+- eligible opponent can be challenged;
+- ineligible opponent rejected;
+- daily challenge limit enforced;
+- player victory;
+- player loss;
+- yield;
+- reward exactly once;
+- challenge opportunity consumed exactly once;
+- NPC continuity preserved;
+- relationship/rivalry updated.
+
+NPC-VS-NPC
+
+- bounded simulation;
+- lawful outcome;
+- news event generated where appropriate.
+
+NEWS/GOSSIP
+
+- player challenge result may appear in Realm News;
+- rivalry can influence gossip;
+- private bank balance is not leaked by generic gossip.
+
+LONG RUN
+
+Extend the deterministic simulation soak test so at least 1,000 days including:
+
+- NPC equipment purchases;
+- NPC challenge activity;
+- economy changes;
+
+remain structurally lawful.
+
+
+PART 36 — DEVICE QUALIFICATION
+
+If NXTPAPER access exists, qualify at minimum:
+
+- Weapon Shop;
+- Armor Shop;
+- buying an item;
+- failed unaffordable purchase;
+- Bank deposit;
+- Bank withdrawal;
+- carried vs banked gold after save/restart;
+- Inn;
+- selecting an NPC;
+- viewing equipment;
+- challenge flow;
+- duel victory;
+- duel loss or controlled loss;
+- Yield;
+- updated gossip/news;
+- Town scrolling with expanded menu;
+- repeated taps on purchase/banking/combat actions;
+- Android Back from transactional screens.
+
+Pay particular attention to whether touch conveniences remain intuitive without making the presentation feel like a conventional modern app.
+
+If physical access is unavailable, use emulator qualification and report NXTPAPER validation as outstanding.
+
+
+VISUAL ACCEPTANCE STANDARD
+
+LGD-005 should make the game deeper without making it visually newer.
+
+Correct:
+
+    [3] Broad Sword........ 250 gold
+
+    Bank Balance: 1,240
+
+    Mira......... Level 5
+    Weapon........ Broad Sword
+
+    [1] Challenge Mira
+
+Incorrect direction:
+
+- sword thumbnails;
+- progress meters;
+- graphical inventory slots;
+- draggable items;
+- currency icons;
+- colorful profile cards;
+- modern PvP matchmaking screen;
+- graphical versus screen.
+
+The antique interface remains part of the product identity.
+
+
+DO NOT IMPLEMENT YET
+
+Do not implement:
+
+- full inventory/backpack management;
+- consumable item economy;
+- item rarity colors/loot tiers;
+- crafting;
+- quests;
+- clans/guilds;
+- marriage;
+- deep romance;
+- mail;
+- true multiplayer;
+- network features;
+- cloud saves;
+- Dragon encounters;
+- rebirth/prestige;
+- large story campaigns;
+- graphical equipment artwork.
+
+Do not allow LGD-005 to become a general systems-expansion phase.
+
+
+BUILDER DISCRETION
+
+The Builder may choose:
+
+- exact equipment catalog;
+- item prices;
+- resale percentage;
+- bank interaction denominations;
+- challenge limit per day;
+- challenge reward;
+- NPC acceptance probability;
+- rivalry thresholds;
+- whether challenge record affects XP;
+- exact Inn presence rules;
+- exact shopkeeper/gossip prose.
+
+Keep tunable values centralized.
+
+Favor a coherent, enjoyable early economy and recognizable recurring rivals over intricate mechanics.
+
+
+COMPLETION CRITERIA
+
+LGD-005 is complete when:
+
+1. A canonical equipment catalog exists.
+2. Player and NPC equipment use that catalog coherently.
+3. Player combat stats properly incorporate equipment.
+4. Weapon Shop is functional.
+5. Armor Shop is functional.
+6. Purchases and trade-ins are atomic and persistent.
+7. Carried gold and banked gold are separate.
+8. Bank deposits and withdrawals work.
+9. Banked gold survives save/load.
+10. Ordinary Forest defeat does not remove banked gold.
+11. NPC equipment purchases obey the world economy.
+12. NPC profiles expose meaningful equipment.
+13. The Inn presents a daily set of eligible adventurers.
+14. The player can challenge simulated adventurers.
+15. Adventurer duels use actual persistent NPC stats/equipment.
+16. Player duel victory works.
+17. Player duel loss works.
+18. Yield works.
+19. Daily challenge limits prevent unlimited farming.
+20. Duel outcomes generate persistent history.
+21. Rivalry/familiarity responds to meaningful encounters.
+22. NPC-vs-NPC challenges may occur during world simulation.
+23. Relevant challenge outcomes appear in Realm News.
+24. Gossip can reference actual rivalries and recent events.
+25. Character Status reflects the expanded economy and equipment state.
+26. Town provides functional access to shops, Bank, Inn, Rankings, Training, Forest, Healer, Character, and End Day.
+27. Economy values remain lawful under repeated play.
+28. Rapid touch input cannot duplicate money, purchases, or rewards.
+29. Save schema evolution is handled deliberately.
+30. Deterministic long-run simulation remains stable.
+31. Normal build/test checks pass.
+32. NXTPAPER qualification is completed if accessible, otherwise explicitly deferred.
+
+
+EXPECTED TERMINAL STATE
+
+LGD005_PLAYER_EQUIPMENT_ECONOMY_COMPLETE
+LGD005_WEAPON_SHOP_FUNCTIONAL
+LGD005_ARMOR_SHOP_FUNCTIONAL
+LGD005_BANK_FUNCTIONAL
+LGD005_INN_EXPANDED
+LGD005_ADVENTURER_CHALLENGES_FUNCTIONAL
+LGD005_RIVALRY_V1_FUNCTIONAL
+LGD005_COMMUNITY_ECONOMY_COHERENT
+LGD006_WORLD_EVENTS_AND_SOCIAL_DEPTH_READY
+
+
+NEXT PLANNED WORK
+
+LGD-006 — Special Forest Events, Richer Inn Encounters, Relationships, and Persistent Community Stories
+
+The next work should focus less on adding another pile of economic mechanics and more on making consecutive days memorable.
+
+The goal will be to turn the existing systems into stories:
+
+- unexpected Forest discoveries;
+- recurring encounters with named adventurers;
+- friendships and rivalries that develop visibly;
+- gossip that remembers what happened;
+- rare community incidents;
+- small choices with consequences across later game days.
+
+By the end of that phase, the simulated BBS community should begin feeling less like a leaderboard full of competent bots and more like a strange little town the player has come to know.
